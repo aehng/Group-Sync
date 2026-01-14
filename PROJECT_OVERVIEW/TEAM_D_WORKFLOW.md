@@ -14,25 +14,29 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - Clone/pull Team A's repository
-   - Create virtual environment
-   - Install dependencies from `requirements.txt`
-   - Verify Django runs locally
+   - [ ] Clone/pull Team A's repository
+   - [ ] Create virtual environment
+   - [ ] Install dependencies from `requirements.txt`
+   - [ ] Verify Django runs locally
 
-2. **Understand dependencies**
-   - Review Team A's User model
-   - Review Team B's Group/GroupMember models
-   - Plan how Meeting will reference Group, created_by, etc.
+2. **Git branch setup**
+   - [ ] Create branches: `develop`, `feature/meetings`
+   - [ ] Work on `feature/meetings` for all meeting-related features
 
-3. **Create `meetings` app**
-   - `python manage.py startapp meetings`
-   - Add to `INSTALLED_APPS` in `settings.py`
+3. **Understand dependencies**
+   - [ ] Review Team A's User model
+   - [ ] Review Team B's Group/GroupMember models
+   - [ ] Plan how Meeting will reference Group, created_by, etc.
 
-4. **Plan Meeting structure**
-   - Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda
-   - Decide: is end_time required? (no for MVP)
-   - Decide: notification/reminder system? (defer to week 9)
-   - Share design with teams
+4. **Create `meetings` app**
+   - [ ] `python manage.py startapp meetings`
+   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+
+5. **Plan Meeting structure**
+   - [ ] Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda
+   - [ ] Decide: is end_time required? (no for MVP)
+   - [ ] Decide: notification/reminder system? (defer to week 9)
+   - [ ] Share design with teams
 
 ### Deliverables by End of Week 1
 - [ ] Development environment set up
@@ -51,15 +55,15 @@
 
 ### Your Tasks
 1. **Meeting Model**
-   - Fields: `id`, `group` (FK to Group), `title`, `description`, `start_time`, `end_time` (optional), `location_or_link`, `agenda` (optional), `created_by` (FK to User), `created_at`, `updated_at`
-   - Validators: title not empty (max 200 chars), start_time can't be in past (optional check)
-   - Write migration
+   - [ ] Fields: `id`, `group` (FK to Group), `title`, `description`, `start_time`, `end_time` (optional), `location_or_link`, `agenda` (optional), `created_by` (FK to User), `created_at`, `updated_at`
+   - [ ] Validators: title not empty (max 200 chars), start_time can't be in past (optional check)
+   - [ ] Write migration
 
 2. **Serializers**
-   - `MeetingSerializer` for CRUD
-   - Include nested User info for created_by
-   - Include nested Group info
-   - Handle datetime formatting (ISO 8601)
+   - [ ] `MeetingSerializer` for CRUD
+   - [ ] Include nested User info for created_by
+   - [ ] Include nested Group info
+   - [ ] Handle datetime formatting (ISO 8601)
 
 ### Code Example
 
@@ -115,34 +119,34 @@ class Meeting(models.Model):
 
 ### Your Tasks
 1. **List Meetings Endpoint**
-   - `GET /api/groups/{group_id}/meetings/`
-   - Return: All meetings in group (sorted by start_time)
-   - Filter by upcoming: `?upcoming=true` (show only future meetings)
-   - Filter by past: `?past=true` (show only past meetings)
-   - Only group members can view
+   - [ ] `GET /api/groups/{group_id}/meetings/`
+   - [ ] Return: All meetings in group (sorted by start_time)
+   - [ ] Filter by upcoming: `?upcoming=true` (show only future meetings)
+   - [ ] Filter by past: `?past=true` (show only past meetings)
+   - [ ] Only group members can view
 
 2. **Get Single Meeting Endpoint**
-   - `GET /api/groups/{group_id}/meetings/{meeting_id}/`
-   - Return: Full meeting details
-   - Only group members can view
+   - [ ] `GET /api/groups/{group_id}/meetings/{meeting_id}/`
+   - [ ] Return: Full meeting details
+   - [ ] Only group members can view
 
 3. **Create Meeting Endpoint**
-   - `POST /api/groups/{group_id}/meetings/`
-   - Accept: `title`, `description` (optional), `start_time`, `end_time` (optional), `location_or_link`, `agenda` (optional)
-   - Auto-set `created_by` to authenticated user
-   - Validate start_time is valid datetime
-   - Only group members can create
+   - [ ] `POST /api/groups/{group_id}/meetings/`
+   - [ ] Accept: `title`, `description` (optional), `start_time`, `end_time` (optional), `location_or_link`, `agenda` (optional)
+   - [ ] Auto-set `created_by` to authenticated user
+   - [ ] Validate start_time is valid datetime
+   - [ ] Only group members can create
 
 4. **Update Meeting Endpoint**
-   - `PUT /api/groups/{group_id}/meetings/{meeting_id}/`
-   - Accept: any field (optional)
-   - Only creator or group owner can update
-   - Return: Updated meeting
+   - [ ] `PUT /api/groups/{group_id}/meetings/{meeting_id}/`
+   - [ ] Accept: any field (optional)
+   - [ ] Only creator or group owner can update
+   - [ ] Return: Updated meeting
 
 5. **Delete Meeting Endpoint**
-   - `DELETE /api/groups/{group_id}/meetings/{meeting_id}/`
-   - Only creator or group owner can delete
-   - Return: 204 No Content
+   - [ ] `DELETE /api/groups/{group_id}/meetings/{meeting_id}/`
+   - [ ] Only creator or group owner can delete
+   - [ ] Return: 204 No Content
 
 ### Code Example
 
@@ -264,27 +268,27 @@ class MeetingDetailView(APIView):
 
 ### Your Tasks
 1. **Permission Verification**
-   - Only group members can view/create meetings
-   - Only creator/owner can update/delete
-   - Test all edge cases
+   - [ ] Only group members can view/create meetings
+   - [ ] Only creator/owner can update/delete
+   - [ ] Test all edge cases
 
 2. **Datetime Edge Cases**
-   - Test filtering by upcoming/past
-   - Test timezone handling
-   - Test invalid datetime inputs
-   - Test end_time before start_time validation
+   - [ ] Test filtering by upcoming/past
+   - [ ] Test timezone handling
+   - [ ] Test invalid datetime inputs
+   - [ ] Test end_time before start_time validation
 
 3. **Unit Tests**
-   - Test meeting creation
-   - Test filtering (upcoming/past)
-   - Test permission enforcement
-   - Test datetime validation
-   - Aim for 80%+ coverage
+   - [ ] Test meeting creation
+   - [ ] Test filtering (upcoming/past)
+   - [ ] Test permission enforcement
+   - [ ] Test datetime validation
+   - [ ] Aim for 80%+ coverage
 
 4. **Integration Testing**
-   - Verify Meeting endpoints work with Group structure
-   - Test Team E's ability to query meetings
-   - Test calendar display in React
+   - [ ] Verify Meeting endpoints work with Group structure
+   - [ ] Test Team E's ability to query meetings
+   - [ ] Test calendar display in React
 
 ### Test Example
 
@@ -348,19 +352,19 @@ class MeetingTestCase(TestCase):
 
 ### Your Tasks
 1. **Add drf-spectacular**
-   - Install package
-   - Add `@extend_schema()` decorators
-   - Generate Swagger docs
+   - [ ] Install package
+   - [ ] Add `@extend_schema()` decorators
+   - [ ] Generate Swagger docs
 
 2. **Code Cleanup**
-   - Remove TODOs
-   - Add docstrings
-   - Refactor messy code
+   - [ ] Remove TODOs
+   - [ ] Add docstrings
+   - [ ] Refactor messy code
 
 3. **Help Team E**
-   - Provide sample meeting data for testing
-   - Help with calendar view integration
-   - Debug any timezone/datetime issues
+   - [ ] Provide sample meeting data for testing
+   - [ ] Help with calendar view integration
+   - [ ] Debug any timezone/datetime issues
 
 ### Deliverables by End of Week 9
 - [ ] drf-spectacular integrated
@@ -377,18 +381,18 @@ class MeetingTestCase(TestCase):
 
 ### Your Tasks
 1. **Prepare for Deployment**
-   - Update `requirements.txt`
-   - Ensure datetime handling works in production timezone
+   - [ ] Update `requirements.txt`
+   - [ ] Ensure datetime handling works in production timezone
 
 2. **Deploy with Team A**
-   - Push to `main` branch
-   - Render auto-deploys
-   - Test on live site
+   - [ ] Push to `main` branch
+   - [ ] Render auto-deploys
+   - [ ] Test on live site
 
 3. **Final Testing**
-   - Verify all endpoints working on Render
-   - Test datetime/timezone on live site
-   - Test with Team E's React calendar
+   - [ ] Verify all endpoints working on Render
+   - [ ] Test datetime/timezone on live site
+   - [ ] Test with Team E's React calendar
 
 ### Deliverables by April 1
 - [ ] Meetings fully deployed

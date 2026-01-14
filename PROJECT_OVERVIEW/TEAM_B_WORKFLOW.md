@@ -14,25 +14,29 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - Clone/pull Team A's repository
-   - Create virtual environment
-   - Install dependencies from `requirements.txt`
-   - Verify Django runs locally
+   - [ ] Clone/pull Team A's repository
+   - [ ] Create virtual environment
+   - [ ] Install dependencies from `requirements.txt`
+   - [ ] Verify Django runs locally
 
-2. **Understand auth endpoints**
-   - Review Team A's API contract for registration/login
-   - Know that you'll use their JWT tokens to authenticate
-   - Plan how GroupMember will reference User model
+2. **Git branch setup**
+   - [ ] Create branches: `develop`, `feature/groups`
+   - [ ] Work on `feature/groups` for all group-related features
 
-3. **Create `groups` app**
-   - `python manage.py startapp groups`
-   - Add to `INSTALLED_APPS` in `settings.py`
+3. **Understand auth endpoints**
+   - [ ] Review Team A's API contract for registration/login
+   - [ ] Know that you'll use their JWT tokens to authenticate
+   - [ ] Plan how GroupMember will reference User model
 
-4. **Plan database relationships**
-   - Sketch out Group ↔ User relationship
-   - Plan how to enforce Owner vs Member roles
-   - Decide: should Owner be a GroupMember or separate field?
-   - Share design with Team A for feedback
+4. **Create `groups` app**
+   - [ ] `python manage.py startapp groups`
+   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+
+5. **Plan database relationships**
+   - [ ] Sketch out Group ↔ User relationship
+   - [ ] Plan how to enforce Owner vs Member roles
+   - [ ] Decide: should Owner be a GroupMember or separate field?
+   - [ ] Share design with Team A for feedback
 
 ### Deliverables by End of Week 1
 - [ ] Development environment set up
@@ -50,26 +54,26 @@
 
 ### Your Tasks
 1. **Group Model**
-   - Create Group model with fields: `id`, `name`, `owner` (FK to User), `created_at`, `updated_at`
-   - Add validators (group name not empty, max 100 chars)
-   - Write migration
+   - [ ] Create Group model with fields: `id`, `name`, `owner` (FK to User), `created_at`, `updated_at`
+   - [ ] Add validators (group name not empty, max 100 chars)
+   - [ ] Write migration
 
 2. **GroupMember Model**
-   - Create GroupMember model: `id`, `group` (FK), `user` (FK), `role` (owner|member), `joined_at`
-   - Add constraint: prevent duplicate user+group combinations
-   - Make `role` choices: `owner`, `member`
-   - Write migration
+   - [ ] Create GroupMember model: `id`, `group` (FK), `user` (FK), `role` (owner|member), `joined_at`
+   - [ ] Add constraint: prevent duplicate user+group combinations
+   - [ ] Make `role` choices: `owner`, `member`
+   - [ ] Write migration
 
 3. **Invite Code Generation**
-   - Add `invite_code` field to Group (unique, random string)
-   - Generate 6-8 char alphanumeric code on group creation
-   - Example: `GROUP123ABC`
-   - Write helper function to generate codes
+   - [ ] Add `invite_code` field to Group (unique, random string)
+   - [ ] Generate 6-8 char alphanumeric code on group creation
+   - [ ] Example: `GROUP123ABC`
+   - [ ] Write helper function to generate codes
 
 4. **Initial Serializers**
-   - `GroupSerializer` for read/write
-   - `GroupMemberSerializer` for membership data
-   - `InviteCodeSerializer` for validating invites
+   - [ ] `GroupSerializer` for read/write
+   - [ ] `GroupMemberSerializer` for membership data
+   - [ ] `InviteCodeSerializer` for validating invites
 
 ### Code Example
 
@@ -136,41 +140,41 @@ class GroupMember(models.Model):
 
 ### Your Tasks
 1. **Group Creation Endpoint**
-   - `POST /api/groups/`
-   - Accept: `name` (required)
-   - Auto-set owner to authenticated user
-   - Auto-generate invite code
-   - Auto-create GroupMember (owner) for creator
-   - Return: Group data + invite code
+   - [ ] `POST /api/groups/`
+   - [ ] Accept: `name` (required)
+   - [ ] Auto-set owner to authenticated user
+   - [ ] Auto-generate invite code
+   - [ ] Auto-create GroupMember (owner) for creator
+   - [ ] Return: Group data + invite code
 
 2. **List Groups Endpoint**
-   - `GET /api/groups/`
-   - Return: All groups user belongs to (via GroupMember)
-   - Include member count and owner name
-   - Filter by user's memberships
+   - [ ] `GET /api/groups/`
+   - [ ] Return: All groups user belongs to (via GroupMember)
+   - [ ] Include member count and owner name
+   - [ ] Filter by user's memberships
 
 3. **Get Group Details Endpoint**
-   - `GET /api/groups/{id}/`
-   - Return: Group info + all members + owner info
-   - Accessible only to group members
+   - [ ] `GET /api/groups/{id}/`
+   - [ ] Return: Group info + all members + owner info
+   - [ ] Accessible only to group members
 
 4. **Update Group Endpoint**
-   - `PUT /api/groups/{id}/`
-   - Accept: `name` (optional)
-   - Restricted: Owner only
-   - Return: Updated group data
+   - [ ] `PUT /api/groups/{id}/`
+   - [ ] Accept: `name` (optional)
+   - [ ] Restricted: Owner only
+   - [ ] Return: Updated group data
 
 5. **Delete Group Endpoint**
-   - `DELETE /api/groups/{id}/`
-   - Restricted: Owner only
-   - Delete cascades to all GroupMembers
+   - [ ] `DELETE /api/groups/{id}/`
+   - [ ] Restricted: Owner only
+   - [ ] Delete cascades to all GroupMembers
 
 6. **Join Group by Invite Code Endpoint**
-   - `POST /api/groups/join/`
-   - Accept: `invite_code`
-   - Validate code exists
-   - Create GroupMember (role='member') for authenticated user
-   - Return: Group data
+   - [ ] `POST /api/groups/join/`
+   - [ ] Accept: `invite_code`
+   - [ ] Validate code exists
+   - [ ] Create GroupMember (role='member') for authenticated user
+   - [ ] Return: Group data
 
 ### Code Example
 
@@ -240,33 +244,33 @@ class JoinGroupView(APIView):
 
 ### Your Tasks
 1. **Permission Classes**
-   - Create `IsGroupOwner` permission (only owner can edit/delete)
-   - Create `IsGroupMember` permission (only members can access group details)
-   - Apply to all relevant endpoints
+   - [ ] Create `IsGroupOwner` permission (only owner can edit/delete)
+   - [ ] Create `IsGroupMember` permission (only members can access group details)
+   - [ ] Apply to all relevant endpoints
 
 2. **Get Group Members Endpoint**
-   - `GET /api/groups/{id}/members/`
-   - Return: List of all members with roles
-   - Include: username, email, role, joined_at
+   - [ ] `GET /api/groups/{id}/members/`
+   - [ ] Return: List of all members with roles
+   - [ ] Include: username, email, role, joined_at
 
 3. **Update Member Role Endpoint** (Nice-to-Have)
-   - `PUT /api/groups/{id}/members/{user_id}/`
-   - Accept: `role` (owner|member)
-   - Restricted: Owner only
-   - Return: Updated member data
-   - (Can defer to week 8 if time is tight)
+   - [ ] `PUT /api/groups/{id}/members/{user_id}/`
+   - [ ] Accept: `role` (owner|member)
+   - [ ] Restricted: Owner only
+   - [ ] Return: Updated member data
+   - [ ] (Can defer to week 8 if time is tight)
 
 4. **Unit Tests**
-   - Test group creation
-   - Test join group via invite code
-   - Test permission enforcement (non-owner can't delete)
-   - Test GroupMember creation
-   - Aim for 80%+ coverage
+   - [ ] Test group creation
+   - [ ] Test join group via invite code
+   - [ ] Test permission enforcement (non-owner can't delete)
+   - [ ] Test GroupMember creation
+   - [ ] Aim for 80%+ coverage
 
 5. **Integration with Team C & D**
-   - Verify Task/Meeting endpoints can reference Group correctly
-   - Help with any Group relationship questions
-   - Test their ability to filter tasks/meetings by group
+   - [ ] Verify Task/Meeting endpoints can reference Group correctly
+   - [ ] Help with any Group relationship questions
+   - [ ] Test their ability to filter tasks/meetings by group
 
 ### Test Example
 
@@ -314,19 +318,19 @@ class GroupTestCase(TestCase):
 
 ### Your Tasks
 1. **Add drf-spectacular**
-   - Install package
-   - Add `@extend_schema()` decorators to all endpoints
-   - Generate Swagger docs
+   - [ ] Install package
+   - [ ] Add `@extend_schema()` decorators to all endpoints
+   - [ ] Generate Swagger docs
 
 2. **Code Cleanup**
-   - Remove TODO comments
-   - Add helpful docstrings
-   - Refactor any messy code
+   - [ ] Remove TODO comments
+   - [ ] Add helpful docstrings
+   - [ ] Refactor any messy code
 
 3. **Help Teams C & D**
-   - Debug any Group-related issues in Task/Meeting endpoints
-   - Review their usage of Group foreign keys
-   - Test their endpoints with groups
+   - [ ] Debug any Group-related issues in Task/Meeting endpoints
+   - [ ] Review their usage of Group foreign keys
+   - [ ] Test their endpoints with groups
 
 ### Deliverables by End of Week 9
 - [ ] drf-spectacular integrated
@@ -343,18 +347,18 @@ class GroupTestCase(TestCase):
 
 ### Your Tasks
 1. **Prepare for Deployment**
-   - Update `requirements.txt`
-   - Ensure models work with production database
+   - [ ] Update `requirements.txt`
+   - [ ] Ensure models work with production database
 
 2. **Deploy with Team A**
-   - Push to `main` branch
-   - Render auto-deploys
-   - Test group creation/join on live site
+   - [ ] Push to `main` branch
+   - [ ] Render auto-deploys
+   - [ ] Test group creation/join on live site
 
 3. **Final Testing**
-   - Verify all endpoints working on Render
-   - Test with Team E's React frontend
-   - Check error handling
+   - [ ] Verify all endpoints working on Render
+   - [ ] Test with Team E's React frontend
+   - [ ] Check error handling
 
 ### Deliverables by April 1
 - [ ] Groups fully deployed

@@ -15,30 +15,34 @@
 
 ### Your Tasks
 1. **Set up React project**
-   - Create React app: `npx create-react-app groupsync-frontend`
-   - Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
-   - Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`
+   - [ ] Create React app: `npx create-react-app groupsync-frontend`
+   - [ ] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
+   - [ ] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`
 
-2. **Review API Contract**
-   - Read API endpoint specifications from Teams A–D
-   - Note all request/response schemas
-   - Plan mock data structure that matches
+2. **Git branch setup**
+   - [ ] Create branches: `develop`, `feature/frontend`
+   - [ ] Work on `feature/frontend` for all UI development
 
-3. **Plan Page Structure**
-   - **Dashboard:** List of user's groups
-   - **Group Workspace:**
+3. **Review API Contract**
+   - [ ] Read API endpoint specifications from Teams A–D
+   - [ ] Note all request/response schemas
+   - [ ] Plan mock data structure that matches
+
+4. **Plan Page Structure**
+   - [ ] **Dashboard:** List of user's groups
+   - [ ] **Group Workspace:**
      - Header: group name + invite code + members
      - Tabs: Tasks | Meetings | Members | Resources | Messages
-   - **Task Board:** Kanban view (To-Do | Doing | Done) or list view
-   - **Meetings:** Calendar or list view
-   - **Members:** Simple list
-   - **Resources:** Links list
-   - **Messages:** Polling board (last 50 messages)
+   - [ ] **Task Board:** Kanban view (To-Do | Doing | Done) or list view
+   - [ ] **Meetings:** Calendar or list view
+   - [ ] **Members:** Simple list
+   - [ ] **Resources:** Links list
+   - [ ] **Messages:** Polling board (last 50 messages)
 
-4. **Design Component Hierarchy**
-   - Sketch component tree on paper/whiteboard
-   - Plan state management approach (Context API vs Redux; start with Context for MVP)
-   - Share design overview with team
+5. **Design Component Hierarchy**
+   - [ ] Sketch component tree on paper/whiteboard
+   - [ ] Plan state management approach (Context API vs Redux; start with Context for MVP)
+   - [ ] Share design overview with team
 
 ### Deliverables by End of Week 1
 - [ ] React project created and running
@@ -57,8 +61,8 @@
 
 ### Your Tasks
 1. **Create Mock Data**
-   - Build mock data that matches API schemas from Teams A–D
-   - Example:
+   - [ ] Build mock data that matches API schemas from Teams A–D
+   - [ ] Example:
    ```javascript
    // src/mockData.js
    export const mockUser = {
@@ -94,21 +98,21 @@
    ```
 
 2. **Build Main Layout**
-   - Create `App.js` with React Router
-   - Create `Navigation` component (sidebar or navbar)
-   - Create `Dashboard` page (shows user's groups)
-   - Create `GroupWorkspace` page (main hub after clicking a group)
+   - [ ] Create `App.js` with React Router
+   - [ ] Create `Navigation` component (sidebar or navbar)
+   - [ ] Create `Dashboard` page (shows user's groups)
+   - [ ] Create `GroupWorkspace` page (main hub after clicking a group)
 
 3. **Dashboard Page**
-   - Display list of groups (use mock data)
-   - Button to create group
-   - Click group to enter workspace
-   - Show invite code in each group card
+   - [ ] Display list of groups (use mock data)
+   - [ ] Button to create group
+   - [ ] Click group to enter workspace
+   - [ ] Show invite code in each group card
 
 4. **Group Workspace Layout**
-   - Header: group name, invite code, member count
-   - Tabs: Tasks | Meetings | Members | Resources | Messages
-   - Tab switching logic (useState to track active tab)
+   - [ ] Header: group name, invite code, member count
+   - [ ] Tabs: Tasks | Meetings | Members | Resources | Messages
+   - [ ] Tab switching logic (useState to track active tab)
 
 ### Code Example
 
@@ -218,32 +222,32 @@ export default GroupWorkspace;
 
 ### Your Tasks
 1. **Task Board Component**
-   - Display tasks in 3 columns (To-Do | Doing | Done) OR as list
-   - Show: title, due date, assigned person
-   - Click task to see details
-   - Mock: drag-and-drop between columns (optional, use hardcoded button for MVP)
-   - Button to create new task
-   - Don't fetch from API yet (use mock data)
+   - [ ] Display tasks in 3 columns (To-Do | Doing | Done) OR as list
+   - [ ] Show: title, due date, assigned person
+   - [ ] Click task to see details
+   - [ ] Mock: drag-and-drop between columns (optional, use hardcoded button for MVP)
+   - [ ] Button to create new task
+   - [ ] Don't fetch from API yet (use mock data)
 
 2. **Meeting List Component**
-   - Display upcoming meetings
-   - Show: title, date/time, location/Zoom link
-   - Click to see details
-   - Button to create new meeting
-   - Mock: sort by date
-   - Don't fetch from API yet
+   - [ ] Display upcoming meetings
+   - [ ] Show: title, date/time, location/Zoom link
+   - [ ] Click to see details
+   - [ ] Button to create new meeting
+   - [ ] Mock: sort by date
+   - [ ] Don't fetch from API yet
 
 3. **Members List Component**
-   - Display group members
-   - Show: name, role (Owner|Member), joined date
-   - Don't fetch from API yet
+   - [ ] Display group members
+   - [ ] Show: name, role (Owner|Member), joined date
+   - [ ] Don't fetch from API yet
 
 4. **Resources Component**
-   - Simple list of links
-   - Show: title, URL
-   - Button to add link
-   - Click to open link
-   - Don't fetch from API yet
+   - [ ] Simple list of links
+   - [ ] Show: title, URL
+   - [ ] Button to add link
+   - [ ] Click to open link
+   - [ ] Don't fetch from API yet
 
 ### Code Example
 
@@ -334,25 +338,25 @@ export default TaskBoard;
 
 ### Your Tasks
 1. **Message Board Component**
-   - Display messages in reverse chronological order (newest first)
-   - Show: username, timestamp, message text
-   - Input form: text area + Send button
-   - Mock: add message to local state on submit
-   - Layout: chat-like interface
-   - Don't fetch from API yet
+   - [ ] Display messages in reverse chronological order (newest first)
+   - [ ] Show: username, timestamp, message text
+   - [ ] Input form: text area + Send button
+   - [ ] Mock: add message to local state on submit
+   - [ ] Layout: chat-like interface
+   - [ ] Don't fetch from API yet
 
 2. **Login/Register Pages**
-   - Simple login form (username, password)
-   - Simple register form (username, email, password, confirm)
-   - Mock: validate locally (non-empty fields)
-   - Mock: store token in localStorage (don't actually call API)
-   - Redirect to dashboard on success
+   - [ ] Simple login form (username, password)
+   - [ ] Simple register form (username, email, password, confirm)
+   - [ ] Mock: validate locally (non-empty fields)
+   - [ ] Mock: store token in localStorage (don't actually call API)
+   - [ ] Redirect to dashboard on success
 
 3. **API Service Layer**
-   - Create `src/api/client.js` with axios instance
-   - Configure base URL (will be Django backend)
-   - Add auth token to headers (will use JWT)
-   - Create API functions (don't call them yet):
+   - [ ] Create `src/api/client.js` with axios instance
+   - [ ] Configure base URL (will be Django backend)
+   - [ ] Add auth token to headers (will use JWT)
+   - [ ] Create API functions (don't call them yet):
      ```javascript
      // src/api/client.js
      import axios from 'axios';
@@ -395,11 +399,11 @@ export default TaskBoard;
      ```
 
 4. **Polish & Testing**
-   - Add basic CSS styling (use simple color scheme)
-   - Test all components with mock data
-   - Test tab switching
-   - Test form submissions (local)
-   - Verify responsive layout
+   - [ ] Add basic CSS styling (use simple color scheme)
+   - [ ] Test all components with mock data
+   - [ ] Test tab switching
+   - [ ] Test form submissions (local)
+   - [ ] Verify responsive layout
 
 ### Code Example
 
@@ -491,19 +495,19 @@ export default MessageBoard;
 
 ### Your Tasks
 1. **Swap Mock Data for Real APIs**
-   - Update Dashboard to fetch real groups: `GET /api/groups/`
-   - Update TaskBoard to fetch real tasks: `GET /api/groups/{id}/tasks/`
-   - Update MeetingList to fetch real meetings: `GET /api/groups/{id}/meetings/`
-   - Update MembersList to fetch real members: `GET /api/groups/{id}/members/`
-   - Use `useEffect` to fetch on component mount
-   - Handle loading/error states gracefully
+   - [ ] Update Dashboard to fetch real groups: `GET /api/groups/`
+   - [ ] Update TaskBoard to fetch real tasks: `GET /api/groups/{id}/tasks/`
+   - [ ] Update MeetingList to fetch real meetings: `GET /api/groups/{id}/meetings/`
+   - [ ] Update MembersList to fetch real members: `GET /api/groups/{id}/members/`
+   - [ ] Use `useEffect` to fetch on component mount
+   - [ ] Handle loading/error states gracefully
 
 2. **Implement Polling for Messages**
-   - When user navigates to Messages tab, start polling
-   - Fetch `GET /api/groups/{id}/messages/?since={timestamp}` every 3 seconds
-   - Update message list with new messages
-   - Stop polling when user leaves tab
-   - Example:
+   - [ ] When user navigates to Messages tab, start polling
+   - [ ] Fetch `GET /api/groups/{id}/messages/?since={timestamp}` every 3 seconds
+   - [ ] Update message list with new messages
+   - [ ] Stop polling when user leaves tab
+   - [ ] Example:
    ```javascript
    useEffect(() => {
      const interval = setInterval(() => {
@@ -518,25 +522,25 @@ export default MessageBoard;
    ```
 
 3. **Integrate Real Auth**
-   - Update Login to call `POST /api/users/login/`
-   - Update Register to call `POST /api/users/register/`
-   - Store JWT token in localStorage
-   - Pass token to all subsequent requests (via apiClient headers)
-   - Redirect on auth success/failure
+   - [ ] Update Login to call `POST /api/users/login/`
+   - [ ] Update Register to call `POST /api/users/register/`
+   - [ ] Store JWT token in localStorage
+   - [ ] Pass token to all subsequent requests (via apiClient headers)
+   - [ ] Redirect on auth success/failure
 
 4. **Implement CRUD Operations**
-   - Add real submit handlers for create/update/delete
-   - Task: Create task → `POST /api/groups/{id}/tasks/`
-   - Task: Update status → `PUT /api/groups/{id}/tasks/{id}/` or `PATCH /api/groups/{id}/tasks/{id}/status/`
-   - Meeting: Create → `POST /api/groups/{id}/meetings/`
-   - Message: Create → `POST /api/groups/{id}/messages/`
-   - Handle errors gracefully (show error messages to user)
+   - [ ] Add real submit handlers for create/update/delete
+   - [ ] Task: Create task → `POST /api/groups/{id}/tasks/`
+   - [ ] Task: Update status → `PUT /api/groups/{id}/tasks/{id}/` or `PATCH /api/groups/{id}/tasks/{id}/status/`
+   - [ ] Meeting: Create → `POST /api/groups/{id}/meetings/`
+   - [ ] Message: Create → `POST /api/groups/{id}/messages/`
+   - [ ] Handle errors gracefully (show error messages to user)
 
 5. **Handle Backend Issues**
-   - When backend team endpoint fails, show helpful error message
-   - Test with Postman/curl first if React integration fails
-   - Debug CORS issues (backend may need CORS configuration)
-   - Verify JWT token is being sent correctly in headers
+   - [ ] When backend team endpoint fails, show helpful error message
+   - [ ] Test with Postman/curl first if React integration fails
+   - [ ] Debug CORS issues (backend may need CORS configuration)
+   - [ ] Verify JWT token is being sent correctly in headers
 
 ### Code Example (Real API Integration)
 
@@ -613,34 +617,34 @@ export default GroupWorkspace;
 
 ### Your Tasks
 1. **UI Polish**
-   - Improve CSS (colors, spacing, fonts)
-   - Make responsive for mobile
-   - Add icons (optional, use emoji or simple symbols for MVP)
-   - Test on different screen sizes
+   - [ ] Improve CSS (colors, spacing, fonts)
+   - [ ] Make responsive for mobile
+   - [ ] Add icons (optional, use emoji or simple symbols for MVP)
+   - [ ] Test on different screen sizes
 
 2. **Error Handling & Edge Cases**
-   - Show user-friendly error messages
-   - Handle empty states (no tasks, no meetings, etc.)
-   - Handle network errors gracefully
-   - Test invalid inputs
+   - [ ] Show user-friendly error messages
+   - [ ] Handle empty states (no tasks, no meetings, etc.)
+   - [ ] Handle network errors gracefully
+   - [ ] Test invalid inputs
 
 3. **Testing**
-   - Manual test all features end-to-end
-   - Test with real backend data
-   - Test create/update/delete operations
-   - Test authentication flow
-   - Test message polling
+   - [ ] Manual test all features end-to-end
+   - [ ] Test with real backend data
+   - [ ] Test create/update/delete operations
+   - [ ] Test authentication flow
+   - [ ] Test message polling
 
 4. **Build for Production**
-   - Run `npm run build` (creates optimized build)
-   - Test build locally: `serve -s build`
-   - Verify all features work in production build
+   - [ ] Run `npm run build` (creates optimized build)
+   - [ ] Test build locally: `serve -s build`
+   - [ ] Verify all features work in production build
 
 5. **Deploy to Render**
-   - Push React build folder to GitHub
-   - Create Render static site from build
-   - Or: Configure Django to serve React build (single deployment)
-   - Test on live Render URL
+   - [ ] Push React build folder to GitHub
+   - [ ] Create Render static site from build
+   - [ ] Or: Configure Django to serve React build (single deployment)
+   - [ ] Test on live Render URL
 
 ### Deliverables by April 1
 - [ ] UI fully styled and polished

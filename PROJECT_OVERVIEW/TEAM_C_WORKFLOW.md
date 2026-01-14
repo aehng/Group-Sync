@@ -14,25 +14,29 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - Clone/pull Team A's repository
-   - Create virtual environment
-   - Install dependencies from `requirements.txt`
-   - Verify Django runs locally
+   - [ ] Clone/pull Team A's repository
+   - [ ] Create virtual environment
+   - [ ] Install dependencies from `requirements.txt`
+   - [ ] Verify Django runs locally
 
-2. **Understand dependencies**
-   - Review Team A's User model structure
-   - Review Team B's Group/GroupMember models
-   - Plan how Task will reference Group, User (assigned_to), User (created_by)
+2. **Git branch setup**
+   - [ ] Create branches: `develop`, `feature/tasks`
+   - [ ] Work on `feature/tasks` for all task-related features
 
-3. **Create `tasks` app**
-   - `python manage.py startapp tasks`
-   - Add to `INSTALLED_APPS` in `settings.py`
+3. **Understand dependencies**
+   - [ ] Review Team A's User model structure
+   - [ ] Review Team B's Group/GroupMember models
+   - [ ] Plan how Task will reference Group, User (assigned_to), User (created_by)
 
-4. **Plan Task workflow**
-   - Sketch out Task statuses: `todo`, `doing`, `done`
-   - Plan fields: title, description, due_date, assigned_to, status, group_id, created_by
-   - Decide: can unassigned tasks exist? (yes for MVP)
-   - Share design with teams for feedback
+4. **Create `tasks` app**
+   - [ ] `python manage.py startapp tasks`
+   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+
+5. **Plan Task workflow**
+   - [ ] Sketch out Task statuses: `todo`, `doing`, `done`
+   - [ ] Plan fields: title, description, due_date, assigned_to, status, group_id, created_by
+   - [ ] Decide: can unassigned tasks exist? (yes for MVP)
+   - [ ] Share design with teams for feedback
 
 ### Deliverables by End of Week 1
 - [ ] Development environment set up
@@ -51,15 +55,15 @@
 
 ### Your Tasks
 1. **Task Model**
-   - Fields: `id`, `group` (FK to Group), `title`, `description`, `status`, `due_date`, `assigned_to` (FK to User, nullable), `created_by` (FK to User), `created_at`, `updated_at`
-   - Status choices: `todo`, `doing`, `done`
-   - Validators: title not empty (max 200 chars), description (max 2000 chars)
-   - Write migration
+   - [ ] Fields: `id`, `group` (FK to Group), `title`, `description`, `status`, `due_date`, `assigned_to` (FK to User, nullable), `created_by` (FK to User), `created_at`, `updated_at`
+   - [ ] Status choices: `todo`, `doing`, `done`
+   - [ ] Validators: title not empty (max 200 chars), description (max 2000 chars)
+   - [ ] Write migration
 
 2. **Serializers**
-   - `TaskSerializer` for CRUD operations
-   - Include nested User info (username, email) for assigned_to and created_by
-   - Include nested Group info
+   - [ ] `TaskSerializer` for CRUD operations
+   - [ ] Include nested User info (username, email) for assigned_to and created_by
+   - [ ] Include nested Group info
 
 ### Code Example
 
@@ -112,40 +116,40 @@ class Task(models.Model):
 
 ### Your Tasks
 1. **List Tasks Endpoint**
-   - `GET /api/groups/{group_id}/tasks/`
-   - Return: All tasks in group
-   - Filter by status: `?status=todo` (optional)
-   - Filter by assigned_to: `?assigned_to={user_id}` (optional)
-   - Only group members can view
+   - [ ] `GET /api/groups/{group_id}/tasks/`
+   - [ ] Return: All tasks in group
+   - [ ] Filter by status: `?status=todo` (optional)
+   - [ ] Filter by assigned_to: `?assigned_to={user_id}` (optional)
+   - [ ] Only group members can view
 
 2. **Get Single Task Endpoint**
-   - `GET /api/groups/{group_id}/tasks/{task_id}/`
-   - Return: Full task details with assignee info
-   - Only group members can view
+   - [ ] `GET /api/groups/{group_id}/tasks/{task_id}/`
+   - [ ] Return: Full task details with assignee info
+   - [ ] Only group members can view
 
 3. **Create Task Endpoint**
-   - `POST /api/groups/{group_id}/tasks/`
-   - Accept: `title`, `description` (optional), `due_date` (optional), `assigned_to` (optional)
-   - Auto-set `created_by` to authenticated user
-   - Auto-set `status` to `todo`
-   - Only group members can create
+   - [ ] `POST /api/groups/{group_id}/tasks/`
+   - [ ] Accept: `title`, `description` (optional), `due_date` (optional), `assigned_to` (optional)
+   - [ ] Auto-set `created_by` to authenticated user
+   - [ ] Auto-set `status` to `todo`
+   - [ ] Only group members can create
 
 4. **Update Task Endpoint**
-   - `PUT /api/groups/{group_id}/tasks/{task_id}/`
-   - Accept: `title`, `description`, `status`, `due_date`, `assigned_to` (any field optional)
-   - Only creator or assignee can update (or owner of group)
-   - Return: Updated task
+   - [ ] `PUT /api/groups/{group_id}/tasks/{task_id}/`
+   - [ ] Accept: `title`, `description`, `status`, `due_date`, `assigned_to` (any field optional)
+   - [ ] Only creator or assignee can update (or owner of group)
+   - [ ] Return: Updated task
 
 5. **Delete Task Endpoint**
-   - `DELETE /api/groups/{group_id}/tasks/{task_id}/`
-   - Only creator or group owner can delete
-   - Return: 204 No Content
+   - [ ] `DELETE /api/groups/{group_id}/tasks/{task_id}/`
+   - [ ] Only creator or group owner can delete
+   - [ ] Return: 204 No Content
 
 6. **Status Update Endpoint** (Optional, but recommended)
-   - `PATCH /api/groups/{group_id}/tasks/{task_id}/status/`
-   - Accept: `status` (todo|doing|done)
-   - Quick way to move task between columns
-   - Returns: Updated task
+   - [ ] `PATCH /api/groups/{group_id}/tasks/{task_id}/status/`
+   - [ ] Accept: `status` (todo|doing|done)
+   - [ ] Quick way to move task between columns
+   - [ ] Returns: Updated task
 
 ### Code Example
 
@@ -267,27 +271,27 @@ class TaskDetailView(APIView):
 
 ### Your Tasks
 1. **Permission Verification**
-   - Only group members can view/create tasks
-   - Only creator/assignee/owner can update
-   - Only creator/owner can delete
-   - Test all edge cases
+   - [ ] Only group members can view/create tasks
+   - [ ] Only creator/assignee/owner can update
+   - [ ] Only creator/owner can delete
+   - [ ] Test all edge cases
 
 2. **Unit Tests**
-   - Test task creation
-   - Test status updates
-   - Test filtering by status
-   - Test permission enforcement
-   - Aim for 80%+ coverage
+   - [ ] Test task creation
+   - [ ] Test status updates
+   - [ ] Test filtering by status
+   - [ ] Test permission enforcement
+   - [ ] Aim for 80%+ coverage
 
 3. **Integration Testing**
-   - Verify Task endpoints work with Group structure
-   - Test Team E's ability to query tasks
-   - Help with any group/task relationship questions
+   - [ ] Verify Task endpoints work with Group structure
+   - [ ] Test Team E's ability to query tasks
+   - [ ] Help with any group/task relationship questions
 
 4. **Edge Cases**
-   - What happens if assigned user is removed from group?
-   - Handle null assigned_to gracefully
-   - Handle deleted users gracefully
+   - [ ] What happens if assigned user is removed from group?
+   - [ ] Handle null assigned_to gracefully
+   - [ ] Handle deleted users gracefully
 
 ### Test Example
 
@@ -341,19 +345,19 @@ class TaskTestCase(TestCase):
 
 ### Your Tasks
 1. **Add drf-spectacular**
-   - Install package
-   - Add `@extend_schema()` decorators
-   - Generate Swagger docs
+   - [ ] Install package
+   - [ ] Add `@extend_schema()` decorators
+   - [ ] Generate Swagger docs
 
 2. **Code Cleanup**
-   - Remove TODOs
-   - Add docstrings
-   - Refactor messy code
+   - [ ] Remove TODOs
+   - [ ] Add docstrings
+   - [ ] Refactor messy code
 
 3. **Help Team E**
-   - Verify Task endpoints work with React
-   - Debug any integration issues
-   - Provide sample data for testing
+   - [ ] Verify Task endpoints work with React
+   - [ ] Debug any integration issues
+   - [ ] Provide sample data for testing
 
 ### Deliverables by End of Week 9
 - [ ] drf-spectacular integrated
@@ -370,18 +374,18 @@ class TaskTestCase(TestCase):
 
 ### Your Tasks
 1. **Prepare for Deployment**
-   - Update `requirements.txt`
-   - Test with production database
+   - [ ] Update `requirements.txt`
+   - [ ] Test with production database
 
 2. **Deploy with Team A**
-   - Push to `main` branch
-   - Render auto-deploys
-   - Test on live site
+   - [ ] Push to `main` branch
+   - [ ] Render auto-deploys
+   - [ ] Test on live site
 
 3. **Final Testing**
-   - Verify all endpoints working on Render
-   - Test with Team E's React
-   - Check error handling
+   - [ ] Verify all endpoints working on Render
+   - [ ] Test with Team E's React
+   - [ ] Check error handling
 
 ### Deliverables by April 1
 - [ ] Tasks fully deployed
