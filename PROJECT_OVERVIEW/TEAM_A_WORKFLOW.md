@@ -27,7 +27,7 @@
 - [x] **Git & GitHub setup**
   - [x] Initialize git repo locally
   - [x] Create GitHub repo for the team
-  - [ ] Create branches: `main` (protected), `develop`, `feature/auth`
+  - [x] Create branches: `main` (protected), `develop`, `feature/auth`
   - [x] Add requirements.txt (created)
   - [ ] Add .gitignore, README.md
 
