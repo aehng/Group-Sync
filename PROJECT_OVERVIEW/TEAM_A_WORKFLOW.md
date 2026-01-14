@@ -46,18 +46,18 @@
   - [x] Define request/response schemas (see examples below)
   - [x] Post in shared document or GitHub wiki
 
-- [ ] **Render Setup**
-  - [ ] Create Render account
-  - [ ] Connect GitHub repo
-  - [ ] (Don't deploy yet; wait until week 11)
+- [x] **Render Setup**
+  - [x] Create Render account
+  - [x] Connect GitHub repo
+  - [x] (Don't deploy yet; wait until week 11)
 
 ### Deliverables by End of Week 1
-- [ ] Django project initialized and running locally
-- [ ] PostgreSQL configured in `settings.py`
-- [ ] `users` app created with initial migrations
-- [ ] GitHub repo set up with protected main branch
-- [ ] API contract document shared with team
-- [ ] Render account connected to GitHub
+- [x] Django project initialized and running locally
+- [x] SQLite configured in `settings.py`
+- [x] `users` app created with initial migrations
+- [x] GitHub repo set up with protected main branch
+- [x] API contract document shared with team
+- [x] Render account connected to GitHub
 
 ---
 
