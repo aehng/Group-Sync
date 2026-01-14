@@ -1,9 +1,19 @@
 # Team C: Tasks Workflow
 
-**Feature:** Task CRUD, status management, assignments, due dates, filtering  
-**Estimated Hours:** 25–30  
+## Time Log
+
+| Date       | Hours Worked | Description of Work                  |
+|------------|--------------|--------------------------------------|
+| YYYY-MM-DD | X            | Brief description of tasks completed |
+
+---
+
+# Team C: Tasks Workflow
+
+**Feature:** Task CRUD, status management, assignments, due dates, filtering (Backend + Frontend)  
+**Estimated Hours:** 30–35  
 **Team Size:** 1 person  
-**Timeline:** Weeks 1–7 (core), Weeks 8–11 (refinement & integration)
+**Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
 
 ---
 
@@ -338,32 +348,132 @@ class TaskTestCase(TestCase):
 
 ---
 
-## Weeks 8–9: Polish & API Docs (Mar 3–16)
+## Weeks 8–9: React Frontend Development (Mar 3–16)
 
 ### Prerequisites
-- All features complete and tested
+- Backend task endpoints complete and tested
+- Group context available from Team B
+- React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-1. **Add drf-spectacular**
-   - [ ] Install package
-   - [ ] Add `@extend_schema()` decorators
-   - [ ] Generate Swagger docs
+- [ ] **Task Board/List Page**
+  - [ ] Create `TaskBoard.js` component to display tasks by status
+  - [ ] Fetch tasks with `axios.get('/api/groups/{id}/tasks/')` with JWT token
+  - [ ] Display tasks in 3 columns: To-Do, Doing, Done (Kanban style)
+  - [ ] Allow filtering by status, assigned user, due date
+  - [ ] Add button to create new task
 
-2. **Code Cleanup**
-   - [ ] Remove TODOs
-   - [ ] Add docstrings
-   - [ ] Refactor messy code
+- [ ] **Create Task Form**
+  - [ ] Create `CreateTask.js` component with fields: title, description, due_date, assigned_to
+  - [ ] Handle form submission with `axios.post('/api/groups/{id}/tasks/')`
+  - [ ] Fetch group members for assigned_to dropdown
+  - [ ] Display validation errors
 
-3. **Help Team E**
-   - [ ] Verify Task endpoints work with React
-   - [ ] Debug any integration issues
-   - [ ] Provide sample data for testing
+- [ ] **Task Details/Edit Page**
+  - [ ] Create `TaskDetails.js` component to display full task info
+  - [ ] Fetch task data with `axios.get('/api/groups/{id}/tasks/{task_id}/')`
+  - [ ] Display title, description, status, due date, assigned to, created by
+  - [ ] Add edit mode to update task fields
+  - [ ] Handle update with `axios.put('/api/groups/{id}/tasks/{task_id}/')`
+  - [ ] Add delete button (creator/owner only)
+
+- [ ] **Status Update Component**
+  - [ ] Create quick status update buttons on task cards
+  - [ ] Handle status change with `axios.patch('/api/groups/{id}/tasks/{task_id}/status/')`
+  - [ ] Update UI optimistically (change before server confirms)
+
+- [ ] **Task Card Component**
+  - [ ] Create reusable `TaskCard.js` component for displaying task summary
+  - [ ] Show title, due date, assigned user, status
+  - [ ] Add drag-and-drop functionality (optional, nice-to-have)
+
+### Code Example
+
+```javascript
+// src/pages/TaskBoard.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+function TaskBoard() {
+  const { groupId } = useParams();
+  const [tasks, setTasks] = useState({ todo: [], doing: [], done: [] });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(
+          `http://localhost:8000/api/groups/${groupId}/tasks/`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        
+        // Group tasks by status
+        const grouped = { todo: [], doing: [], done: [] };
+        response.data.forEach(task => {
+          grouped[task.status].push(task);
+        });
+        setTasks(grouped);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTasks();
+  }, [groupId]);
+
+  if (loading) return <p>Loading tasks...</p>;
+
+  return (
+    <div className="task-board">
+      <div className="column">
+        <h3>To-Do</h3>
+        {tasks.todo.map(task => (
+          <div key={task.id} className="task-card">
+            <h4>{task.title}</h4>
+            <p>{task.due_date}</p>
+            <p>Assigned: {task.assigned_to?.username || 'Unassigned'}</p>
+          </div>
+        ))}
+      </div>
+      
+      <div className="column">
+        <h3>Doing</h3>
+        {tasks.doing.map(task => (
+          <div key={task.id} className="task-card">
+            <h4>{task.title}</h4>
+            <p>{task.due_date}</p>
+            <p>Assigned: {task.assigned_to?.username || 'Unassigned'}</p>
+          </div>
+        ))}
+      </div>
+      
+      <div className="column">
+        <h3>Done</h3>
+        {tasks.done.map(task => (
+          <div key={task.id} className="task-card">
+            <h4>{task.title}</h4>
+            <p>{task.due_date}</p>
+            <p>Assigned: {task.assigned_to?.username || 'Unassigned'}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default TaskBoard;
+```
 
 ### Deliverables by End of Week 9
-- [ ] drf-spectacular integrated
-- [ ] All endpoints documented
-- [ ] Code cleaned up
-- [ ] No outstanding bugs
+- [ ] Task board with Kanban columns working
+- [ ] Create task form functional
+- [ ] Task details/edit page complete
+- [ ] Status update buttons working
+- [ ] Filtering and sorting functional
+- [ ] Delete task functionality (with permission checks)
 
 ---
 
