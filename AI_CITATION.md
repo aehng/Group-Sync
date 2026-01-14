@@ -12,8 +12,8 @@ This document tracks when GitHub Copilot was used to assist with the GroupSync p
 | Jan 13, 2026 | Django Project Setup | Setup | Created requirements.txt, guided virtual environment setup, project initialization, database configuration (SQLite), and debugging PowerShell issues |
 | Jan 13, 2026 | Education & Explanation | Learning | Explained Django architecture, apps structure, REST API concepts, HTTP methods, JWT authentication, and how DRF works |
 | Jan 13, 2026 | Workflow Documentation | Documentation | Converted task lists to markdown checkboxes for progress tracking in TEAM_A_WORKFLOW.md |
-| Jan 13, 2026 | Django Settings & URL Configuration | Setup | Configured settings.py with REST Framework, JWT authentication, drf-spectacular, CORS settings; created groupsync/urls.py and users/urls.py routing
-
+| Jan 13, 2026 | Django Settings & URL Configuration | Setup | Configured settings.py with REST Framework, JWT authentication, drf-spectacular, CORS settings; created groupsync/urls.py and users/urls.py routing |
+| Jan 13, 2026 | API Contract Documentation | Documentation | Created API_CONTRACT.md with 5 authentication endpoints (register, login, profile get/update, token refresh), token lifecycle explanation, error codes, and integration examples for all teams with detailed code comments |
 
 ---
 

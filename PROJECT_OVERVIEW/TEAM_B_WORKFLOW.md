@@ -1,9 +1,17 @@
+## Time Log
+
+| Date       | Hours Worked | Description of Work                  |
+|------------|--------------|--------------------------------------|
+| YYYY-MM-DD | X            | Brief description of tasks completed |
+
+---
+
 # Team B: Groups & Members Workflow
 
-**Feature:** Group creation, invite codes, group membership, owner/member roles  
-**Estimated Hours:** 25–30  
+**Feature:** Group creation, invite codes, group membership, owner/member roles (Backend + Frontend)  
+**Estimated Hours:** 30–35  
 **Team Size:** 1 person  
-**Timeline:** Weeks 1–7 (core), Weeks 8–11 (refinement & integration)
+**Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
 
 ---
 
@@ -311,32 +319,104 @@ class GroupTestCase(TestCase):
 
 ---
 
-## Weeks 8–9: Polish & API Docs (Mar 3–16)
+## Weeks 8–9: React Frontend Development (Mar 3–16)
 
 ### Prerequisites
-- All features complete and tested
+- Backend group endpoints complete and tested
+- Auth context available from Team A
+- React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-1. **Add drf-spectacular**
-   - [ ] Install package
-   - [ ] Add `@extend_schema()` decorators to all endpoints
-   - [ ] Generate Swagger docs
+- [ ] **Group List/Dashboard Page**
+  - [ ] Create `GroupList.js` component to display all user's groups
+  - [ ] Fetch groups with `axios.get('/api/groups/')` with JWT token
+  - [ ] Display group name, owner, and member count
+  - [ ] Add button to navigate to group details
 
-2. **Code Cleanup**
-   - [ ] Remove TODO comments
-   - [ ] Add helpful docstrings
-   - [ ] Refactor any messy code
+- [ ] **Create Group Form**
+  - [ ] Create `CreateGroup.js` component with group name field
+  - [ ] Handle form submission with `axios.post('/api/groups/')`
+  - [ ] Redirect to group details on success
+  - [ ] Display validation errors
 
-3. **Help Teams C & D**
-   - [ ] Debug any Group-related issues in Task/Meeting endpoints
-   - [ ] Review their usage of Group foreign keys
-   - [ ] Test their endpoints with groups
+- [ ] **Join Group Form**
+  - [ ] Create `JoinGroup.js` component with invite code field
+  - [ ] Handle form submission with `axios.post('/api/groups/join/')`
+  - [ ] Redirect to group details on success
+  - [ ] Display error for invalid codes
+
+- [ ] **Group Details Page**
+  - [ ] Create `GroupDetails.js` component to display group info
+  - [ ] Fetch group data with `axios.get('/api/groups/{id}/')`
+  - [ ] Display group name, invite code, owner, and member list
+  - [ ] Add "Copy invite code" button
+  - [ ] Show edit/delete buttons (owner only)
+
+- [ ] **Members List Component**
+  - [ ] Create `MembersList.js` to display all group members
+  - [ ] Fetch members with `axios.get('/api/groups/{id}/members/')`
+  - [ ] Display username, role, and joined date
+  - [ ] Highlight the owner
+
+### Code Example
+
+```javascript
+// src/pages/GroupList.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+function GroupList() {
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8000/api/groups/', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setGroups(response.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGroups();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
+  return (
+    <div>
+      <h2>My Groups</h2>
+      <Link to="/groups/create">Create New Group</Link>
+      <Link to="/groups/join">Join Group</Link>
+      {groups.map(group => (
+        <div key={group.id}>
+          <Link to={`/groups/${group.id}`}>
+            <h3>{group.name}</h3>
+          </Link>
+          <p>Owner: {group.owner.username}</p>
+          <p>Members: {group.member_count}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default GroupList;
+```
 
 ### Deliverables by End of Week 9
-- [ ] drf-spectacular integrated
-- [ ] All endpoints documented
-- [ ] Code cleaned up
-- [ ] No outstanding bugs
+- [ ] Group list page complete
+- [ ] Create group form working
+- [ ] Join group form working
+- [ ] Group details page with members list
+- [ ] Copy invite code functionality
+- [ ] Edit/delete buttons (owner only)
 
 ---
 

@@ -1,9 +1,19 @@
 # Team A: Users & Authentication Workflow
 
-**Feature:** User registration, login, profiles, JWT authentication, permission system  
+## Time Log
+
+| Date       | Hours Worked | Description of Work                  |
+|------------|--------------|--------------------------------------|
+| YYYY-MM-DD | X            | Brief description of tasks completed |
+
+---
+
+# Team A: Users & Authentication Workflow
+
+**Feature:** User registration, login, profiles, JWT authentication, permission system (Backend + Frontend)  
 **Estimated Hours:** 30–35  
 **Team Size:** 1 person (You)  
-**Timeline:** Weeks 1–7 (setup), Weeks 8–11 (refinement & docs)
+**Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
 
 ---
 
@@ -29,12 +39,12 @@
   - [x] Create GitHub repo for the team
   - [x] Create branches: `main` (protected), `develop`, `feature/auth`
   - [x] Add requirements.txt (created)
-  - [ ] Add .gitignore, README.md
+  - [x] Add .gitignore, README.md
 
-- [ ] **API Contract Definition**
-  - [ ] Document expected auth endpoints with Team B, C, D, E
-  - [ ] Define request/response schemas (see examples below)
-  - [ ] Post in shared document or GitHub wiki
+- [x] **API Contract Definition**
+  - [x] Document expected auth endpoints with Team B, C, D, E
+  - [x] Define request/response schemas (see examples below)
+  - [x] Post in shared document or GitHub wiki
 
 - [ ] **Render Setup**
   - [ ] Create Render account
@@ -273,35 +283,105 @@ class RegisterTestCase(TestCase):
 
 ---
 
-## Weeks 8–9: API Docs & Refinement (Mar 3–16)
+## Weeks 8–9: React Frontend Development (Mar 3–16)
 
 ### Prerequisites
-- All auth features complete and tested
+- Backend auth endpoints complete and tested
+- React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-- [ ] **Add drf-spectacular (OPTIONAL)**
-  - [ ] **Skip if behind schedule.** The browsable API is sufficient for team reference.
-  - [ ] If proceeding: Install `drf-spectacular` package
-  - [ ] Configure in `settings.py`
-  - [ ] Add `@extend_schema()` decorators to auth endpoints
-  - [ ] Generate Swagger docs at `/api/schema/swagger/`
-  - [ ] **Why it's optional:** DRF's built-in browsable API at `/api/` already shows all endpoints and allows testing. Swagger is nice-to-have polish.
+- [ ] **Login Page**
+  - [ ] Create `Login.js` component with username/email and password fields
+  - [ ] Handle form submission with `axios.post('/api/users/login/')`
+  - [ ] Store JWT token in localStorage
+  - [ ] Redirect to dashboard on successful login
+  - [ ] Display error messages for invalid credentials
 
-- [ ] **Help with Integration**
-  - [ ] Review Team E's usage of auth endpoints
-  - [ ] Debug any issues with JWT in React
-  - [ ] Add CORS configuration if needed
+- [ ] **Registration Page**
+  - [ ] Create `Register.js` component with username, email, password, password_confirm fields
+  - [ ] Handle form submission with `axios.post('/api/users/register/')`
+  - [ ] Store JWT token in localStorage
+  - [ ] Redirect to dashboard on successful registration
+  - [ ] Display validation errors
 
-- [ ] **Code Cleanup**
-  - [ ] Remove TODOs
-  - [ ] Refactor any messy code
-  - [ ] Add helpful comments
+- [ ] **User Profile Page**
+  - [ ] Create `Profile.js` component to display user info
+  - [ ] Fetch user data with `axios.get('/api/users/me/')` with JWT token in header
+  - [ ] Allow editing profile (username, email, bio, profile picture)
+  - [ ] Handle profile update with `axios.put('/api/users/me/')`
+  - [ ] Add logout button (clear localStorage and redirect to login)
+
+- [ ] **Auth Context/Provider**
+  - [ ] Create `AuthContext.js` to manage authentication state globally
+  - [ ] Provide `login()`, `logout()`, `register()` functions
+  - [ ] Provide `isAuthenticated`, `currentUser` state
+  - [ ] Wrap app in AuthProvider
+
+- [ ] **Protected Routes**
+  - [ ] Create `PrivateRoute.js` component to protect authenticated pages
+  - [ ] Redirect to login if not authenticated
+
+### Code Example
+
+```javascript
+// src/pages/Login.js
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8000/api/users/login/', {
+        username,
+        password
+      });
+      localStorage.setItem('token', response.data.token);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Invalid credentials');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+      {error && <p>{error}</p>}
+    </div>
+  );
+}
+
+export default Login;
+```
 
 ### Deliverables by End of Week 9
-- [ ] drf-spectacular integrated
-- [ ] Swagger docs auto-generated
-- [ ] All auth endpoints documented
-- [ ] No outstanding bugs
+- [ ] Login page complete and functional
+- [ ] Registration page complete and functional
+- [ ] User profile page complete with edit functionality
+- [ ] Auth context implemented
+- [ ] Protected routes working
+- [ ] JWT tokens stored and used correctly
 
 ---
 

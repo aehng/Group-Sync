@@ -1,138 +1,164 @@
-# Team E: Frontend & Messaging Workflow
+# Team E: Messaging & Frontend Polish Workflow
 
-**Feature:** React SPA, dashboard, group workspace, task/meeting/members pages, polling message board  
-**Estimated Hours:** 35–40  
-**Team Size:** 1 person (or more if needed)  
-**Timeline:** Weeks 1–7 (setup + mock), Weeks 8–11 (integration + polish)
+## Time Log
+
+| Date       | Hours Worked | Description of Work                  |
+|------------|--------------|--------------------------------------|
+| YYYY-MM-DD | X            | Brief description of tasks completed |
+
+---
+
+**Feature:** Message board with polling (Backend + Frontend), UI/UX design, responsive styling, consistent layout, dashboard navigation  
+**Estimated Hours:** 30–35  
+**Team Size:** 1 person  
+**Timeline:** Weeks 1–7 (messaging backend + UI/UX foundation), Weeks 8–11 (integration & final polish)
 
 ---
 
 ## Week 1: Setup & Planning (Jan 13–19)
 
 ### Prerequisites
-- Team A initializes Django backend (get repo link)
-- Review API contract document from all teams
+- Team A initializes Django backend
+- Review API contract from all teams
 
 ### Your Tasks
 1. **Set up React project**
-   - [ ] Create React app: `npx create-react-app groupsync-frontend`
+   - [ ] If not already created: `npx create-react-app groupsync-frontend`
    - [ ] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
-   - [ ] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`
+   - [ ] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/frontend`
-   - [ ] Work on `feature/frontend` for all UI development
+   - [ ] Create branches: `develop`, `feature/messaging`, `feature/ui-polish`
+   - [ ] Work on `feature/messaging` for messaging backend + frontend
+   - [ ] Work on `feature/ui-polish` for UI improvements
 
-3. **Review API Contract**
+3. **Review API Contracts**
    - [ ] Read API endpoint specifications from Teams A–D
    - [ ] Note all request/response schemas
-   - [ ] Plan mock data structure that matches
+   - [ ] Understand how other teams' components should be structured
 
-4. **Plan Page Structure**
-   - [ ] **Dashboard:** List of user's groups
-   - [ ] **Group Workspace:**
-     - Header: group name + invite code + members
-     - Tabs: Tasks | Meetings | Members | Resources | Messages
-   - [ ] **Task Board:** Kanban view (To-Do | Doing | Done) or list view
-   - [ ] **Meetings:** Calendar or list view
-   - [ ] **Members:** Simple list
-   - [ ] **Resources:** Links list
-   - [ ] **Messages:** Polling board (last 50 messages)
+4. **Define Design System** (Basic)
+   - [ ] Choose simple color palette (primary, secondary, accent, error, success)
+   - [ ] Choose fonts (heading, body)
+   - [ ] Create basic CSS variables in `styles/theme.css`
+   - [ ] Design 2-3 button styles and input field styles
+   - [ ] Share with team for feedback
 
-5. **Design Component Hierarchy**
-   - [ ] Sketch component tree on paper/whiteboard
-   - [ ] Plan state management approach (Context API vs Redux; start with Context for MVP)
-   - [ ] Share design overview with team
+5. **Plan Messaging Feature**
+   - [ ] Design Message model for backend
+   - [ ] Plan polling strategy (3-second interval initially)
+   - [ ] Sketch message board UI layout
 
 ### Deliverables by End of Week 1
-- [ ] React project created and running
-- [ ] Folder structure set up
-- [ ] API contract reviewed and understood
-- [ ] Component hierarchy planned
-- [ ] Ready to start building UI
+- [ ] React project set up
+- [ ] Basic design system (colors, fonts, basic components)
+- [ ] Messaging feature planned
+- [ ] Ready to start backend and frontend work
 
 ---
 
-## Weeks 2–3: Layout & Mock Data (Jan 20–Feb 2)
+## Weeks 2–3: Messaging Backend (Jan 20–Feb 2)
 
 ### Prerequisites
-- React project initialized
-- API contract document ready
+- React project set up
+- Team A's User model and auth understood
+- Team B's Group model understood
 
 ### Your Tasks
-1. **Create Mock Data**
-   - [ ] Build mock data that matches API schemas from Teams A–D
-   - [ ] Example:
-   ```javascript
-   // src/mockData.js
-   export const mockUser = {
-     id: 1,
-     username: 'john_doe',
-     email: 'john@example.com'
-   };
-   
-   export const mockGroups = [
-     {
-       id: 1,
-       name: 'CSE 310 Project',
-       owner_id: 1,
-       invite_code: 'ABC12345',
-       created_at: '2026-01-13T00:00:00Z'
-     }
-   ];
-   
-   export const mockTasks = [
-     {
-       id: 1,
-       title: 'Setup database',
-       status: 'doing',
-       due_date: '2026-02-01T00:00:00Z',
-       assigned_to: 1,
-       group_id: 1,
-       created_by: 1,
-       created_at: '2026-01-13T00:00:00Z'
-     }
-   ];
-   
-   // ... and so on for meetings, messages, etc.
-   ```
+1. **Create `messages` App**
+   - [ ] `python manage.py startapp messages`
+   - [ ] Add to `INSTALLED_APPS` in `settings.py`
 
-2. **Build Main Layout**
-   - [ ] Create `App.js` with React Router
-   - [ ] Create `Navigation` component (sidebar or navbar)
-   - [ ] Create `Dashboard` page (shows user's groups)
-   - [ ] Create `GroupWorkspace` page (main hub after clicking a group)
+2. **Message Model**
+   - [ ] Create Message model with fields: `id`, `group` (FK to Group), `author` (FK to User), `text`, `created_at`
+   - [ ] Write migration
 
-3. **Dashboard Page**
-   - [ ] Display list of groups (use mock data)
-   - [ ] Button to create group
-   - [ ] Click group to enter workspace
-   - [ ] Show invite code in each group card
+3. **Message Serializers**
+   - [ ] Create `MessageSerializer` for CRUD operations
+   - [ ] Include nested User info (username) for author
+   - [ ] Include nested Group info
 
-4. **Group Workspace Layout**
-   - [ ] Header: group name, invite code, member count
-   - [ ] Tabs: Tasks | Meetings | Members | Resources | Messages
-   - [ ] Tab switching logic (useState to track active tab)
+4. **Message Endpoints**
+   - [ ] `GET /api/groups/{id}/messages/` — List messages for a group (ordered by created_at)
+   - [ ] `POST /api/groups/{id}/messages/` — Create new message
+   - [ ] Add pagination (last 50 messages)
+   - [ ] Require JWT authentication
 
 ### Code Example
+
+```python
+# messages/models.py
+from django.db import models
+from django.contrib.auth import get_user_model
+from groups.models import Group
+
+User = get_user_model()
+
+class Message(models.Model):
+    id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='messages')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.author.username}: {self.text[:50]}"
+    
+    class Meta:
+        ordering = ['-created_at']
+```
+
+### Deliverables by End of Week 3
+- [ ] Message model created with migrations
+- [ ] Message serializer written
+- [ ] Message endpoints ready for implementation
+
+---
+
+## Weeks 4–5: Message Endpoints & Frontend Setup (Feb 3–16)
+
+### Prerequisites
+- Message model created
+- Team A & B's endpoints working
+
+### Your Tasks (Backend)
+1. **Build Message Endpoints**
+   - [ ] `GET /api/groups/{id}/messages/` endpoint with pagination
+   - [ ] `POST /api/groups/{id}/messages/` endpoint
+   - [ ] Permission checks (only group members)
+
+2. **Unit Tests**
+   - [ ] Test message creation and retrieval
+   - [ ] Test permission enforcement
+   - [ ] Aim for 80%+ coverage
+
+### Your Tasks (Frontend)
+1. **Create App Structure**
+   - [ ] Create `App.js` with React Router
+   - [ ] Create `Navigation` component (sidebar/navbar)
+   - [ ] Create `Dashboard` page (shows user's groups via mock data)
+   - [ ] Create `GroupWorkspace` page with tab switching
+
+2. **Set Up Shared Components** (Basic)
+   - [ ] Create simple `Button.js` component
+   - [ ] Create `Input.js` component
+   - [ ] Create `Card.js` component
+   - [ ] Apply design system colors/fonts
+
+### Code Example (Frontend Structure)
 
 ```javascript
 // src/App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import GroupWorkspace from './pages/GroupWorkspace';
-import Login from './pages/Login';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
   return (
     <Router>
-      {isAuthenticated && <Navigation />}
+      <Navigation />
       <Routes>
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/groups/:groupId" element={<GroupWorkspace />} />
       </Routes>
@@ -143,329 +169,107 @@ function App() {
 export default App;
 ```
 
-```javascript
-// src/pages/GroupWorkspace.js
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { mockTasks, mockMeetings, mockMessages } from '../mockData';
-import TaskBoard from '../components/TaskBoard';
-import MeetingList from '../components/MeetingList';
-import MembersList from '../components/MembersList';
-import MessageBoard from '../components/MessageBoard';
-
-function GroupWorkspace() {
-  const { groupId } = useParams();
-  const [activeTab, setActiveTab] = useState('tasks');
-  
-  return (
-    <div className="group-workspace">
-      <header>
-        <h1>CSE 310 Project</h1>
-        <p>Invite Code: ABC12345</p>
-      </header>
-      
-      <nav className="tabs">
-        <button 
-          className={activeTab === 'tasks' ? 'active' : ''} 
-          onClick={() => setActiveTab('tasks')}
-        >
-          Tasks
-        </button>
-        <button 
-          className={activeTab === 'meetings' ? 'active' : ''} 
-          onClick={() => setActiveTab('meetings')}
-        >
-          Meetings
-        </button>
-        <button 
-          className={activeTab === 'members' ? 'active' : ''} 
-          onClick={() => setActiveTab('members')}
-        >
-          Members
-        </button>
-        <button 
-          className={activeTab === 'messages' ? 'active' : ''} 
-          onClick={() => setActiveTab('messages')}
-        >
-          Messages
-        </button>
-      </nav>
-      
-      <div className="tab-content">
-        {activeTab === 'tasks' && <TaskBoard tasks={mockTasks} />}
-        {activeTab === 'meetings' && <MeetingList meetings={mockMeetings} />}
-        {activeTab === 'members' && <MembersList />}
-        {activeTab === 'messages' && <MessageBoard messages={mockMessages} />}
-      </div>
-    </div>
-  );
-}
-
-export default GroupWorkspace;
-```
-
-### Deliverables by End of Week 3
-- [ ] React project running with routing
-- [ ] Mock data created for all features
-- [ ] Dashboard page showing mock groups
-- [ ] Group workspace with tabs
-- [ ] Tab switching working
-- [ ] Basic CSS for layout
-
----
-
-## Weeks 4–5: Feature Components (Feb 3–16)
-
-### Prerequisites
-- Layout and routing complete
-- Mock data ready
-
-### Your Tasks
-1. **Task Board Component**
-   - [ ] Display tasks in 3 columns (To-Do | Doing | Done) OR as list
-   - [ ] Show: title, due date, assigned person
-   - [ ] Click task to see details
-   - [ ] Mock: drag-and-drop between columns (optional, use hardcoded button for MVP)
-   - [ ] Button to create new task
-   - [ ] Don't fetch from API yet (use mock data)
-
-2. **Meeting List Component**
-   - [ ] Display upcoming meetings
-   - [ ] Show: title, date/time, location/Zoom link
-   - [ ] Click to see details
-   - [ ] Button to create new meeting
-   - [ ] Mock: sort by date
-   - [ ] Don't fetch from API yet
-
-3. **Members List Component**
-   - [ ] Display group members
-   - [ ] Show: name, role (Owner|Member), joined date
-   - [ ] Don't fetch from API yet
-
-4. **Resources Component**
-   - [ ] Simple list of links
-   - [ ] Show: title, URL
-   - [ ] Button to add link
-   - [ ] Click to open link
-   - [ ] Don't fetch from API yet
-
-### Code Example
-
-```javascript
-// src/components/TaskBoard.js
-import { useState } from 'react';
-import './TaskBoard.css';
-
-function TaskBoard({ tasks }) {
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  
-  const tasksByStatus = {
-    todo: tasks.filter(t => t.status === 'todo'),
-    doing: tasks.filter(t => t.status === 'doing'),
-    done: tasks.filter(t => t.status === 'done')
-  };
-  
-  return (
-    <div className="task-board">
-      <button onClick={() => setShowCreateForm(!showCreateForm)}>
-        + New Task
-      </button>
-      
-      {showCreateForm && <TaskCreateForm />}
-      
-      <div className="columns">
-        {['todo', 'doing', 'done'].map(status => (
-          <div key={status} className="column">
-            <h3>{status.toUpperCase()}</h3>
-            {tasksByStatus[status].map(task => (
-              <div key={task.id} className="task-card">
-                <h4>{task.title}</h4>
-                <p>Due: {task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No due date'}</p>
-                <p>Assigned: {task.assigned_to || 'Unassigned'}</p>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TaskCreateForm() {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    due_date: ''
-  });
-  
-  return (
-    <form className="create-form">
-      <input 
-        type="text" 
-        placeholder="Task title" 
-        value={formData.title}
-        onChange={e => setFormData({...formData, title: e.target.value})}
-      />
-      <input 
-        type="datetime-local" 
-        value={formData.due_date}
-        onChange={e => setFormData({...formData, due_date: e.target.value})}
-      />
-      <button type="submit">Create Task</button>
-    </form>
-  );
-}
-
-export default TaskBoard;
-```
-
 ### Deliverables by End of Week 5
-- [ ] Task board component (with columns or list)
-- [ ] Create task form (mock submit)
-- [ ] Meeting list component
-- [ ] Members list component
-- [ ] Resources list component
-- [ ] All showing mock data
-- [ ] Basic styling for all components
+- [ ] Message endpoints working and tested
+- [ ] React router configured
+- [ ] Dashboard and workspace pages created
+- [ ] Basic shared components (Button, Input, Card)
 
 ---
 
-## Weeks 6–7: Message Board & Polishing (Feb 17–Mar 2)
+## Weeks 6–7: Message Board Frontend & Integration (Feb 17–Mar 2)
 
 ### Prerequisites
-- All feature components built
-- Mock data working
+- Message backend endpoints complete
+- React structure set up
+- Design system in place
 
 ### Your Tasks
 1. **Message Board Component**
-   - [ ] Display messages in reverse chronological order (newest first)
-   - [ ] Show: username, timestamp, message text
-   - [ ] Input form: text area + Send button
-   - [ ] Mock: add message to local state on submit
-   - [ ] Layout: chat-like interface
-   - [ ] Don't fetch from API yet
+   - [ ] Create `MessageBoard.js` component
+   - [ ] Fetch messages from backend API (with JWT)
+   - [ ] Display messages in chat-like format
+   - [ ] Auto-scroll to latest message
 
-2. **Login/Register Pages**
-   - [ ] Simple login form (username, password)
-   - [ ] Simple register form (username, email, password, confirm)
-   - [ ] Mock: validate locally (non-empty fields)
-   - [ ] Mock: store token in localStorage (don't actually call API)
-   - [ ] Redirect to dashboard on success
+2. **Send Message Form**
+   - [ ] Add text area and Send button
+   - [ ] Handle form submission (POST to `/api/groups/{id}/messages/`)
+   - [ ] Clear input after send
+   - [ ] Show errors if submission fails
 
-3. **API Service Layer**
-   - [ ] Create `src/api/client.js` with axios instance
-   - [ ] Configure base URL (will be Django backend)
-   - [ ] Add auth token to headers (will use JWT)
-   - [ ] Create API functions (don't call them yet):
-     ```javascript
-     // src/api/client.js
-     import axios from 'axios';
-     
-     const API_BASE = 'http://localhost:8000/api';
-     
-     export const apiClient = axios.create({
-       baseURL: API_BASE,
-       headers: {
-         'Content-Type': 'application/json'
-       }
-     });
-     
-     // Add token to headers
-     export const setAuthToken = (token) => {
-       if (token) {
-         apiClient.defaults.headers['Authorization'] = `Bearer ${token}`;
-       } else {
-         delete apiClient.defaults.headers['Authorization'];
-       }
-     };
-     
-     // Auth endpoints
-     export const auth = {
-       register: (username, email, password) => 
-         apiClient.post('/users/register/', { username, email, password }),
-       login: (username, password) => 
-         apiClient.post('/users/login/', { username, password })
-     };
-     
-     // Groups endpoints
-     export const groups = {
-       list: () => apiClient.get('/groups/'),
-       create: (name) => apiClient.post('/groups/', { name }),
-       getDetails: (id) => apiClient.get(`/groups/${id}/`),
-       join: (inviteCode) => apiClient.post('/groups/join/', { invite_code: inviteCode })
-     };
-     
-     // ... similar for tasks, meetings, messages
-     ```
+3. **Polling Implementation**
+   - [ ] Use `setInterval()` to poll every 3 seconds
+   - [ ] Fetch new messages automatically
+   - [ ] Update message list
+   - [ ] Clean up interval on unmount
 
-4. **Polish & Testing**
-   - [ ] Add basic CSS styling (use simple color scheme)
-   - [ ] Test all components with mock data
-   - [ ] Test tab switching
-   - [ ] Test form submissions (local)
-   - [ ] Verify responsive layout
+4. **Apply Design System**
+   - [ ] Style message board with consistent colors/fonts
+   - [ ] Ensure responsive design (mobile-friendly)
+   - [ ] Add loading and error states
 
 ### Code Example
 
 ```javascript
 // src/components/MessageBoard.js
-import { useState } from 'react';
-import './MessageBoard.css';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 function MessageBoard({ groupId }) {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      author_id: 1,
-      author: 'john_doe',
-      text: 'Hey everyone!',
-      created_at: '2026-01-13T10:00:00Z'
-    },
-    {
-      id: 2,
-      author_id: 2,
-      author: 'jane_smith',
-      text: 'Hi John!',
-      created_at: '2026-01-13T10:05:00Z'
-    }
-  ]);
-  
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    const message = {
-      id: messages.length + 1,
-      author_id: 1,
-      author: 'current_user',
-      text: newMessage,
-      created_at: new Date().toISOString()
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(
+          `http://localhost:8000/api/groups/${groupId}/messages/`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setMessages(response.data);
+      } catch (err) {
+        console.error('Error fetching messages:', err);
+      }
     };
-    setMessages([...messages, message]);
-    setNewMessage('');
+
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 3000);
+    return () => clearInterval(interval);
+  }, [groupId]);
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `http://localhost:8000/api/groups/${groupId}/messages/`,
+        { text: newMessage },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessages([...messages, response.data]);
+      setNewMessage('');
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
   };
-  
+
   return (
     <div className="message-board">
       <div className="messages-list">
         {messages.map(msg => (
           <div key={msg.id} className="message">
-            <strong>{msg.author}</strong>
-            <span className="timestamp">
-              {new Date(msg.created_at).toLocaleTimeString()}
-            </span>
+            <strong>{msg.author.username}</strong>
             <p>{msg.text}</p>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
-      
-      <form onSubmit={handleSendMessage} className="message-form">
-        <textarea
-          value={newMessage}
-          onChange={e => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          required
-        />
+      <form onSubmit={handleSendMessage}>
+        <textarea value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
         <button type="submit">Send</button>
       </form>
     </div>
@@ -476,236 +280,167 @@ export default MessageBoard;
 ```
 
 ### Deliverables by End of Week 7
-- [ ] Message board component (with mock data)
-- [ ] Login page (mock auth)
-- [ ] Register page (mock auth)
-- [ ] API client service layer created
-- [ ] All components styled
-- [ ] Frontend runs locally without errors
-- [ ] Ready to integrate real APIs
+- [ ] Message board component integrated with real API
+- [ ] Send message functionality working
+- [ ] Polling every 3 seconds functional
+- [ ] Styled with design system
+- [ ] Responsive design tested
 
 ---
 
-## Weeks 8–9: API Integration & Polling (Mar 3–16)
+## Weeks 8–9: UI Polish & Integration (Mar 3–16)
 
 ### Prerequisites
-- All components built with mock data
-- Backend teams have working APIs (or close to it)
-- API client service layer ready
+- Message board complete
+- All other teams have backend endpoints complete
+- Design system established
 
 ### Your Tasks
-1. **Swap Mock Data for Real APIs**
+1. **Integrate Real Data from Other Teams**
    - [ ] Update Dashboard to fetch real groups: `GET /api/groups/`
-   - [ ] Update TaskBoard to fetch real tasks: `GET /api/groups/{id}/tasks/`
-   - [ ] Update MeetingList to fetch real meetings: `GET /api/groups/{id}/meetings/`
-   - [ ] Update MembersList to fetch real members: `GET /api/groups/{id}/members/`
+   - [ ] Update GroupWorkspace to display Tasks, Meetings, Members (via mock or basic API calls)
+   - [ ] Handle loading and error states for all data fetches
    - [ ] Use `useEffect` to fetch on component mount
-   - [ ] Handle loading/error states gracefully
 
-2. **Implement Polling for Messages**
-   - [ ] When user navigates to Messages tab, start polling
-   - [ ] Fetch `GET /api/groups/{id}/messages/?since={timestamp}` every 3 seconds
-   - [ ] Update message list with new messages
-   - [ ] Stop polling when user leaves tab
-   - [ ] Example:
-   ```javascript
-   useEffect(() => {
-     const interval = setInterval(() => {
-       const since = lastMessageTime || new Date(Date.now() - 60000); // Last 1 min
-       fetch(`/api/groups/${groupId}/messages/?since=${since.toISOString()}`)
-         .then(r => r.json())
-         .then(data => setMessages([...messages, ...data]));
-     }, 3000);
-     
-     return () => clearInterval(interval);
-   }, [groupId]);
-   ```
+2. **Polish Message Board**
+   - [ ] Optimize polling (can increase to 5 sec if needed)
+   - [ ] Add relative timestamps ("2 min ago")
+   - [ ] Add message author info clearly
+   - [ ] Test with high message volume
 
-3. **Integrate Real Auth**
-   - [ ] Update Login to call `POST /api/users/login/`
-   - [ ] Update Register to call `POST /api/users/register/`
-   - [ ] Store JWT token in localStorage
-   - [ ] Pass token to all subsequent requests (via apiClient headers)
-   - [ ] Redirect on auth success/failure
+3. **UI/UX Improvements**
+   - [ ] Add loading spinners for API calls
+   - [ ] Add error messages for failed requests
+   - [ ] Add success notifications for sent messages
+   - [ ] Improve responsive design (test on mobile)
+   - [ ] Ensure consistent spacing and alignment
 
-4. **Implement CRUD Operations**
-   - [ ] Add real submit handlers for create/update/delete
-   - [ ] Task: Create task → `POST /api/groups/{id}/tasks/`
-   - [ ] Task: Update status → `PUT /api/groups/{id}/tasks/{id}/` or `PATCH /api/groups/{id}/tasks/{id}/status/`
-   - [ ] Meeting: Create → `POST /api/groups/{id}/meetings/`
-   - [ ] Message: Create → `POST /api/groups/{id}/messages/`
-   - [ ] Handle errors gracefully (show error messages to user)
+4. **Shared Component Review** (Coordinate with Teams A-D)
+   - [ ] Review components from other teams
+   - [ ] Apply consistent styling
+   - [ ] Help other teams use shared components
+   - [ ] Document component usage for team
 
-5. **Handle Backend Issues**
-   - [ ] When backend team endpoint fails, show helpful error message
-   - [ ] Test with Postman/curl first if React integration fails
-   - [ ] Debug CORS issues (backend may need CORS configuration)
-   - [ ] Verify JWT token is being sent correctly in headers
-
-### Code Example (Real API Integration)
+### Code Example (Shared Components)
 
 ```javascript
-// src/pages/GroupWorkspace.js (updated)
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { groups, tasks, messages } from '../api/client';
-
-function GroupWorkspace() {
-  const { groupId } = useParams();
-  const [activeTab, setActiveTab] = useState('tasks');
-  const [groupData, setGroupData] = useState(null);
-  const [taskList, setTaskList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const groupRes = await groups.getDetails(groupId);
-        setGroupData(groupRes.data);
-        
-        const tasksRes = await tasks.list(groupId);
-        setTaskList(tasksRes.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchData();
-  }, [groupId]);
-  
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  
+// src/components/shared/Button.js
+function Button({ children, onClick, variant = 'primary', disabled = false }) {
   return (
-    <div className="group-workspace">
-      <header>
-        <h1>{groupData.name}</h1>
-        <p>Invite Code: {groupData.invite_code}</p>
-      </header>
-      
-      {/* Tab switching logic */}
-      {activeTab === 'tasks' && <TaskBoard tasks={taskList} groupId={groupId} />}
-      {/* ... other tabs */}
-    </div>
+    <button className={`btn btn-${variant}`} onClick={onClick} disabled={disabled}>
+      {children}
+    </button>
   );
 }
 
-export default GroupWorkspace;
-```
-
-### Deliverables by End of Week 9
-- [ ] Real API integration complete (tasks, meetings, members)
-- [ ] Polling message board working (3-second refresh)
-- [ ] Real authentication working (JWT tokens)
-- [ ] Create/update/delete operations working
-- [ ] Error handling implemented
-- [ ] Loading states working
-- [ ] Frontend fully integrated with backend
-- [ ] No console errors
-
----
-
-## Weeks 10–11: Styling, Testing & Deployment (Mar 17–Apr 1)
-
-### Prerequisites
-- All APIs integrated and working
-- All CRUD operations working
-- Polling working
-
-### Your Tasks
-1. **UI Polish**
-   - [ ] Improve CSS (colors, spacing, fonts)
-   - [ ] Make responsive for mobile
-   - [ ] Add icons (optional, use emoji or simple symbols for MVP)
-   - [ ] Test on different screen sizes
-
-2. **Error Handling & Edge Cases**
-   - [ ] Show user-friendly error messages
-   - [ ] Handle empty states (no tasks, no meetings, etc.)
-   - [ ] Handle network errors gracefully
-   - [ ] Test invalid inputs
-
-3. **Testing**
-   - [ ] Manual test all features end-to-end
-   - [ ] Test with real backend data
-   - [ ] Test create/update/delete operations
-   - [ ] Test authentication flow
-   - [ ] Test message polling
-
-4. **Build for Production**
-   - [ ] Run `npm run build` (creates optimized build)
-   - [ ] Test build locally: `serve -s build`
-   - [ ] Verify all features work in production build
-
-5. **Deploy to Render**
-   - [ ] Push React build folder to GitHub
-   - [ ] Create Render static site from build
-   - [ ] Or: Configure Django to serve React build (single deployment)
-   - [ ] Test on live Render URL
-
-### Deliverables by April 1
-- [ ] UI fully styled and polished
-- [ ] All features tested end-to-end
-- [ ] No console errors or warnings
-- [ ] Responsive design working
-- [ ] Production build created
-- [ ] Deployed to Render
-- [ ] Live URL working
-
----
-
-## Dependencies
-
-Add to `package.json`:
-```json
-"dependencies": {
-  "axios": "^1.6",
-  "react": "^18.2",
-  "react-dom": "^18.2",
-  "react-router-dom": "^6.8",
-  "date-fns": "^2.29"
+// src/components/shared/Card.js
+function Card({ children, className = '' }) {
+  return <div className={`card ${className}`}>{children}</div>;
 }
 ```
 
+```css
+/* src/styles/theme.css */
+:root {
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --error: #dc3545;
+  --spacing: 8px;
+  --border-radius: 4px;
+}
+
+.btn {
+  padding: calc(var(--spacing) * 1.25) calc(var(--spacing) * 2.5);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: var(--spacing) * 2;
+  margin: var(--spacing);
+}
+```
+
+### Deliverables by End of Week 9
+- [ ] Real API integration complete (groups, tasks, meetings, members)
+- [ ] Message board polished and optimized
+- [ ] UI components styled consistently
+- [ ] Loading/error/success states throughout
+- [ ] Responsive design working on all devices
+- [ ] Shared components documented
+
 ---
 
-## Folder Structure (Target)
+## Weeks 10–11: Testing, Optimization & Deployment (Mar 17–Apr 1)
 
-```
-src/
-├── api/
-│   └── client.js          # Axios instance + API functions
-├── components/
-│   ├── Navigation.js
-│   ├── TaskBoard.js
-│   ├── MeetingList.js
-│   ├── MessageBoard.js
-│   ├── MembersList.js
-│   └── ResourcesList.js
-├── pages/
-│   ├── Dashboard.js
-│   ├── GroupWorkspace.js
-│   ├── Login.js
-│   └── Register.js
-├── hooks/
-│   └── useAuth.js         # Custom hook for auth state
-├── App.js
-├── index.js
-└── App.css
-```
+### Prerequisites
+- All features integrated and working
+- Design system applied throughout
+
+### Your Tasks
+1. **Final Testing**
+   - [ ] End-to-end testing (register → login → create group → send messages)
+   - [ ] Test all CRUD operations
+   - [ ] Test on multiple browsers (Chrome, Firefox, Safari)
+   - [ ] Test responsive design on mobile/tablet
+   - [ ] Fix any bugs found
+
+2. **Performance & Optimization**
+   - [ ] Optimize polling frequency (adjust if needed)
+   - [ ] Minimize bundle size
+   - [ ] Test load times
+   - [ ] Optimize message list rendering (virtualization if needed)
+
+3. **Polish & UX**
+   - [ ] Improve message timestamps and formatting
+   - [ ] Add animations/transitions (optional)
+   - [ ] Review accessibility (ARIA labels, keyboard nav)
+   - [ ] Final visual consistency check
+
+4. **Deployment**
+   - [ ] Build production version: `npm run build`
+   - [ ] Test production build locally
+   - [ ] Deploy frontend to hosting (Render, Vercel, etc.)
+   - [ ] Configure CORS for production domain
+   - [ ] Test on live URL
+
+5. **Documentation**
+   - [ ] Update README with setup instructions
+   - [ ] Document design system
+   - [ ] Create component usage guide
+   - [ ] Document any custom hooks/utilities
+
+### Deliverables by April 1
+- [ ] All features tested and working
+- [ ] Performance optimized
+- [ ] Deployed to production
+- [ ] No console errors or warnings
+- [ ] Documentation complete
+- [ ] App fully functional live
 
 ---
 
-## Key Integration Points
+## API Endpoints Summary
 
-- **Auth:** Store JWT token in localStorage, pass in `Authorization: Bearer {token}` header
-- **Group queries:** Always include group_id in URL path
-- **Task/Meeting filtering:** Use query params (`?status=todo`, `?upcoming=true`)
-- **Message polling:** Fetch every 3 seconds, filter by `since=timestamp`
-- **CORS:** Backend must have CORS headers enabled for frontend domain
+| Endpoint | Method | Auth | Purpose |
+|----------|--------|------|---------|
+| `/api/groups/{id}/messages/` | GET | Yes | List messages for group |
+| `/api/groups/{id}/messages/` | POST | Yes | Create new message |
+
+---
+
+## Key Responsibilities
+
+1. **Messaging Backend** - Own the Message model and endpoints end-to-end
+2. **React Frontend** - Build the core app structure and routing
+3. **Design System** - Establish and maintain consistent UI/UX
+4. **Message Board UI** - Create real-time chat interface with polling
+5. **Integration** - Coordinate with Teams A-D to integrate their features
 
 ---
 
@@ -713,18 +448,17 @@ src/
 
 | Issue | Solution |
 |-------|----------|
-| CORS errors | Check backend has CORS enabled; test with curl first |
-| 401 Unauthorized | Verify JWT token is in localStorage and header |
-| 404 Not Found | Verify API endpoint URL and group_id parameter |
-| Polling not working | Check fetch interval is running; verify backend returns new messages |
-| Forms not submitting | Check form data structure matches API spec |
+| Polling causes lag | Increase interval to 5-10 seconds or optimize query |
+| CORS errors | Backend needs CORS configuration for frontend domain |
+| JWT token not working | Verify token is in localStorage and sent in headers |
+| Message board not updating | Check if polling interval is running and API returns data |
 
 ---
 
-## Notes
+## Notes for Success
 
-- **Start with mock data immediately** (week 2) — don't wait for backend
-- **Integrate incrementally** (week 8 onwards) — test one feature at a time
-- **Ask for help early** — if backend endpoint not matching spec, escalate Monday
-- **Document your API calls** — write comments showing expected response shape
-- **Test extensively** — this is the face of the app!
+- **Start messaging backend early** (Week 2) — don't wait for other teams
+- **Coordinate with Team A** on React project setup
+- **Keep design system simple** — colors, fonts, and basic components only
+- **Test frequently** — especially polling and real-time updates
+- **Help other teams integrate** — review their frontend code and suggest UI improvements

@@ -1,9 +1,17 @@
 # Team D: Meetings Workflow
 
-**Feature:** Meeting CRUD, datetime scheduling, locations/Zoom links, listing  
-**Estimated Hours:** 25–30  
+## Time Log
+
+| Date       | Hours Worked | Description of Work                  |
+|------------|--------------|--------------------------------------|
+| YYYY-MM-DD | X            | Brief description of tasks completed |
+
+---
+
+**Feature:** Meeting CRUD, datetime scheduling, locations/Zoom links, listing (Backend + Frontend)  
+**Estimated Hours:** 30–35  
 **Team Size:** 1 person  
-**Timeline:** Weeks 1–7 (core), Weeks 8–11 (refinement & integration)
+**Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
 
 ---
 
@@ -345,32 +353,127 @@ class MeetingTestCase(TestCase):
 
 ---
 
-## Weeks 8–9: Polish & API Docs (Mar 3–16)
+## Weeks 8–9: React Frontend Development (Mar 3–16)
 
 ### Prerequisites
-- All features complete and tested
+- Backend meeting endpoints complete and tested
+- Group context available from Team B
+- React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-1. **Add drf-spectacular**
-   - [ ] Install package
-   - [ ] Add `@extend_schema()` decorators
-   - [ ] Generate Swagger docs
+- [ ] **Meeting List Page**
+  - [ ] Create `MeetingList.js` component to display all meetings
+  - [ ] Fetch meetings with `axios.get('/api/groups/{id}/meetings/')` with JWT token
+  - [ ] Display meetings in list or calendar view
+  - [ ] Add filters for upcoming vs. past meetings
+  - [ ] Add button to create new meeting
 
-2. **Code Cleanup**
-   - [ ] Remove TODOs
-   - [ ] Add docstrings
-   - [ ] Refactor messy code
+- [ ] **Create Meeting Form**
+  - [ ] Create `CreateMeeting.js` component with fields: title, description, start_time, end_time (optional), location_or_link, agenda
+  - [ ] Use datetime input for start_time and end_time
+  - [ ] Handle form submission with `axios.post('/api/groups/{id}/meetings/')`
+  - [ ] Display validation errors
 
-3. **Help Team E**
-   - [ ] Provide sample meeting data for testing
-   - [ ] Help with calendar view integration
-   - [ ] Debug any timezone/datetime issues
+- [ ] **Meeting Details/Edit Page**
+  - [ ] Create `MeetingDetails.js` component to display full meeting info
+  - [ ] Fetch meeting data with `axios.get('/api/groups/{id}/meetings/{meeting_id}/')`
+  - [ ] Display title, description, start/end time, location/Zoom link, agenda, creator
+  - [ ] Add edit mode to update meeting fields
+  - [ ] Handle update with `axios.put('/api/groups/{id}/meetings/{meeting_id}/')`
+  - [ ] Add delete button (creator/owner only)
+
+- [ ] **Calendar View Component (Optional)**
+  - [ ] Create `Calendar.js` component using a library like `react-calendar` or build simple month view
+  - [ ] Display meetings on their scheduled dates
+  - [ ] Click date to see all meetings on that day
+  - [ ] Highlight today and upcoming meetings
+
+- [ ] **Meeting Card Component**
+  - [ ] Create reusable `MeetingCard.js` component for displaying meeting summary
+  - [ ] Show title, start time, location, and creator
+  - [ ] Add "Join" button for Zoom links
+
+### Code Example
+
+```javascript
+// src/pages/MeetingList.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, Link } from 'react-router-dom';
+
+function MeetingList() {
+  const { groupId } = useParams();
+  const [meetings, setMeetings] = useState([]);
+  const [filter, setFilter] = useState('all'); // 'all', 'upcoming', 'past'
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        let url = `http://localhost:8000/api/groups/${groupId}/meetings/`;
+        
+        if (filter === 'upcoming') {
+          url += '?upcoming=true';
+        } else if (filter === 'past') {
+          url += '?past=true';
+        }
+        
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setMeetings(response.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMeetings();
+  }, [groupId, filter]);
+
+  if (loading) return <p>Loading meetings...</p>;
+
+  return (
+    <div>
+      <h2>Meetings</h2>
+      <Link to={`/groups/${groupId}/meetings/create`}>Schedule Meeting</Link>
+      
+      <div>
+        <button onClick={() => setFilter('all')}>All</button>
+        <button onClick={() => setFilter('upcoming')}>Upcoming</button>
+        <button onClick={() => setFilter('past')}>Past</button>
+      </div>
+      
+      {meetings.map(meeting => (
+        <div key={meeting.id} className="meeting-card">
+          <Link to={`/groups/${groupId}/meetings/${meeting.id}`}>
+            <h3>{meeting.title}</h3>
+          </Link>
+          <p>{new Date(meeting.start_time).toLocaleString()}</p>
+          <p>{meeting.location_or_link}</p>
+          <p>By: {meeting.created_by.username}</p>
+          {meeting.location_or_link.startsWith('http') && (
+            <a href={meeting.location_or_link} target="_blank" rel="noopener noreferrer">
+              Join Meeting
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default MeetingList;
+```
 
 ### Deliverables by End of Week 9
-- [ ] drf-spectacular integrated
-- [ ] All endpoints documented
-- [ ] Code cleaned up
-- [ ] No outstanding bugs
+- [ ] Meeting list page with filtering
+- [ ] Create meeting form functional
+- [ ] Meeting details/edit page complete
+- [ ] Calendar view (optional)
+- [ ] Delete meeting functionality (with permission checks)
+- [ ] Join meeting links working
 
 ---
 
