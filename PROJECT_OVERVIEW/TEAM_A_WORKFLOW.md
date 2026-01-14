@@ -4,7 +4,8 @@
 
 | Date       | Hours Worked | Description of Work                  |
 |------------|--------------|--------------------------------------|
-| YYYY-MM-DD | X            | Brief description of tasks completed |
+| 2026-01-12 | 1            | Project setup                        |
+| 2026-01-13 | 1.5          | Project setup and roles documents    |
 
 ---
 
