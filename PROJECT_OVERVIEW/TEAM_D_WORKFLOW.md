@@ -37,8 +37,8 @@
    - [ ] Plan how Meeting will reference Group, created_by, etc.
 
 4. **Create `meetings` app**
-   - [ ] `python manage.py startapp meetings`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+   - [x] `python manage.py startapp meetings`
+   - [x] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan Meeting structure**
    - [ ] Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda

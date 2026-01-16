@@ -5,7 +5,6 @@ class Meeting(models.Model):
     date = models.DateField()
     
     # This stores the hours
-    # max_digits=5 means the total number of digits; decimal_places=2 means two after the dot.
     hours_worked = models.DecimalField(max_digits=5, decimal_places=2)
     
     # This stores the text description of the work.
