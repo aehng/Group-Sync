@@ -24,10 +24,10 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [x ] Clone/pull Team A's repository
-   - [ x] Create virtual environment
-   - [ x] Install dependencies from `requirements.txt`
-   - [ x] Verify Djandego runs locally
+   - [x] Clone/pull Team A's repository
+   - [x] Create virtual environment
+   - [x] Install dependencies from `requirements.txt`
+   - [x] Verify Djandego runs locally
 
 2. **Git branch setup**
    - [ x] Create branches: `develop`, `feature/tasks`
