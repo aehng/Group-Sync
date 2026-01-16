@@ -30,8 +30,8 @@
    - [x] Verify Djandego runs locally
 
 2. **Git branch setup**
-   - [ x] Create branches: `develop`, `feature/tasks`
-   - [ ] Work on `feature/tasks` for all task-related features
+   - [x] Create branches: `develop`, `feature/tasks`
+   - [x] Work on `feature/tasks` for all task-related features
 
 3. **Understand dependencies**
    - [ ] Review Team A's User model structure
