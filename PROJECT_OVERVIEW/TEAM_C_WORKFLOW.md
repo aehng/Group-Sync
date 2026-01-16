@@ -43,9 +43,9 @@
    - [x] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan Task workflow**
-   - [ ] Sketch out Task statuses: `todo`, `doing`, `done`
-   - [ ] Plan fields: title, description, due_date, assigned_to, status, group_id, created_by
-   - [ ] Decide: can unassigned tasks exist? (yes for MVP)
+   - [x] Sketch out Task statuses: `todo`, `doing`, `done`
+   - [x] Plan fields: title, description, due_date, assigned_to, status, group_id, created_by
+   - [x] Decide: can unassigned tasks exist? (yes for MVP)
    - [ ] Share design with teams for feedback
 
 ### Deliverables by End of Week 1
