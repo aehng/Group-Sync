@@ -24,13 +24,13 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [ ] Clone/pull Team A's repository
-   - [ ] Create virtual environment
-   - [ ] Install dependencies from `requirements.txt`
-   - [ ] Verify Django runs locally
+   - [x ] Clone/pull Team A's repository
+   - [ x] Create virtual environment
+   - [ x] Install dependencies from `requirements.txt`
+   - [ x] Verify Djandego runs locally
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/tasks`
+   - [ x] Create branches: `develop`, `feature/tasks`
    - [ ] Work on `feature/tasks` for all task-related features
 
 3. **Understand dependencies**
