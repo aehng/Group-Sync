@@ -22,14 +22,14 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [ ] Clone/pull Team A's repository
-   - [ ] Create virtual environment
-   - [ ] Install dependencies from `requirements.txt`
-   - [ ] Verify Django runs locally
+   - [x] Clone/pull Team A's repository
+   - [x] Create virtual environment
+   - [x] Install dependencies from `requirements.txt`
+   - [x] Verify Django runs locally
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/meetings`
-   - [ ] Work on `feature/meetings` for all meeting-related features
+   - [x] Create branches: `develop`, `feature/meetings`
+   - [x] Work on `feature/meetings` for all meeting-related features
 
 3. **Understand dependencies**
    - [ ] Review Team A's User model
