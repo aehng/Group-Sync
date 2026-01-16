@@ -28,12 +28,12 @@
    - [X] Verify Django runs locally
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/groups`
-   - [ ] Work on `feature/groups` for all group-related features
+   - [X] Create branches: `develop`, `feature/groups`
+   - [X] Work on `feature/groups` for all group-related features
 
 3. **Understand auth endpoints**
-   - [ ] Review Team A's API contract for registration/login
-   - [ ] Know that you'll use their JWT tokens to authenticate
+   - [X] Review Team A's API contract for registration/login
+   - [X] Know that you'll use their JWT tokens to authenticate
    - [ ] Plan how GroupMember will reference User model
 
 4. **Create `groups` app**
@@ -47,8 +47,8 @@
    - [ ] Share design with Team A for feedback
 
 ### Deliverables by End of Week 1
-- [ ] Development environment set up
-- [ ] `groups` app created
+- [X] Development environment set up
+- [X] `groups` app created
 - [ ] Database relationship design finalized
 - [ ] Ready to start coding
 
