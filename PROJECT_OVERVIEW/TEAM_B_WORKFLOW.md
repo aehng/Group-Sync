@@ -22,10 +22,10 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [ ] Clone/pull Team A's repository
-   - [ ] Create virtual environment
-   - [ ] Install dependencies from `requirements.txt`
-   - [ ] Verify Django runs locally
+   - [X] Clone/pull Team A's repository
+   - [X] Create virtual environment
+   - [X] Install dependencies from `requirements.txt`
+   - [X] Verify Django runs locally
 
 2. **Git branch setup**
    - [ ] Create branches: `develop`, `feature/groups`
@@ -37,8 +37,8 @@
    - [ ] Plan how GroupMember will reference User model
 
 4. **Create `groups` app**
-   - [ ] `python manage.py startapp groups`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+   - [X] `python manage.py startapp groups`
+   - [X] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan database relationships**
    - [ ] Sketch out Group ↔ User relationship
