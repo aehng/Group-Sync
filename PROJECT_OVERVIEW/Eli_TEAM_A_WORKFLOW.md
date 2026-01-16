@@ -69,9 +69,9 @@
 
 ### Your Tasks
 - [ ] **User Model**
-  - [ ] Extend Django's `AbstractUser` (or use default User model)
-  - [ ] Add custom fields if needed: `profile_picture`, `bio`, etc.
-  - [ ] Write migrations
+  - [x] Extend Django's `AbstractUser` (or use default User model)
+  - [x] Add custom fields if needed: `profile_picture`, `bio`, etc.
+  - [x] Write migrations
 
 - [ ] **Registration Endpoint**
   - [ ] `POST /api/users/register/`
