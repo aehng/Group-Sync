@@ -39,8 +39,8 @@
    - [ ] Plan how Task will reference Group, User (assigned_to), User (created_by)
 
 4. **Create `tasks` app**
-   - [ ] `python manage.py startapp tasks`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+   - [x] `python manage.py startapp tasks`
+   - [x] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan Task workflow**
    - [ ] Sketch out Task statuses: `todo`, `doing`, `done`
