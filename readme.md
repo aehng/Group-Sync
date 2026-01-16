@@ -1,5 +1,5 @@
 # GroupSync
-
+# Test
 A web app designed to help groups coordinate tasks, share updates, and manage projects collaboratively. Designed for college students working on group projects.
 
 ## Instructions for Build and Use
