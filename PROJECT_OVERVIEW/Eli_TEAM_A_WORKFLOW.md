@@ -90,15 +90,15 @@
   - [x] Token expiration: 1 hour (access), 7 days (refresh)
   - [x] Write JWT authentication middleware
 
-- [ ] **User Profile Endpoint**
-  - [ ] `GET /api/users/me/` — Get current authenticated user profile
-  - [ ] `PUT /api/users/me/` — Update profile
-  - [ ] Require JWT authentication
+- [x] **User Profile Endpoint**
+  - [x] `GET /api/users/me/` — Get current authenticated user profile
+  - [x] `PUT /api/users/me/` — Update profile
+  - [x] Require JWT authentication
 
-- [ ] **Permission Classes**
-  - [ ] Create `IsAuthenticated` decorator for protected endpoints
+- [x] **Permission Classes**
+  - [x] Create `IsAuthenticated` decorator for protected endpoints
   - [ ] Create `IsOwner` decorator for user-specific endpoints
-  - [ ] Add to all endpoints that require auth
+  - [x] Add to all endpoints that require auth
 
 - [ ] **Token Refresh Endpoint**
   - [ ] `POST /api/users/refresh/` — Refresh JWT token
