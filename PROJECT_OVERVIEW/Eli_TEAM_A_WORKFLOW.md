@@ -73,22 +73,22 @@
   - [x] Add custom fields if needed: `profile_picture`, `bio`, etc.
   - [x] Write migrations
 
-- [ ] **Registration Endpoint**
-  - [ ] `POST /api/users/register/`
-  - [ ] Accept: `username`, `email`, `password`, `password_confirm`
-  - [ ] Return: User data + token
-  - [ ] Add validation (unique username/email, password strength)
+- [x] **Registration Endpoint**
+  - [x] `POST /api/users/register/`
+  - [x] Accept: `username`, `email`, `password`, `password_confirm`
+  - [x] Return: User data + token
+  - [x] Add validation (unique username/email, password strength)
 
-- [ ] **Login Endpoint**
-  - [ ] `POST /api/users/login/`
-  - [ ] Accept: `username/email`, `password`
-  - [ ] Return: JWT token + user data
-  - [ ] Use Django's `authenticate()` function
+- [x] **Login Endpoint**
+  - [x] `POST /api/users/login/`
+  - [x] Accept: `username/email`, `password`
+  - [x] Return: JWT token + user data
+  - [x] Use Django's `authenticate()` function
 
-- [ ] **JWT Token Setup**
-  - [ ] Configure JWT in `settings.py` (use `djangorestframework-simplejwt` or `djangorestframework-jwt`)
-  - [ ] Token expiration: 1 hour (access), 7 days (refresh)
-  - [ ] Write JWT authentication middleware
+- [x] **JWT Token Setup**
+  - [x] Configure JWT in `settings.py` (use `djangorestframework-simplejwt` or `djangorestframework-jwt`)
+  - [x] Token expiration: 1 hour (access), 7 days (refresh)
+  - [x] Write JWT authentication middleware
 
 - [ ] **User Profile Endpoint**
   - [ ] `GET /api/users/me/` — Get current authenticated user profile
