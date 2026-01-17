@@ -14,7 +14,7 @@
 **Feature:** User registration, login, profiles, JWT authentication, permission system (Backend + Frontend)  
 **Estimated Hours:** 30–35  
 **Team Size:** 1 person (You)  
-**Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
+**Timeline:** Weeks 1-3 (backend auth setup), Weeks 4-5 (auth frontend using Connor's components), Weeks 6-7 (testing & polish), Weeks 8-11 (integration & deployment)
 
 ---
 
@@ -62,13 +62,13 @@
 
 ---
 
-## Weeks 2–3: Core Authentication (Jan 20–Feb 2)
+## Weeks 2–3: Core Authentication Backend (Jan 20–Feb 2)
 
 ### Prerequisites
 - Week 1 setup complete
 
 ### Your Tasks
-- [ ] **User Model**
+- [x] **User Model**
   - [x] Extend Django's `AbstractUser` (or use default User model)
   - [x] Add custom fields if needed: `profile_picture`, `bio`, etc.
   - [x] Write migrations
@@ -89,6 +89,33 @@
   - [ ] Configure JWT in `settings.py` (use `djangorestframework-simplejwt` or `djangorestframework-jwt`)
   - [ ] Token expiration: 1 hour (access), 7 days (refresh)
   - [ ] Write JWT authentication middleware
+
+- [ ] **User Profile Endpoint**
+  - [ ] `GET /api/users/me/` — Get current authenticated user profile
+  - [ ] `PUT /api/users/me/` — Update profile
+  - [ ] Require JWT authentication
+
+- [ ] **Permission Classes**
+  - [ ] Create `IsAuthenticated` decorator for protected endpoints
+  - [ ] Create `IsOwner` decorator for user-specific endpoints
+  - [ ] Add to all endpoints that require auth
+
+- [ ] **Token Refresh Endpoint**
+  - [ ] `POST /api/users/refresh/` — Refresh JWT token
+  - [ ] Accept: refresh token
+  - [ ] Return: new access token
+
+- [ ] **Logout Endpoint**
+  - [ ] `POST /api/users/logout/` — Logout user (optional, mainly for frontend)
+  - [ ] Clear/invalidate token if needed
+  - [ ] Return success message
+
+- [ ] **Backend Error Handling**
+  - [ ] Validate all input (username, email, password format)
+  - [ ] Handle duplicate username/email gracefully
+  - [ ] Return clear error messages (e.g., "Username already exists")
+  - [ ] Return proper HTTP status codes (400 for bad request, 401 for auth, 404 for not found)
+  - [ ] Log errors server-side for debugging
 
 ### Code Example
 
@@ -147,32 +174,51 @@ class LoginSerializer(serializers.Serializer):
 
 ---
 
-## Weeks 4–5: User Profiles & Permissions (Feb 3–16)
+## Weeks 4–5: Auth Frontend Pages (Feb 3–16)
 
 ### Prerequisites
-- Registration & login working
+- Registration & login backend endpoints working
+- Connor has built design system + shared components
+- React project set up
 
 ### Your Tasks
-- [ ] **User Profile Endpoint**
-  - [ ] `GET /api/users/me/` — Get current authenticated user profile
-  - [ ] `PUT /api/users/me/` — Update profile
-  - [ ] `DELETE /api/users/me/` — Delete account (careful!)
-  - [ ] Require JWT authentication
+- [ ] **Build React Auth Pages**
+  - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`
+  - [ ] Create `context/AuthContext.js` to manage authentication state globally
+  - [ ] Create `pages/Login.js` — login form using Connor's Button/Input components
+  - [ ] Create `pages/Register.js` — registration form
+  - [ ] Create `pages/Profile.js` — user profile page with edit functionality
+  - [ ] Create `components/PrivateRoute.js` — protect authenticated pages
+  - [ ] Integrate all pages with backend API endpoints
+  - [ ] Store/retrieve JWT tokens properly in localStorage
+  - [ ] Attach token to all API requests
 
-- [ ] **Permission Classes**
-  - [ ] Create `IsAuthenticated` decorator for protected endpoints
-  - [ ] Create `IsOwner` decorator for user-specific endpoints
-  - [ ] Add to all endpoints that require auth
+- [ ] **Handle JWT Token Management**
+  - [ ] Store token in localStorage on login
+  - [ ] Attach token to all API requests
+  - [ ] Handle token expiration and refresh
+  - [ ] Clear token on logout
 
-- [ ] **Token Refresh Endpoint**
-  - [ ] `POST /api/users/refresh/` — Refresh JWT token
-  - [ ] Accept: refresh token
-  - [ ] Return: new access token
+- [ ] **Build Logout Functionality**
+  - [ ] Add logout button to profile page
+  - [ ] Call `AuthContext.logout()` on click
+  - [ ] Clear localStorage
+  - [ ] Redirect to login page
 
-- [ ] **Password Reset (Optional, Nice-to-Have)**
-  - [ ] `POST /api/users/password-reset/` — Request reset link
-  - [ ] `POST /api/users/password-reset-confirm/` — Reset with token
-  - [ ] (Can defer to week 9 if time is tight)
+- [ ] **Frontend Error Handling**
+  - [ ] Display form validation errors clearly
+  - [ ] Show error messages from backend (e.g., "Username already exists")
+  - [ ] Handle network errors (connection timeouts, server errors)
+  - [ ] Display error notifications in UI (not just console logs)
+  - [ ] Provide user-friendly error messages (avoid technical jargon)
+  - [ ] Handle 401 (Unauthorized) errors — redirect to login
+  - [ ] Handle 404 (Not Found) errors — show "not found" message
+  - [ ] Handle 500 (Server Error) — show "something went wrong" message
+
+- [ ] **Test All Auth Flows**
+  - [ ] Test register → login → profile → logout flow
+  - [ ] Test JWT token storage and retrieval
+  - [ ] Test protected routes redirect correctly
 
 ### Code Example
 
@@ -216,18 +262,36 @@ class UserProfileView(APIView):
 
 ---
 
-## Weeks 6–7: Testing & Integration (Feb 17–Mar 2)
+## Weeks 6–7: Auth Testing, Polish & Integration (Feb 17–Mar 2)
 
 ### Prerequisites
-- All auth endpoints working
-- Team B, C, D building with mock auth
+- All auth backend endpoints working
+- All auth frontend pages complete
+- Team B, C, D have working endpoints
 
 ### Your Tasks
-- [ ] **Unit Tests**
-  - [ ] Write tests for registration, login, profile endpoints
+- [ ] **Auth Backend Testing**
+  - [ ] Write unit tests for registration, login, profile endpoints
   - [ ] Test JWT token generation and validation
   - [ ] Test permission decorators
+  - [ ] Test error handling (duplicate username, invalid password, missing fields)
+  - [ ] Test 400/401/404 status codes returned correctly
   - [ ] Aim for 80%+ code coverage
+
+- [ ] **Auth Frontend Testing**
+  - [ ] Test complete auth flow (register → login → view profile → logout)
+  - [ ] Test error handling and validation messages displayed
+  - [ ] Test network error scenarios (connection timeout, server error)
+  - [ ] Test error messages are user-friendly and helpful
+  - [ ] Test on multiple browsers
+  - [ ] Test responsive design on mobile
+
+- [ ] **Polish Auth Pages**
+  - [ ] Add loading states to auth pages
+  - [ ] Add proper error notifications
+  - [ ] Improve form validation messages
+  - [ ] Ensure consistent styling with Connor's design system
+  - [ ] Test accessibility
 
 - [ ] **Integration Testing**
   - [ ] Verify Team B, C, D can authenticate successfully
@@ -237,152 +301,52 @@ class UserProfileView(APIView):
 - [ ] **Documentation**
   - [ ] Write docstrings for all auth endpoints
   - [ ] Document API contract for others (request/response examples)
-  - [ ] Prepare for drf-spectacular integration
-
-- [ ] **Bug Fixes & Polish**
-  - [ ] Fix any auth issues found during integration
-  - [ ] Add email verification (optional, nice-to-have)
-  - [ ] Ensure error messages are clear
-
-### Test Example
-
-```python
-# users/tests.py
-from django.test import TestCase
-from rest_framework.test import APIClient
-from .models import User
-
-class RegisterTestCase(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-    
-    def test_register_success(self):
-        response = self.client.post('/api/users/register/', {
-            'username': 'testuser',
-            'email': 'test@example.com',
-            'password': 'testpass123',
-            'password_confirm': 'testpass123'
-        })
-        self.assertEqual(response.status_code, 201)
-        self.assertIn('token', response.data)
-    
-    def test_login_success(self):
-        User.objects.create_user(username='testuser', password='testpass123')
-        response = self.client.post('/api/users/login/', {
-            'username': 'testuser',
-            'password': 'testpass123'
-        })
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('token', response.data)
-```
+  - [ ] Create setup guide for other frontend devs
+  - [ ] Document how to use AuthContext
 
 ### Deliverables by End of Week 7
-- [ ] Unit tests written and passing
+- [ ] Auth backend fully tested with unit tests
+- [ ] Login/Register/Profile pages fully functional and polished
+- [ ] Auth context managing state properly
+- [ ] Protected routes working correctly
+- [ ] JWT token handling complete and secure
 - [ ] Integration testing with Team B, C, D complete
-- [ ] API documentation ready
-- [ ] All bugs fixed
+- [ ] API documentation complete
+- [ ] All bugs fixed and code reviewed
 
 ---
 
-## Weeks 8–9: React Frontend Development (Mar 3–16)
+## Weeks 8–9: Integration & Team Support (Mar 3–16)
 
 ### Prerequisites
-- Backend auth endpoints complete and tested
-- React project set up (coordinate with Team E for shared components)
+- Auth backend endpoints complete and tested
+- Auth frontend pages complete and tested
+- Team B, C, D have working endpoints
 
 ### Your Tasks
-- [ ] **Login Page**
-  - [ ] Create `Login.js` component with username/email and password fields
-  - [ ] Handle form submission with `axios.post('/api/users/login/')`
-  - [ ] Store JWT token in localStorage
-  - [ ] Redirect to dashboard on successful login
-  - [ ] Display error messages for invalid credentials
+- [ ] **Help Other Teams Integrate**
+  - [ ] Review Team B's (Groups) implementation
+  - [ ] Review Team C's (Tasks) implementation  
+  - [ ] Review Team D's (Meetings) implementation
+  - [ ] Ensure all teams are using JWT correctly
+  - [ ] Help debug auth-related issues
 
-- [ ] **Registration Page**
-  - [ ] Create `Register.js` component with username, email, password, password_confirm fields
-  - [ ] Handle form submission with `axios.post('/api/users/register/')`
-  - [ ] Store JWT token in localStorage
-  - [ ] Redirect to dashboard on successful registration
-  - [ ] Display validation errors
+- [ ] **Full App Integration Testing**
+  - [ ] Test complete user journey across all features
+  - [ ] Test all team endpoints with your auth system
+  - [ ] Verify data integrity across teams
 
-- [ ] **User Profile Page**
-  - [ ] Create `Profile.js` component to display user info
-  - [ ] Fetch user data with `axios.get('/api/users/me/')` with JWT token in header
-  - [ ] Allow editing profile (username, email, bio, profile picture)
-  - [ ] Handle profile update with `axios.put('/api/users/me/')`
-  - [ ] Add logout button (clear localStorage and redirect to login)
-
-- [ ] **Auth Context/Provider**
-  - [ ] Create `AuthContext.js` to manage authentication state globally
-  - [ ] Provide `login()`, `logout()`, `register()` functions
-  - [ ] Provide `isAuthenticated`, `currentUser` state
-  - [ ] Wrap app in AuthProvider
-
-- [ ] **Protected Routes**
-  - [ ] Create `PrivateRoute.js` component to protect authenticated pages
-  - [ ] Redirect to login if not authenticated
-
-### Code Example
-
-```javascript
-// src/pages/Login.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/users/login/', {
-        username,
-        password
-      });
-      localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Invalid credentials');
-    }
-  };
-
-  return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p>{error}</p>}
-    </div>
-  );
-}
-
-export default Login;
-```
+- [ ] **Final Auth Polish**
+  - [ ] Handle edge cases and error scenarios
+  - [ ] Optimize performance
+  - [ ] Final security review
 
 ### Deliverables by End of Week 9
-- [ ] Login page complete and functional
-- [ ] Registration page complete and functional
-- [ ] User profile page complete with edit functionality
-- [ ] Auth context implemented
-- [ ] Protected routes working
-- [ ] JWT tokens stored and used correctly
+- [ ] All auth features integrated with other team endpoints
+- [ ] All auth pages polished and fully tested
+- [ ] Other teams successfully using your auth system
+- [ ] No auth-related bugs or issues
+- [ ] Complete documentation for auth system
 
 ---
 

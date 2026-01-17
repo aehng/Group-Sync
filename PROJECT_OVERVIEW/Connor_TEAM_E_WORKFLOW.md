@@ -11,7 +11,9 @@
 **Feature:** Message board with polling (Backend + Frontend), UI/UX design, responsive styling, consistent layout, dashboard navigation  
 **Estimated Hours:** 30–35  
 **Team Size:** 1 person  
-**Timeline:** Weeks 1–7 (messaging backend + UI/UX foundation), Weeks 8–11 (integration & final polish)
+**Timeline:** Weeks 1-3 (messaging backend), Weeks 4-5 (design system + message board UI), Weeks 6-7 (polish + integration), Weeks 8–11 (final integration & deployment)
+
+**Note:** Team A (Eli) handles authentication backend (Weeks 2-5) and frontend pages (Weeks 4-5). You focus on messaging backend first, then design system. This gives you realistic time to build both properly.
 
 ---
 
@@ -23,37 +25,38 @@
 
 ### Your Tasks
 1. **Set up React project**
-   - [ ] If not already created: `npx create-react-app groupsync-frontend`
-   - [ ] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
-   - [ ] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
+   - [x] If not already created: `npx create-react-app groupsync-frontend`
+   - [x] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
+   - [x] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/messaging`, `feature/ui-polish`
-   - [ ] Work on `feature/messaging` for messaging backend + frontend
-   - [ ] Work on `feature/ui-polish` for UI improvements
+   - [x] Create branches: `develop`, `feature/messaging`, `feature/ui-polish`
+   - [x] Work on `feature/messaging` for messaging backend + frontend
+   - [x] Work on `feature/ui-polish` for UI improvements
 
 3. **Review API Contracts**
-   - [ ] Read API endpoint specifications from Teams A–D
-   - [ ] Note all request/response schemas
-   - [ ] Understand how other teams' components should be structured
+   - [x] Read API endpoint specifications from Teams A–D
+   - [x] Note all request/response schemas
+   - [x] Understand how other teams' components should be structured
 
 4. **Define Design System** (Basic)
-   - [ ] Choose simple color palette (primary, secondary, accent, error, success)
-   - [ ] Choose fonts (heading, body)
-   - [ ] Create basic CSS variables in `styles/theme.css`
-   - [ ] Design 2-3 button styles and input field styles
-   - [ ] Share with team for feedback
+   - [x] Choose simple color palette (primary, secondary, accent, error, success)
+   - [x] Choose fonts (heading, body)
+   - [x] Create basic CSS variables in `styles/theme.css`
+   - [x] Design 2-3 button styles and input field styles
+   - [x] Create shared Button, Input, Card components
+   - [x] Share with team for feedback
 
 5. **Plan Messaging Feature**
-   - [ ] Design Message model for backend
-   - [ ] Plan polling strategy (3-second interval initially)
-   - [ ] Sketch message board UI layout
+   - [x] Design Message model for backend
+   - [x] Plan polling strategy (3-second interval initially)
+   - [x] Sketch message board UI layout
 
 ### Deliverables by End of Week 1
-- [ ] React project set up
-- [ ] Basic design system (colors, fonts, basic components)
-- [ ] Messaging feature planned
-- [ ] Ready to start backend and frontend work
+- [x] React project set up and running
+- [x] Basic design system and shared components created
+- [x] Messaging feature planned
+- [x] Ready to start messaging backend work
 
 ---
 
@@ -115,7 +118,140 @@ class Message(models.Model):
 
 ---
 
-## Weeks 4–5: Message Endpoints & Frontend Setup (Feb 3–16)
+### Prerequisites
+- React project set up
+- Team A's User model and auth understood
+- Team B's Group model understood
+
+### Your Tasks
+1. **Create `messages` App**
+   - [ ] `python manage.py startapp messages`
+   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+
+2. **Message Model**
+   - [ ] Create Message model with fields: `id`, `group` (FK to Group), `author` (FK to User), `text`, `created_at`
+   - [ ] Write migration
+
+3. **Message Serializers**
+   - [ ] Create `MessageSerializer` for CRUD operations
+   - [ ] Include nested User info (username) for author
+   - [ ] Include nested Group info
+
+4. **Message Endpoints**
+   - [ ] `GET /api/groups/{id}/messages/` — List messages for a group (ordered by created_at)
+   - [ ] `POST /api/groups/{id}/messages/` — Create new message
+   - [ ] Add pagination (last 50 messages)
+   - [ ] Require JWT authentication
+
+### Code Example
+
+```python
+# messages/models.py
+from django.db import models
+from django.contrib.auth import get_user_model
+from groups.models import Group
+
+User = get_user_model()
+
+class Message(models.Model):
+    id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='messages')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.author.username}: {self.text[:50]}"
+    
+    class Meta:
+        ordering = ['-created_at']
+```
+
+### Deliverables by End of Week 3
+- [ ] Message model created with migrations
+- [ ] Message serializer written
+- [ ] Message endpoints ready for implementation
+
+---
+
+## Weeks 4–5: Design System + Message Board Frontend (Feb 3–16)
+
+### Prerequisites
+- Message backend partially implemented
+- React project ready
+
+### Your Tasks (Frontend - Priority)
+1. **Define Design System** (Create for all teams to use)
+   - [ ] Choose simple color palette (primary, secondary, accent, error, success)
+   - [ ] Choose fonts (heading, body)
+   - [ ] Create CSS variables in `styles/theme.css`
+   - [ ] Design 2-3 button styles and input field styles
+
+2. **Build Shared Components** (For Team A and other teams to use)
+   - [ ] Create simple `Button.js` component with variants
+   - [ ] Create `Input.js` component with validation states
+   - [ ] Create `Card.js` component
+   - [ ] Create `Loading.js` spinner
+   - [ ] Create `Error.js` error message
+   - [ ] Create `Success.js` success notification
+   - [ ] Export all from `/src/components/shared/index.js`
+   - [ ] Document component props and usage
+
+3. **Message Board Frontend**
+   - [ ] Create `MessageBoard.js` component
+   - [ ] Fetch messages from backend API (with JWT)
+   - [ ] Display messages in chat-like format
+   - [ ] Auto-scroll to latest message
+   - [ ] Add text area and Send button
+   - [ ] Handle form submission (POST to `/api/groups/{id}/messages/`)
+   - [ ] Clear input after send
+
+### Your Tasks (Backend - Secondary)
+1. **Build Message Endpoints**
+   - [ ] Implement `GET /api/groups/{id}/messages/` endpoint with pagination
+   - [ ] Implement `POST /api/groups/{id}/messages/` endpoint
+   - [ ] Permission checks (only group members)
+
+2. **Unit Tests**
+   - [ ] Test message creation and retrieval
+   - [ ] Test permission enforcement
+   - [ ] Aim for 80%+ coverage
+
+### Code Example (Shared Components)
+
+```javascript
+// src/components/shared/Button.js
+function Button({ children, onClick, variant = 'primary', disabled = false }) {
+  return (
+    <button className={`btn btn-${variant}`} onClick={onClick} disabled={disabled}>
+      {children}
+    </button>
+  );
+}
+
+// src/components/shared/Input.js
+function Input({ type = 'text', placeholder, value, onChange, error = false }) {
+  return (
+    <input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className={`input ${error ? 'input-error' : ''}`}
+    />
+  );
+}
+```
+
+### Deliverables by End of Week 5
+- [ ] Complete design system (colors, fonts, CSS variables)
+- [ ] All shared components built and documented
+- [ ] Shared components exported from `/src/components/shared/index.js`
+- [ ] Message endpoints implemented and tested
+- [ ] Message board component integrated with API
+- [ ] Design system shared with all teams
+
+---
 
 ### Prerequisites
 - Message model created
@@ -138,12 +274,23 @@ class Message(models.Model):
    - [ ] Create `Navigation` component (sidebar/navbar)
    - [ ] Create `Dashboard` page (shows user's groups via mock data)
    - [ ] Create `GroupWorkspace` page with tab switching
+   - [ ] Import and use Team A's Login/Register pages (they build these)
 
-2. **Set Up Shared Components** (Basic)
-   - [ ] Create simple `Button.js` component
-   - [ ] Create `Input.js` component
-   - [ ] Create `Card.js` component
-   - [ ] Apply design system colors/fonts
+2. **Set Up Shared Components** (Core responsibility)
+   - [ ] Create simple `Button.js` component with variants (primary, secondary, danger)
+   - [ ] Create `Input.js` component with validation states
+   - [ ] Create `Card.js` component for content containers
+   - [ ] Create `Loading.js` spinner component
+   - [ ] Create `Error.js` error message component
+   - [ ] Create `Success.js` success notification component
+   - [ ] Apply design system colors/fonts to all
+   - [ ] **Document component props and usage for all teams**
+   - [ ] Export all from `/src/components/shared/index.js`
+
+3. **Coordinate with Team A**
+   - [ ] Share the shared components with Team A
+   - [ ] Team A will use these for login/register/profile pages
+   - [ ] Ensure consistency across auth and messaging features
 
 ### Code Example (Frontend Structure)
 
@@ -153,20 +300,88 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import GroupWorkspace from './pages/GroupWorkspace';
+import Login from './pages/Login'; // From Team A
+import Register from './pages/Register'; // From Team A
+import Profile from './pages/Profile'; // From Team A
+import PrivateRoute from './components/PrivateRoute'; // From Team A
 
 function App() {
   return (
     <Router>
       <Navigation />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/groups/:groupId" element={<GroupWorkspace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<PrivateRoute element={<Dashboard />} />} />
+        <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+        <Route path="/groups/:groupId" element={<PrivateRoute element={<GroupWorkspace />} />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+```
+
+```javascript
+// src/components/shared/Button.js
+import React from 'react';
+import '../styles/Button.css';
+
+function Button({ children, onClick, variant = 'primary', disabled = false, type = 'button' }) {
+  return (
+    <button 
+      className={`btn btn-${variant}`} 
+      onClick={onClick} 
+      disabled={disabled}
+      type={type}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default Button;
+```
+
+```javascript
+// src/components/shared/Input.js
+import React from 'react';
+import '../styles/Input.css';
+
+function Input({ 
+  type = 'text', 
+  placeholder, 
+  value, 
+  onChange, 
+  error = false,
+  helperText = ''
+}) {
+  return (
+    <div className="input-container">
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className={`input ${error ? 'input-error' : ''}`}
+      />
+      {helperText && <small className={`helper-text ${error ? 'error' : ''}`}>{helperText}</small>}
+    </div>
+  );
+}
+
+export default Input;
+```
+
+```javascript
+// src/components/shared/index.js
+export { default as Button } from './Button';
+export { default as Input } from './Input';
+export { default as Card } from './Card';
+export { default as Loading } from './Loading';
+export { default as Error } from './Error';
+export { default as Success } from './Success';
 ```
 
 ### Deliverables by End of Week 5
