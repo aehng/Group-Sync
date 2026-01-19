@@ -97,7 +97,7 @@
 
 - [x] **Permission Classes**
   - [x] Create `IsAuthenticated` decorator for protected endpoints
-  - [ ] Create `IsOwner` decorator for user-specific endpoints
+  - [x] Create `IsOwner` decorator for user-specific endpoints
   - [x] Add to all endpoints that require auth
 
 - [ ] **Token Refresh Endpoint**
