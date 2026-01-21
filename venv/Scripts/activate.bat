@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set "VIRTUAL_ENV=C:\Users\Emiliano Medina\Desktop\applied\Team-Project\venv"
+=======
+set VIRTUAL_ENV=C:\Users\elijk\Documents\CSE310\TeamProject\venv
+>>>>>>> a9266968139b252ef10edb175d5a77a940203dc9
 
 if not defined PROMPT set PROMPT=$P$G
 

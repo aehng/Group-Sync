@@ -7,6 +7,7 @@ __pycache__/
 dist/
 build/
 *.pyc
+*.pyo
 
 # Virtual Environment
 venv/
@@ -21,6 +22,8 @@ db.sqlite3-journal
 /media
 /staticfiles
 /static
+settings.py
+requirements.txt
 
 # Environment Variables (IMPORTANT - keeps secrets safe!)
 .env

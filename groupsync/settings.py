@@ -37,10 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # third-party apps
     'rest_framework',
+<<<<<<< HEAD
     'drf_spectacular',
     'users',
     'groups'
+=======
+    'rest_framework_simplejwt',
+
+    # our apps
+    'users'
+
+>>>>>>> a9266968139b252ef10edb175d5a77a940203dc9
 ]
 
 MIDDLEWARE = [
@@ -84,6 +94,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -127,15 +138,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
+# REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+        'rest_framework.permissions.AllowAny',
+    )
 }
 
 # JWT Token Settings
@@ -144,9 +154,14 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'Auth_HEADER_TYPES': ('Bearer',),
+    'User_ID_FIELD': 'id',
+    'User_ID_CLAIM': 'user_id',
 }
+
+
 
 # CORS Settings (needed for React frontend)
 CORS_ALLOWED_ORIGINS = [
