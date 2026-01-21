@@ -1,7 +1,7 @@
 from django.db import models
 
 class Meeting(models.Model):
-    
+
     date = models.DateField() #store date.
     
     hours_worked = models.DecimalField(max_digits=5, decimal_places=2) #stores hours
