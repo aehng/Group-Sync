@@ -11,7 +11,8 @@
 |------------|--------------|----------------------------------------|
 | 2026-01-14 | 1            | Set up venv by following the readme.md |
 | 2026-01-16 | 1            | Set up frontend React and Django.      |
-| 2026-01-20 |              |                                        |  
+| 2026-01-20 | 2            |                                        |
+| 2026-01-21 |              |                                        |  
 >>>>>>> Stashed changes:PROJECT_OVERVIEW/TEAM_E_WORKFLOW.md
 
 ---
