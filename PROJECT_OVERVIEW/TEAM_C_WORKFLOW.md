@@ -34,9 +34,9 @@
    - [x] Work on `feature/tasks` for all task-related features
 
 3. **Understand dependencies**
-   - [ ] Review Team A's User model structure
-   - [ ] Review Team B's Group/GroupMember models
-   - [ ] Plan how Task will reference Group, User (assigned_to), User (created_by)
+   - [x] Review Team A's User model structure
+   - [x] Review Team B's Group/GroupMember models
+   - [x] Plan how Task will reference Group, User (assigned_to), User (created_by)
 
 4. **Create `tasks` app**
    - [x] `python manage.py startapp tasks`
@@ -46,13 +46,13 @@
    - [x] Sketch out Task statuses: `todo`, `doing`, `done`
    - [x] Plan fields: title, description, due_date, assigned_to, status, group_id, created_by
    - [x] Decide: can unassigned tasks exist? (yes for MVP)
-   - [ ] Share design with teams for feedback
+   - [x] Share design with teams for feedback
 
 ### Deliverables by End of Week 1
-- [ ] Development environment set up
-- [ ] `tasks` app created
-- [ ] Task model design finalized
-- [ ] Ready to start coding
+- [x] Development environment set up
+- [x] `tasks` app created
+- [x] Task model design finalized
+- [x] Ready to start coding
 
 ---
 
@@ -65,15 +65,15 @@
 
 ### Your Tasks
 1. **Task Model**
-   - [ ] Fields: `id`, `group` (FK to Group), `title`, `description`, `status`, `due_date`, `assigned_to` (FK to User, nullable), `created_by` (FK to User), `created_at`, `updated_at`
-   - [ ] Status choices: `todo`, `doing`, `done`
-   - [ ] Validators: title not empty (max 200 chars), description (max 2000 chars)
-   - [ ] Write migration
+   - [x] Fields: `id`, `group` (FK to Group), `title`, `description`, `status`, `due_date`, `assigned_to` (FK to User, nullable), `created_by` (FK to User), `created_at`, `updated_at`
+   - [x] Status choices: `todo`, `doing`, `done`
+   - [x] Validators: title not empty (max 200 chars), description (max 2000 chars)
+   - [x] Write migration
 
 2. **Serializers**
-   - [ ] `TaskSerializer` for CRUD operations
-   - [ ] Include nested User info (username, email) for assigned_to and created_by
-   - [ ] Include nested Group info
+   - [x] `TaskSerializer` for CRUD operations
+   - [x] Include nested User info (username, email) for assigned_to and created_by
+   - [x] Include nested Group info
 
 ### Code Example
 
