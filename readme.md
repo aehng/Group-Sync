@@ -6,10 +6,18 @@ A web app designed to help groups coordinate tasks, share updates, and manage pr
 
 Steps to build and/or run the software:
 
+**Backend Setup:**
 1. Clone the repository from GitHub
 2. Create and activate a virtual environment: `python -m venv venv` and `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Mac/Linux)
 3. Install dependencies using `pip install -r requirements.txt`
-4. Start server with `python manage.py runserver` (if not deployed)
+4. Start server with `python manage.py runserver` (port 8000)
+
+**Frontend Setup:**
+5. Navigate to the React frontend: `cd groupsync-frontend`
+6. Install dependencies using `npm install`
+7. Start React dev server with `npm start` (port 3000)
+
+**Note:** Both servers need to run simultaneously for full functionality
 
 Instructions for using the software:
 
@@ -23,8 +31,17 @@ TODO: Add more detailed usage instructions as needed
 To recreate the development environment, you need the following software and/or libraries with the specified versions:
 
 * Python 3.10+
+* Node.js 18+ (for React frontend)
 * Django 4.2+
 * Django REST Framework
+
+**To install Node.js on Windows:**
+```
+winget install OpenJS.NodeJS
+```
+
+Then restart your terminal for PATH changes to take effect.
+
 TODO: Add other dependencies as needed
 
 ## Useful Websites to Learn More
