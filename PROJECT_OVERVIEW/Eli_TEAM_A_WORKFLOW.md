@@ -105,17 +105,17 @@
   - [ ] Accept: refresh token
   - [ ] Return: new access token
 
-- [ ] **Logout Endpoint**
-  - [ ] `POST /api/users/logout/` — Logout user (optional, mainly for frontend)
-  - [ ] Clear/invalidate token if needed
-  - [ ] Return success message
+- [x] **Logout Endpoint**
+  - [x] `POST /api/users/logout/` — Logout user (optional, mainly for frontend)
+  - [x] Clear/invalidate token if needed
+  - [x] Return success message
 
-- [ ] **Backend Error Handling**
-  - [ ] Validate all input (username, email, password format)
-  - [ ] Handle duplicate username/email gracefully
-  - [ ] Return clear error messages (e.g., "Username already exists")
-  - [ ] Return proper HTTP status codes (400 for bad request, 401 for auth, 404 for not found)
-  - [ ] Log errors server-side for debugging
+- [x] **Backend Error Handling**
+  - [x] Validate all input (username, email, password format)
+  - [x] Handle duplicate username/email gracefully
+  - [x] Return clear error messages (e.g., "Username already exists")
+  - [x] Return proper HTTP status codes (400 for bad request, 401 for auth, 404 for not found)
+  - [x] Log errors server-side for debugging
 
 ### Code Example
 
