@@ -32,8 +32,8 @@
    - [x] Work on `feature/meetings` for all meeting-related features
 
 3. **Understand dependencies**
-   - [ ] Review Team A's User model
-   - [ ] Review Team B's Group/GroupMember models
+   - [x] Review Team A's User model
+   - [x] Review Team B's Group/GroupMember models
    - [ ] Plan how Meeting will reference Group, created_by, etc.
 
 4. **Create `meetings` app**
@@ -47,10 +47,10 @@
    - [ ] Share design with teams
 
 ### Deliverables by End of Week 1
-- [ ] Development environment set up
-- [ ] `meetings` app created
-- [ ] Meeting model design finalized
-- [ ] Ready to start coding
+- [x] Development environment set up
+- [x] `meetings` app created
+- [x] Meeting model design finalized
+- [x] Ready to start coding
 
 ---
 
