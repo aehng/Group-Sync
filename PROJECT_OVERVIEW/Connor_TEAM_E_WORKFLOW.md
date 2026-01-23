@@ -2,17 +2,13 @@
 
 ## Time Log
 
-<<<<<<< Updated upstream:PROJECT_OVERVIEW/Connor_TEAM_E_WORKFLOW.md
-| Date       | Hours Worked | Description of Work                  |
-|------------|--------------|--------------------------------------|
-| YYYY-MM-DD | X            | Brief description of tasks completed |
-=======
 | Date       | Hours Worked | Description of Work                    |
 |------------|--------------|----------------------------------------|
 | 2026-01-14 | 1            | Set up venv by following the readme.md |
 | 2026-01-16 | 1            | Set up frontend React and Django.      |
-| 2026-01-20 |              |                                        |  
->>>>>>> Stashed changes:PROJECT_OVERVIEW/TEAM_E_WORKFLOW.md
+| 2026-01-20 | 2            | Fixing venv and resolving git issues.  |
+| 2026-01-21 | 1            | Resolving more git issues.             | 
+| 2026-01-23 | 1            |                                        |
 
 ---
 
@@ -33,15 +29,9 @@
 
 ### Your Tasks
 1. **Set up React project**
-<<<<<<< Updated upstream:PROJECT_OVERVIEW/Connor_TEAM_E_WORKFLOW.md
    - [x] If not already created: `npx create-react-app groupsync-frontend`
    - [x] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
    - [x] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
-=======
-   - [X] If not already created: `npx create-react-app groupsync-frontend`
-   - [X] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
-   - [X] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
->>>>>>> Stashed changes:PROJECT_OVERVIEW/TEAM_E_WORKFLOW.md
 
 2. **Git branch setup**
    - [x] Create branches: `develop`, `feature/messaging`, `feature/ui-polish`

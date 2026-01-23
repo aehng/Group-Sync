@@ -40,17 +40,13 @@ INSTALLED_APPS = [
 
     # third-party apps
     'rest_framework',
-<<<<<<< HEAD
     'drf_spectacular',
-    'users',
-    'groups'
-=======
     'rest_framework_simplejwt',
 
     # our apps
-    'users'
-
->>>>>>> a9266968139b252ef10edb175d5a77a940203dc9
+    'users',
+    'groups',
+    'messaging',
 ]
 
 MIDDLEWARE = [
