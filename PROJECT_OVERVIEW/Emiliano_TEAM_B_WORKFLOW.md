@@ -22,23 +22,23 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [ ] Clone/pull Team A's repository
-   - [ ] Create virtual environment
-   - [ ] Install dependencies from `requirements.txt`
-   - [ ] Verify Django runs locally
+   - [X] Clone/pull Team A's repository
+   - [X] Create virtual environment
+   - [X] Install dependencies from `requirements.txt`
+   - [X] Verify Django runs locally
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/groups`
-   - [ ] Work on `feature/groups` for all group-related features
+   - [X] Create branches: `develop`, `feature/groups`
+   - [X] Work on `feature/groups` for all group-related features
 
 3. **Understand auth endpoints**
-   - [ ] Review Team A's API contract for registration/login
-   - [ ] Know that you'll use their JWT tokens to authenticate
+   - [X] Review Team A's API contract for registration/login
+   - [X] Know that you'll use their JWT tokens to authenticate
    - [ ] Plan how GroupMember will reference User model
 
 4. **Create `groups` app**
-   - [ ] `python manage.py startapp groups`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+   - [X] `python manage.py startapp groups`
+   - [X] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan database relationships**
    - [ ] Sketch out Group ↔ User relationship
@@ -47,8 +47,8 @@
    - [ ] Share design with Team A for feedback
 
 ### Deliverables by End of Week 1
-- [ ] Development environment set up
-- [ ] `groups` app created
+- [X] Development environment set up
+- [X] `groups` app created
 - [ ] Database relationship design finalized
 - [ ] Ready to start coding
 

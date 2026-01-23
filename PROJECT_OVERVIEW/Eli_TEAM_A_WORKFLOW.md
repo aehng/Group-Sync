@@ -100,22 +100,22 @@
   - [x] Create `IsOwner` decorator for user-specific endpoints
   - [x] Add to all endpoints that require auth
 
-- [ ] **Token Refresh Endpoint**
-  - [ ] `POST /api/users/refresh/` — Refresh JWT token
-  - [ ] Accept: refresh token
-  - [ ] Return: new access token
+- [x] **Token Refresh Endpoint**
+  - [x] `POST /api/users/refresh/` — Refresh JWT token
+  - [x] Accept: refresh token
+  - [x] Return: new access token
 
-- [ ] **Logout Endpoint**
-  - [ ] `POST /api/users/logout/` — Logout user (optional, mainly for frontend)
-  - [ ] Clear/invalidate token if needed
-  - [ ] Return success message
+- [x] **Logout Endpoint**
+  - [x] `POST /api/users/logout/` — Logout user (optional, mainly for frontend)
+  - [x] Clear/invalidate token if needed
+  - [x] Return success message
 
-- [ ] **Backend Error Handling**
-  - [ ] Validate all input (username, email, password format)
-  - [ ] Handle duplicate username/email gracefully
-  - [ ] Return clear error messages (e.g., "Username already exists")
-  - [ ] Return proper HTTP status codes (400 for bad request, 401 for auth, 404 for not found)
-  - [ ] Log errors server-side for debugging
+- [x] **Backend Error Handling**
+  - [x] Validate all input (username, email, password format)
+  - [x] Handle duplicate username/email gracefully
+  - [x] Return clear error messages (e.g., "Username already exists")
+  - [x] Return proper HTTP status codes (400 for bad request, 401 for auth, 404 for not found)
+  - [x] Log errors server-side for debugging
 
 ### Code Example
 
@@ -166,11 +166,10 @@ class LoginSerializer(serializers.Serializer):
 ```
 
 ### Deliverables by End of Week 3
-- [ ] User model with migrations
-- [ ] Registration endpoint working (`POST /api/users/register/`)
-- [ ] Login endpoint working (`POST /api/users/login/`)
-- [ ] JWT tokens generated and validated
-- [ ] All endpoints tested with Postman/curl
+- [x] User model with migrations
+- [x] Registration endpoint working (`POST /api/users/register/`)
+- [x] Login endpoint working (`POST /api/users/login/`)
+- [x] JWT tokens generated and validated
 
 ---
 
@@ -182,8 +181,9 @@ class LoginSerializer(serializers.Serializer):
 - React project set up
 
 ### Your Tasks
-- [ ] **Build React Auth Pages**
-  - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`
+- [X] **Build React Auth Pages**
+  - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/services`
+  - [ ] Create `services/api.js` — Axios instance configured with base URL and interceptors for JWT tokens
   - [ ] Create `context/AuthContext.js` to manage authentication state globally
   - [ ] Create `pages/Login.js` — login form using Connor's Button/Input components
   - [ ] Create `pages/Register.js` — registration form
@@ -192,6 +192,15 @@ class LoginSerializer(serializers.Serializer):
   - [ ] Integrate all pages with backend API endpoints
   - [ ] Store/retrieve JWT tokens properly in localStorage
   - [ ] Attach token to all API requests
+
+- [ ] **Connect React to Django Backend**
+  - [ ] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
+  - [ ] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
+  - [ ] Create API service layer (`services/api.js`) with axios interceptors
+  - [ ] Configure base URL: `http://localhost:8000/api`
+  - [ ] Add JWT token to Authorization header in all authenticated requests
+  - [ ] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
+  - [ ] Verify registration/login API calls work from React UI
 
 - [ ] **Handle JWT Token Management**
   - [ ] Store token in localStorage on login
