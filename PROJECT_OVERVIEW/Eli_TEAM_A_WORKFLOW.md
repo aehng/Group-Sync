@@ -6,6 +6,8 @@
 |------------|--------------|--------------------------------------|
 | 2026-01-12 | 1            | Project setup                        |
 | 2026-01-13 | 1.5          | Project setup and roles documents    |
+| 2026-01-14 | 1.5          | Django project initialization        |
+| 2026-01-19 | 2            | Authentication setup                 |
 
 ---
 
@@ -182,13 +184,13 @@ class LoginSerializer(serializers.Serializer):
 
 ### Your Tasks
 - [X] **Build React Auth Pages**
-  - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/services`
-  - [ ] Create `services/api.js` — Axios instance configured with base URL and interceptors for JWT tokens
-  - [ ] Create `context/AuthContext.js` to manage authentication state globally
-  - [ ] Create `pages/Login.js` — login form using Connor's Button/Input components
-  - [ ] Create `pages/Register.js` — registration form
-  - [ ] Create `pages/Profile.js` — user profile page with edit functionality
-  - [ ] Create `components/PrivateRoute.js` — protect authenticated pages
+  - [X] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/api`
+  - [X] Create `api/client.js` — Axios instance configured with base URL and interceptors for JWT tokens
+  - [X] Create `context/AuthContext.js` to manage authentication state globally
+  - [X] Create `pages/Login.js` — login form using Connor's Button/Input components
+  - [X] Create `pages/Register.js` — registration form
+  - [X] Create `pages/Profile.js` — user profile page with edit functionality
+  - [X] Create `components/PrivateRoute.js` — protect authenticated pages
   - [ ] Integrate all pages with backend API endpoints
   - [ ] Store/retrieve JWT tokens properly in localStorage
   - [ ] Attach token to all API requests
@@ -196,7 +198,7 @@ class LoginSerializer(serializers.Serializer):
 - [ ] **Connect React to Django Backend**
   - [ ] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
   - [ ] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
-  - [ ] Create API service layer (`services/api.js`) with axios interceptors
+  - [ ] Create API service layer (`api/client.js`) with axios interceptors
   - [ ] Configure base URL: `http://localhost:8000/api`
   - [ ] Add JWT token to Authorization header in all authenticated requests
   - [ ] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
