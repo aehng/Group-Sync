@@ -19,7 +19,7 @@ class Group(models.Model):
     )
     members = models.ManyToManyField(
         User,
-        related_name="group_memberships",
+        related_name="user_groups",
         help_text="Members of the group"
     )
     created_at = models.DateTimeField(auto_now_add=True)

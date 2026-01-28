@@ -181,7 +181,7 @@ class LoginSerializer(serializers.Serializer):
 - React project set up
 
 ### Your Tasks
-- [ ] **Build React Auth Pages**
+- [X] **Build React Auth Pages**
   - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/services`
   - [ ] Create `services/api.js` — Axios instance configured with base URL and interceptors for JWT tokens
   - [ ] Create `context/AuthContext.js` to manage authentication state globally

@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_by', models.ForeignKey(help_text='The user who created the group', on_delete=django.db.models.deletion.CASCADE, related_name='created_groups', to=settings.AUTH_USER_MODEL)),
-                ('members', models.ManyToManyField(help_text='Members of the group', related_name='group_memberships', to=settings.AUTH_USER_MODEL)),
+                ('members', models.ManyToManyField(help_text='Members of the group', related_name='user_groups', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Group',
