@@ -135,10 +135,10 @@ class Message(models.Model):
 
 ### Your Tasks (Frontend - Priority)
 1. **Define Design System** (Create for all teams to use)
-   - [ ] Choose simple color palette (primary, secondary, accent, error, success)
-   - [ ] Choose fonts (heading, body)
-   - [ ] Create CSS variables in `styles/theme.css`
-   - [ ] Design 2-3 button styles and input field styles
+   - [X] Choose simple color palette (primary, secondary, accent, error, success)
+   - [X] Choose fonts (heading, body)
+   - [X] Create CSS variables in `styles/theme.css`
+   - [X] Design 2-3 button styles and input field styles
 
 2. **Build Shared Components** (For Team A and other teams to use)
    - [ ] Create simple `Button.js` component with variants
