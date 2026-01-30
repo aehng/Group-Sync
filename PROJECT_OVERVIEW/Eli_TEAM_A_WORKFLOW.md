@@ -191,18 +191,18 @@ class LoginSerializer(serializers.Serializer):
   - [X] Create `pages/Register.js` — registration form
   - [X] Create `pages/Profile.js` — user profile page with edit functionality
   - [X] Create `components/PrivateRoute.js` — protect authenticated pages
-  - [ ] Integrate all pages with backend API endpoints
-  - [ ] Store/retrieve JWT tokens properly in localStorage
-  - [ ] Attach token to all API requests
+  - [X] Integrate all pages with backend API endpoints
+  - [X] Store/retrieve JWT tokens properly in localStorage
+  - [X] Attach token to all API requests
 
 - [ ] **Connect React to Django Backend**
-  - [ ] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
-  - [ ] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
-  - [ ] Create API service layer (`api/client.js`) with axios interceptors
-  - [ ] Configure base URL: `http://localhost:8000/api`
-  - [ ] Add JWT token to Authorization header in all authenticated requests
-  - [ ] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
-  - [ ] Verify registration/login API calls work from React UI
+  - [X] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
+  - [X] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
+  - [X] Create API service layer (`api/client.js`) with axios interceptors
+  - [X] Configure base URL: `http://localhost:8000/api`
+  - [X] Add JWT token to Authorization header in all authenticated requests
+  - [X] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
+  - [X] Verify registration/login API calls work from React UI
 
 - [ ] **Handle JWT Token Management**
   - [ ] Store token in localStorage on login
