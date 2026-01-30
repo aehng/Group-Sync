@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback } from "react";
+import React, { createContext, useState, useCallback, useEffect} from "react";
 import { api } from "../api/client";
 
 export const AuthContext = createContext();
@@ -9,13 +9,36 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
+
+  const loadCurrentUser = useCallback(async () => {
+    if (!token) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get("/api/users/me/");
+      setUser(response.data.user ?? response.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to load user");
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+
+  useEffect(() => {
+    loadCurrentUser();
+  }, [loadCurrentUser]);
+
+
   const login = useCallback(async (username, password) => {
     setLoading(true);
     setError(null);
     try {
       const response = await api.post("/api/users/login/", { username, password });
-      const { access: access, user: userData } = response.data;
+      const { access, refresh, user: userData } = response.data;
       localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
       setToken(access);
       setUser(userData);
       return userData;
@@ -27,8 +50,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+      await api.post("/api/users/logout/", { refresh: localStorage.getItem("refresh_token") });
+    } catch (err) {
+      // Ignore errors on logout
+    }
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     setToken(null);
     setUser(null);
     setError(null);
@@ -44,8 +73,9 @@ const register = useCallback(async (username, email, password, password_confirm)
       password,
       password_confirm,
     });
-    const { access, user: userData } = response.data;
+    const { access, refresh, user: userData } = response.data;
     localStorage.setItem("access_token", access);
+    localStorage.setItem("refresh_token", refresh);
     setToken(access);
     setUser(userData);
     return userData;
@@ -61,11 +91,8 @@ const updateProfile = useCallback(async (username, email) => {
   setLoading(true);
   setError(null);
   try {
-    const response = await api.put("/api/users/profile/", {
-      username,
-      email,
-    });
-    const { user: userData } = response.data;
+    const response = await api.put("/api/users/me/", {username,email});
+    const userData = response.data.user ?? response.data;
     setUser(userData);
     return userData;
   } catch (err) {
