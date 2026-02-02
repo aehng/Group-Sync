@@ -141,14 +141,14 @@ class Message(models.Model):
    - [X] Design 2-3 button styles and input field styles
 
 2. **Build Shared Components** (For Team A and other teams to use)
-   - [ ] Create simple `Button.js` component with variants
-   - [ ] Create `Input.js` component with validation states
-   - [ ] Create `Card.js` component
-   - [ ] Create `Loading.js` spinner
-   - [ ] Create `Error.js` error message
-   - [ ] Create `Success.js` success notification
-   - [ ] Export all from `/src/components/shared/index.js`
-   - [ ] Document component props and usage
+   - [X] Create simple `Button.js` component with variants
+   - [X] Create `Input.js` component with validation states
+   - [X] Create `Card.js` component
+   - [X] Create `Loading.js` spinner
+   - [X] Create `Error.js` error message
+   - [X] Create `Success.js` success notification
+   - [X] Export all from `/src/components/shared/index.js`
+   - [X] Document component props and usage
 
 3. **Message Board Frontend**
    - [ ] Create `MessageBoard.js` component
