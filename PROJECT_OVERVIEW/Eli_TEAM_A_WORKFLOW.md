@@ -204,25 +204,25 @@ class LoginSerializer(serializers.Serializer):
   - [X] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
   - [X] Verify registration/login API calls work from React UI
 
-- [ ] **Handle JWT Token Management**
-  - [ ] Store token in localStorage on login
-  - [ ] Attach token to all API requests
-  - [ ] Handle token expiration and refresh
-  - [ ] Clear token on logout
+- [X] **Handle JWT Token Management**
+  - [X] Store token in localStorage on login
+  - [X] Attach token to all API requests
+  - [X] Handle token expiration and refresh
+  - [X] Clear token on logout
 
-- [ ] **Build Logout Functionality**
-  - [ ] Add logout button to profile page
-  - [ ] Call `AuthContext.logout()` on click
-  - [ ] Clear localStorage
-  - [ ] Redirect to login page
+- [X] **Build Logout Functionality**
+  - [X] Add logout button to profile page
+  - [X] Call `AuthContext.logout()` on click
+  - [X] Clear localStorage
+  - [X] Redirect to login page
 
 - [ ] **Frontend Error Handling**
-  - [ ] Display form validation errors clearly
+  - [X] Display form validation errors clearly
   - [ ] Show error messages from backend (e.g., "Username already exists")
   - [ ] Handle network errors (connection timeouts, server errors)
   - [ ] Display error notifications in UI (not just console logs)
   - [ ] Provide user-friendly error messages (avoid technical jargon)
-  - [ ] Handle 401 (Unauthorized) errors — redirect to login
+  - [X] Handle 401 (Unauthorized) errors — redirect to login
   - [ ] Handle 404 (Not Found) errors — show "not found" message
   - [ ] Handle 500 (Server Error) — show "something went wrong" message
 

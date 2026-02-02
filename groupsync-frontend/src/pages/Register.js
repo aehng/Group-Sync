@@ -46,7 +46,8 @@ export default function Register() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+            className="input"
+            style={{ marginTop: "5px" }}
           />
         </div>
 
@@ -58,7 +59,8 @@ export default function Register() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+            className="input"
+            style={{ marginTop: "5px" }}
           />
         </div>
 
@@ -70,7 +72,8 @@ export default function Register() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+            className="input"
+            style={{ marginTop: "5px" }}
           />
         </div>
 
@@ -82,7 +85,8 @@ export default function Register() {
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+            className="input"
+            style={{ marginTop: "5px" }}
           />
         </div>
 
@@ -91,7 +95,8 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading}
-          style={{ width: "100%", padding: "10px", cursor: "pointer" }}
+          className="btn btn-primary"
+          style={{ width: "100%" }}
         >
           {loading ? "Registering..." : "Register"}
         </button>

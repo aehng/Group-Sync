@@ -51,14 +51,15 @@ export default function Profile() {
           </div>
           <button
             onClick={() => setIsEditing(true)}
-            style={{ marginRight: "10px", padding: "8px 16px", cursor: "pointer" }}
+            className="btn btn-secondary"
+            style={{ marginRight: "10px" }}
           >
             Edit Profile
           </button>
           <button
             onClick={handleLogout}
             disabled={loading}
-            style={{ padding: "8px 16px", cursor: "pointer" }}
+            className="btn btn-danger"
           >
             {loading ? "Logging out..." : "Logout"}
           </button>
@@ -73,7 +74,8 @@ export default function Profile() {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+              className="input"
+              style={{ marginTop: "5px" }}
             />
           </div>
 
@@ -85,20 +87,22 @@ export default function Profile() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+              className="input"
+              style={{ marginTop: "5px" }}
             />
           </div>
 
           <button
             type="submit"
-            style={{ marginRight: "10px", padding: "8px 16px", cursor: "pointer" }}
+            className="btn btn-primary"
+            style={{ marginRight: "10px" }}
           >
             Save Changes
           </button>
           <button
             type="button"
             onClick={() => setIsEditing(false)}
-            style={{ padding: "8px 16px", cursor: "pointer" }}
+            className="btn btn-secondary"
           >
             Cancel
           </button>
