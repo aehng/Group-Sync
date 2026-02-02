@@ -1,0 +1,45 @@
+/* ================================
+   GroupSync Design System
+   ================================ */
+
+:root {
+  /* ===== Fonts ===== */
+  /* San Francisco stack (Apple system font) */
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+               "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --font-heading: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                  "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* ===== Core Colors ===== */
+  --color-bg: #F7F9F9;        /* Bright Snow */
+  --color-surface: #FFFFFF;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+
+  /* ===== Brand Palette ===== */
+  --color-primary: #2081C3;   /* Steel Blue */
+  --color-secondary: #63D2FF; /* Frozen Lake */
+  --color-accent: #78D5D7;    /* Pearl Aqua */
+
+  /* ===== Status Colors ===== */
+  --color-success: #5CB85C;
+  --color-error: #FF2C2C;
+  --color-warning: #F59E0B;
+
+  /* ===== Supporting Colors ===== */
+  --color-soft: #BED8D4;      /* Ash Grey */
+  --color-border: #E2E8F0;
+
+  /* ===== Radius ===== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.12);
+
+  /* ===== Focus Ring ===== */
+  --ring: 0 0 0 3px rgba(32, 129, 195, 0.25);
+}

@@ -6,6 +6,8 @@
 |------------|--------------|--------------------------------------|
 | 2026-01-12 | 1            | Project setup                        |
 | 2026-01-13 | 1.5          | Project setup and roles documents    |
+| 2026-01-14 | 1.5          | Django project initialization        |
+| 2026-01-19 | 2            | Authentication setup                 |
 
 ---
 
@@ -182,45 +184,45 @@ class LoginSerializer(serializers.Serializer):
 
 ### Your Tasks
 - [X] **Build React Auth Pages**
-  - [ ] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/services`
-  - [ ] Create `services/api.js` — Axios instance configured with base URL and interceptors for JWT tokens
-  - [ ] Create `context/AuthContext.js` to manage authentication state globally
-  - [ ] Create `pages/Login.js` — login form using Connor's Button/Input components
-  - [ ] Create `pages/Register.js` — registration form
-  - [ ] Create `pages/Profile.js` — user profile page with edit functionality
-  - [ ] Create `components/PrivateRoute.js` — protect authenticated pages
-  - [ ] Integrate all pages with backend API endpoints
-  - [ ] Store/retrieve JWT tokens properly in localStorage
-  - [ ] Attach token to all API requests
+  - [X] Set up folder structure for auth pages: `/src/pages`, `/src/context`, `/src/components`, `/src/api`
+  - [X] Create `api/client.js` — Axios instance configured with base URL and interceptors for JWT tokens
+  - [X] Create `context/AuthContext.js` to manage authentication state globally
+  - [X] Create `pages/Login.js` — login form using Connor's Button/Input components
+  - [X] Create `pages/Register.js` — registration form
+  - [X] Create `pages/Profile.js` — user profile page with edit functionality
+  - [X] Create `components/PrivateRoute.js` — protect authenticated pages
+  - [X] Integrate all pages with backend API endpoints
+  - [X] Store/retrieve JWT tokens properly in localStorage
+  - [X] Attach token to all API requests
 
 - [ ] **Connect React to Django Backend**
-  - [ ] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
-  - [ ] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
-  - [ ] Create API service layer (`services/api.js`) with axios interceptors
-  - [ ] Configure base URL: `http://localhost:8000/api`
-  - [ ] Add JWT token to Authorization header in all authenticated requests
-  - [ ] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
-  - [ ] Verify registration/login API calls work from React UI
+  - [X] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
+  - [X] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
+  - [X] Create API service layer (`api/client.js`) with axios interceptors
+  - [X] Configure base URL: `http://localhost:8000/api`
+  - [X] Add JWT token to Authorization header in all authenticated requests
+  - [X] Test connection: Start Django (`python manage.py runserver`) and React (`npm start`)
+  - [X] Verify registration/login API calls work from React UI
 
-- [ ] **Handle JWT Token Management**
-  - [ ] Store token in localStorage on login
-  - [ ] Attach token to all API requests
-  - [ ] Handle token expiration and refresh
-  - [ ] Clear token on logout
+- [X] **Handle JWT Token Management**
+  - [X] Store token in localStorage on login
+  - [X] Attach token to all API requests
+  - [X] Handle token expiration and refresh
+  - [X] Clear token on logout
 
-- [ ] **Build Logout Functionality**
-  - [ ] Add logout button to profile page
-  - [ ] Call `AuthContext.logout()` on click
-  - [ ] Clear localStorage
-  - [ ] Redirect to login page
+- [X] **Build Logout Functionality**
+  - [X] Add logout button to profile page
+  - [X] Call `AuthContext.logout()` on click
+  - [X] Clear localStorage
+  - [X] Redirect to login page
 
 - [ ] **Frontend Error Handling**
-  - [ ] Display form validation errors clearly
+  - [X] Display form validation errors clearly
   - [ ] Show error messages from backend (e.g., "Username already exists")
   - [ ] Handle network errors (connection timeouts, server errors)
   - [ ] Display error notifications in UI (not just console logs)
   - [ ] Provide user-friendly error messages (avoid technical jargon)
-  - [ ] Handle 401 (Unauthorized) errors — redirect to login
+  - [X] Handle 401 (Unauthorized) errors — redirect to login
   - [ ] Handle 404 (Not Found) errors — show "not found" message
   - [ ] Handle 500 (Server Error) — show "something went wrong" message
 

@@ -22,10 +22,8 @@ db.sqlite3-journal
 /media
 /staticfiles
 /static
-settings.py
-requirements.txt
 
-# Environment Variables (IMPORTANT - keeps secrets safe!)
+# Environment Variables
 .env
 .env.local
 *.env
@@ -52,3 +50,11 @@ htmlcov/
 .coverage.*
 coverage.xml
 *.cover
+
+# Node (for React frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# React build
+/build

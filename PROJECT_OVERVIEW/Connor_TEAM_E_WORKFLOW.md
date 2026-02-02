@@ -11,10 +11,10 @@
 |------------|--------------|----------------------------------------|
 | 2026-01-14 | 1            | Set up venv by following the readme.md |
 | 2026-01-16 | 1            | Set up frontend React and Django.      |
-| 2026-01-20 | 2            |                                        |
-| 2026-01-21 |              |                                        |  
->>>>>>> Stashed changes:PROJECT_OVERVIEW/TEAM_E_WORKFLOW.md
-
+| 2026-01-20 | 2            | Fixing venv and resolving git issues.  |
+| 2026-01-21 | 1            | Resolving more git issues.             | 
+| 2026-01-23 | 1            | Set up messaging.                      |
+| 2026-01-28 | 1            |                                        |
 ---
 
 **Feature:** Message board with polling (Backend + Frontend), UI/UX design, responsive styling, consistent layout, dashboard navigation  
@@ -38,11 +38,6 @@
    - [x] If not already created: `npx create-react-app groupsync-frontend`
    - [x] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
    - [x] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
-=======
-   - [X] If not already created: `npx create-react-app groupsync-frontend`
-   - [X] Install dependencies: `axios` (HTTP), `react-router-dom` (routing), `date-fns` (date formatting)
-   - [X] Set up folder structure: `/src/components`, `/src/pages`, `/src/api`, `/src/hooks`, `/src/styles`
->>>>>>> Stashed changes:PROJECT_OVERVIEW/TEAM_E_WORKFLOW.md
 
 2. **Git branch setup**
    - [x] Create branches: `develop`, `feature/messaging`, `feature/ui-polish`
@@ -83,24 +78,24 @@
 - Team B's Group model understood
 
 ### Your Tasks
-1. **Create `messages` App**
-   - [ ] `python manage.py startapp messages`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+1. **Create `messaging` App**
+   - [X] `python manage.py startapp messaging`
+   - [X] Add to `INSTALLED_APPS` in `settings.py`
 
 2. **Message Model**
-   - [ ] Create Message model with fields: `id`, `group` (FK to Group), `author` (FK to User), `text`, `created_at`
-   - [ ] Write migration
+   - [X] Create Message model with fields: `id`, `group` (FK to Group), `author` (FK to User), `text`, `created_at`
+   - [X] Write migration
 
 3. **Message Serializers**
-   - [ ] Create `MessageSerializer` for CRUD operations
-   - [ ] Include nested User info (username) for author
-   - [ ] Include nested Group info
+   - [X] Create `MessageSerializer` for CRUD operations
+   - [X] Include nested User info (username) for author
+   - [X] Include nested Group info
 
 4. **Message Endpoints**
-   - [ ] `GET /api/groups/{id}/messages/` — List messages for a group (ordered by created_at)
-   - [ ] `POST /api/groups/{id}/messages/` — Create new message
-   - [ ] Add pagination (last 50 messages)
-   - [ ] Require JWT authentication
+   - [X] `GET /api/groups/{id}/messages/` — List messages for a group (ordered by created_at)
+   - [X] `POST /api/groups/{id}/messages/` — Create new message
+   - [X] Add pagination (last 50 messages)
+   - [X] Require JWT authentication
 
 ### Code Example
 
@@ -127,67 +122,10 @@ class Message(models.Model):
 ```
 
 ### Deliverables by End of Week 3
-- [ ] Message model created with migrations
-- [ ] Message serializer written
-- [ ] Message endpoints ready for implementation
+- [X] Message model created with migrations
+- [X] Message serializer written
+- [X] Message endpoints ready for implementation
 
----
-
-### Prerequisites
-- React project set up
-- Team A's User model and auth understood
-- Team B's Group model understood
-
-### Your Tasks
-1. **Create `messages` App**
-   - [ ] `python manage.py startapp messages`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
-
-2. **Message Model**
-   - [ ] Create Message model with fields: `id`, `group` (FK to Group), `author` (FK to User), `text`, `created_at`
-   - [ ] Write migration
-
-3. **Message Serializers**
-   - [ ] Create `MessageSerializer` for CRUD operations
-   - [ ] Include nested User info (username) for author
-   - [ ] Include nested Group info
-
-4. **Message Endpoints**
-   - [ ] `GET /api/groups/{id}/messages/` — List messages for a group (ordered by created_at)
-   - [ ] `POST /api/groups/{id}/messages/` — Create new message
-   - [ ] Add pagination (last 50 messages)
-   - [ ] Require JWT authentication
-
-### Code Example
-
-```python
-# messages/models.py
-from django.db import models
-from django.contrib.auth import get_user_model
-from groups.models import Group
-
-User = get_user_model()
-
-class Message(models.Model):
-    id = models.AutoField(primary_key=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='messages')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
-    text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"{self.author.username}: {self.text[:50]}"
-    
-    class Meta:
-        ordering = ['-created_at']
-```
-
-### Deliverables by End of Week 3
-- [ ] Message model created with migrations
-- [ ] Message serializer written
-- [ ] Message endpoints ready for implementation
-
----
 
 ## Weeks 4–5: Design System + Message Board Frontend (Feb 3–16)
 
@@ -197,20 +135,20 @@ class Message(models.Model):
 
 ### Your Tasks (Frontend - Priority)
 1. **Define Design System** (Create for all teams to use)
-   - [ ] Choose simple color palette (primary, secondary, accent, error, success)
-   - [ ] Choose fonts (heading, body)
-   - [ ] Create CSS variables in `styles/theme.css`
-   - [ ] Design 2-3 button styles and input field styles
+   - [X] Choose simple color palette (primary, secondary, accent, error, success)
+   - [X] Choose fonts (heading, body)
+   - [X] Create CSS variables in `styles/theme.css`
+   - [X] Design 2-3 button styles and input field styles
 
 2. **Build Shared Components** (For Team A and other teams to use)
-   - [ ] Create simple `Button.js` component with variants
-   - [ ] Create `Input.js` component with validation states
-   - [ ] Create `Card.js` component
-   - [ ] Create `Loading.js` spinner
-   - [ ] Create `Error.js` error message
-   - [ ] Create `Success.js` success notification
-   - [ ] Export all from `/src/components/shared/index.js`
-   - [ ] Document component props and usage
+   - [X] Create simple `Button.js` component with variants
+   - [X] Create `Input.js` component with validation states
+   - [X] Create `Card.js` component
+   - [X] Create `Loading.js` spinner
+   - [X] Create `Error.js` error message
+   - [X] Create `Success.js` success notification
+   - [X] Export all from `/src/components/shared/index.js`
+   - [X] Document component props and usage
 
 3. **Message Board Frontend**
    - [ ] Create `MessageBoard.js` component
