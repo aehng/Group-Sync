@@ -111,9 +111,9 @@ class Task(models.Model):
 ```
 
 ### Deliverables by End of Week 3
-- [ ] Task model with migrations
-- [ ] Task serializers created and tested
-- [ ] Ready to build endpoints
+- [x] Task model with migrations
+- [x] Task serializers created and tested
+- [x] Ready to build endpoints
 
 ---
 
@@ -126,11 +126,11 @@ class Task(models.Model):
 
 ### Your Tasks
 1. **List Tasks Endpoint**
-   - [ ] `GET /api/groups/{group_id}/tasks/`
-   - [ ] Return: All tasks in group
-   - [ ] Filter by status: `?status=todo` (optional)
-   - [ ] Filter by assigned_to: `?assigned_to={user_id}` (optional)
-   - [ ] Only group members can view
+  - [x] `GET /api/groups/{group_id}/tasks/`
+  - [x] Return: All tasks in group
+  - [x] Filter by status: `?status=todo` (optional)
+  - [x] Filter by assigned_to: `?assigned_to={user_id}` (optional)
+  - [x] Only group members can view
 
 2. **Get Single Task Endpoint**
    - [ ] `GET /api/groups/{group_id}/tasks/{task_id}/`
