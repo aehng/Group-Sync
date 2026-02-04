@@ -22,23 +22,23 @@
 
 ### Your Tasks
 1. **Set up development environment**
-   - [ ] Clone/pull Team A's repository
-   - [ ] Create virtual environment
-   - [ ] Install dependencies from `requirements.txt`
-   - [ ] Verify Django runs locally
+   - [x] Clone/pull Team A's repository
+   - [x] Create virtual environment
+   - [x] Install dependencies from `requirements.txt`
+   - [x] Verify Django runs locally
 
 2. **Git branch setup**
-   - [ ] Create branches: `develop`, `feature/meetings`
-   - [ ] Work on `feature/meetings` for all meeting-related features
+   - [x] Create branches: `develop`, `feature/meetings`
+   - [x] Work on `feature/meetings` for all meeting-related features
 
 3. **Understand dependencies**
-   - [ ] Review Team A's User model
-   - [ ] Review Team B's Group/GroupMember models
-   - [ ] Plan how Meeting will reference Group, created_by, etc.
+   - [x] Review Team A's User model
+   - [x] Review Team B's Group/GroupMember models
+   - [x] Plan how Meeting will reference Group, created_by, etc.
 
 4. **Create `meetings` app**
-   - [ ] `python manage.py startapp meetings`
-   - [ ] Add to `INSTALLED_APPS` in `settings.py`
+   - [x] `python manage.py startapp meetings`
+   - [x] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan Meeting structure**
    - [ ] Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda
@@ -47,10 +47,10 @@
    - [ ] Share design with teams
 
 ### Deliverables by End of Week 1
-- [ ] Development environment set up
-- [ ] `meetings` app created
+- [x] Development environment set up
+- [x] `meetings` app created
 - [ ] Meeting model design finalized
-- [ ] Ready to start coding
+- [x] Ready to start coding
 
 ---
 
