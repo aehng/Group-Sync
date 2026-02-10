@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'groups',
     'tasks',
     'messaging',
+    'meetings',
 ]
 
 MIDDLEWARE = [
