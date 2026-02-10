@@ -8,3 +8,4 @@ class Meeting(models.Model):
     end_time = models.TimeField() 
     location = models.CharField(max_length=255, blank=True) 
     created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey('auth.User', on_manager=models.CASCADE)
