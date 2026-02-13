@@ -16,7 +16,7 @@ export default function MessageBubble({ message }) {
     >
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
         <div style={{ fontSize: 12, fontWeight: 700 }}>
-          {mine ? "You" : message.sender?.name ?? "Unknown"}
+          {mine ? "You" : message.sender?.username ?? message.sender?.first_name ?? "Unknown"}
         </div>
         <div style={{ fontSize: 11, color: "#777" }}>
           {message.created_at ? format(new Date(message.created_at), "p") : ""}
