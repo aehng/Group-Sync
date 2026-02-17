@@ -354,27 +354,27 @@ export { default as Success } from './Success';
 
 ### Your Tasks
 1. **Message Board Component**
-   - [ ] Create `MessageBoard.js` component
-   - [ ] Fetch messages from backend API (with JWT)
-   - [ ] Display messages in chat-like format
-   - [ ] Auto-scroll to latest message
+   - [X] Create `MessageBoard.js` component
+   - [X] Fetch messages from backend API (with JWT)
+   - [X] Display messages in chat-like format
+   - [X] Auto-scroll to latest message
 
 2. **Send Message Form**
-   - [ ] Add text area and Send button
-   - [ ] Handle form submission (POST to `/api/groups/{id}/messages/`)
-   - [ ] Clear input after send
-   - [ ] Show errors if submission fails
+   - [X] Add text area and Send button
+   - [X] Handle form submission (POST to `/api/groups/{id}/messages/`)
+   - [X] Clear input after send
+   - [X] Show errors if submission fails
 
 3. **Polling Implementation**
-   - [ ] Use `setInterval()` to poll every 3 seconds
-   - [ ] Fetch new messages automatically
-   - [ ] Update message list
-   - [ ] Clean up interval on unmount
+   - [X] Use `setInterval()` to poll every 3 seconds
+   - [X] Fetch new messages automatically
+   - [X] Update message list
+   - [X] Clean up interval on unmount
 
 4. **Apply Design System**
-   - [ ] Style message board with consistent colors/fonts
-   - [ ] Ensure responsive design (mobile-friendly)
-   - [ ] Add loading and error states
+   - [X] Style message board with consistent colors/fonts
+   - [X] Ensure responsive design (mobile-friendly)
+   - [X] Add loading and error states
 
 ### Code Example
 
@@ -448,11 +448,11 @@ export default MessageBoard;
 ```
 
 ### Deliverables by End of Week 7
-- [ ] Message board component integrated with real API
-- [ ] Send message functionality working
-- [ ] Polling every 3 seconds functional
-- [ ] Styled with design system
-- [ ] Responsive design tested
+- [X] Message board component integrated with real API
+- [X] Send message functionality working
+- [X] Polling every 3 seconds functional
+- [X] Styled with design system
+- [X] Responsive design tested
 
 ---
 
