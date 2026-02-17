@@ -14,7 +14,7 @@
 **Estimated Hours:** 30–35  
 **Team Size:** 1 person  
 **Timeline:** Weeks 1–7 (backend + frontend), Weeks 8–11 (integration & refinement)
-
+[pplgl]
 ---
 
 ## Week 1: Setup & Planning (Jan 13–19)
@@ -117,7 +117,7 @@ class Task(models.Model):
 
 ---
 
-## Weeks 4–5: CRUD Endpoints (Feb 3–16)
+## Weeks 4–5: CRUD Endpoints (Feb 3–16)jiijjjio9ujrop-i g5e4o o
 
 ### Prerequisites
 - Task model and serializers complete
@@ -133,33 +133,33 @@ class Task(models.Model):
   - [x] Only group members can view
 
 2. **Get Single Task Endpoint**
-   - [ ] `GET /api/groups/{group_id}/tasks/{task_id}/`
-   - [ ] Return: Full task details with assignee info
-   - [ ] Only group members can view
+  - [x] `GET /api/groups/{group_id}/tasks/{task_id}/`
+  - [x] Return: Full task details with assignee info
+  - [x] Only group members can view
 
 3. **Create Task Endpoint**
-   - [ ] `POST /api/groups/{group_id}/tasks/`
-   - [ ] Accept: `title`, `description` (optional), `due_date` (optional), `assigned_to` (optional)
-   - [ ] Auto-set `created_by` to authenticated user
-   - [ ] Auto-set `status` to `todo`
-   - [ ] Only group members can create
+  - [x] `POST /api/groups/{group_id}/tasks/`
+  - [x] Accept: `title`, `description` (optional), `due_date` (optional), `assigned_to` (optional)
+  - [x] Auto-set `created_by` to authenticated user
+  - [x] Auto-set `status` to `todo`
+  - [x] Only group members can create
 
 4. **Update Task Endpoint**
-   - [ ] `PUT /api/groups/{group_id}/tasks/{task_id}/`
-   - [ ] Accept: `title`, `description`, `status`, `due_date`, `assigned_to` (any field optional)
-   - [ ] Only creator or assignee can update (or owner of group)
-   - [ ] Return: Updated task
+  - [x] `PUT /api/groups/{group_id}/tasks/{task_id}/`
+  - [x] Accept: `title`, `description`, `status`, `due_date`, `assigned_to` (any field optional)
+  - [x] Only creator or assignee can update (or owner of group)
+  - [x] Return: Updated task
 
 5. **Delete Task Endpoint**
-   - [ ] `DELETE /api/groups/{group_id}/tasks/{task_id}/`
-   - [ ] Only creator or group owner can delete
-   - [ ] Return: 204 No Content
+  - [x] `DELETE /api/groups/{group_id}/tasks/{task_id}/`
+  - [x] Only creator or group owner can delete
+  - [x] Return: 204 No Content
 
 6. **Status Update Endpoint** (Optional, but recommended)
-   - [ ] `PATCH /api/groups/{group_id}/tasks/{task_id}/status/`
-   - [ ] Accept: `status` (todo|doing|done)
-   - [ ] Quick way to move task between columns
-   - [ ] Returns: Updated task
+  - [x] `PATCH /api/groups/{group_id}/tasks/{task_id}/status/`
+  - [x] Accept: `status` (todo|doing|done)
+  - [x] Quick way to move task between columns
+  - [x] Returns: Updated task
 
 ### Code Example
 
@@ -263,13 +263,13 @@ class TaskDetailView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] List tasks endpoint working
-- [ ] Get single task endpoint working
-- [ ] Create task endpoint working
-- [ ] Update task endpoint working
-- [ ] Delete task endpoint working
-- [ ] Status update endpoint working (optional)
-- [ ] All endpoints tested with Postman/curl
+- [x] List tasks endpoint working
+- [x] Get single task endpoint working
+- [x] Create task endpoint working
+- [x] Update task endpoint working
+- [x] Delete task endpoint working
+- [x] Status update endpoint working (optional)
+- [x] All endpoints tested with Postman/curl
 
 ---
 
@@ -281,27 +281,27 @@ class TaskDetailView(APIView):
 
 ### Your Tasks
 1. **Permission Verification**
-   - [ ] Only group members can view/create tasks
-   - [ ] Only creator/assignee/owner can update
-   - [ ] Only creator/owner can delete
-   - [ ] Test all edge cases
+  - [x] Only group members can view/create tasks
+  - [x] Only creator/assignee/owner can update
+  - [x] Only creator/owner can delete
+  - [x] Test all edge cases
 
 2. **Unit Tests**
-   - [ ] Test task creation
-   - [ ] Test status updates
-   - [ ] Test filtering by status
-   - [ ] Test permission enforcement
-   - [ ] Aim for 80%+ coverage
+  - [x] Test task creation
+  - [x] Test status updates
+  - [x] Test filtering by status
+  - [x] Test permission enforcement
+  - [x] Aim for 80%+ coverage
 
 3. **Integration Testing**
-   - [ ] Verify Task endpoints work with Group structure
-   - [ ] Test Team E's ability to query tasks
-   - [ ] Help with any group/task relationship questions
+  - [x] Verify Task endpoints work with Group structure
+  - [x] Test Team E's ability to query tasks
+  - [x] Help with any group/task relationship questions
 
 4. **Edge Cases**
-   - [ ] What happens if assigned user is removed from group?
-   - [ ] Handle null assigned_to gracefully
-   - [ ] Handle deleted users gracefully
+  - [x] What happens if assigned user is removed from group?
+  - [x] Handle null assigned_to gracefully
+  - [x] Handle deleted users gracefully
 
 ### Test Example
 
@@ -341,10 +341,10 @@ class TaskTestCase(TestCase):
 ```
 
 ### Deliverables by End of Week 7
-- [ ] Unit tests written and passing
-- [ ] Permission system tested thoroughly
-- [ ] Integration testing complete
-- [ ] All bugs fixed
+- [x] Unit tests written and passing
+- [x] Permission system tested thoroughly
+- [x] Integration testing complete
+- [x] All bugs fixed
 
 ---
 

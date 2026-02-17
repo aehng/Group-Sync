@@ -9,6 +9,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const getApiErrorMessage = (err, fallback) => {
+    const data = err?.response?.data;
+    if (typeof data === "string") return data;
+    if (data?.message) return data.message;
+    if (data?.detail) return data.detail;
+    if (Array.isArray(data?.non_field_errors) && data.non_field_errors.length > 0) {
+      return data.non_field_errors[0];
+    }
+    if (data && typeof data === "object") {
+      const firstValue = Object.values(data)[0];
+      if (Array.isArray(firstValue) && firstValue.length > 0) return String(firstValue[0]);
+      if (typeof firstValue === "string") return firstValue;
+    }
+    return fallback;
+  };
+
 
 
   const loadCurrentUser = useCallback(async () => {
@@ -35,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.post("/api/users/login/", { username, password });
+      const response = await api.post("/api/users/login/", { username: username.trim(), password });
       const { access, refresh, user: userData } = response.data;
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
@@ -43,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return userData;
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(getApiErrorMessage(err, "Login failed"));
       throw err;
     } finally {
       setLoading(false);
@@ -68,7 +84,7 @@ const register = useCallback(async (username, email, password, password_confirm)
   setError(null);
   try {
     const response = await api.post("/api/users/register/", {
-      username,
+      username: username.trim(),
       email,
       password,
       password_confirm,
@@ -80,7 +96,7 @@ const register = useCallback(async (username, email, password, password_confirm)
     setUser(userData);
     return userData;
   } catch (err) {
-    setError(err.response?.data?.message || "Registration failed");
+    setError(getApiErrorMessage(err, "Registration failed"));
     throw err;
   } finally {
     setLoading(false);
@@ -96,7 +112,7 @@ const updateProfile = useCallback(async (username, email) => {
     setUser(userData);
     return userData;
   } catch (err) {
-    setError(err.response?.data?.message || "Update failed");
+    setError(getApiErrorMessage(err, "Update failed"));
     throw err;
   } finally {
     setLoading(false);
