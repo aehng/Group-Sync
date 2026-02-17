@@ -161,14 +161,14 @@ class Message(models.Model):
 
 ### Your Tasks (Backend - Secondary)
 1. **Build Message Endpoints**
-   - [ ] Implement `GET /api/groups/{id}/messages/` endpoint with pagination
-   - [ ] Implement `POST /api/groups/{id}/messages/` endpoint
-   - [ ] Permission checks (only group members)
+   - [X] Implement `GET /api/groups/{id}/messages/` endpoint with pagination
+   - [X] Implement `POST /api/groups/{id}/messages/` endpoint
+   - [X] Permission checks (only group members)
 
 2. **Unit Tests**
-   - [ ] Test message creation and retrieval
-   - [ ] Test permission enforcement
-   - [ ] Aim for 80%+ coverage
+   - [X] Test message creation and retrieval
+   - [X] Test permission enforcement
+   - [X] Aim for 80%+ coverage
 
 ### Code Example (Shared Components)
 
@@ -197,12 +197,12 @@ function Input({ type = 'text', placeholder, value, onChange, error = false }) {
 ```
 
 ### Deliverables by End of Week 5
-- [ ] Complete design system (colors, fonts, CSS variables)
-- [ ] All shared components built and documented
-- [ ] Shared components exported from `/src/components/shared/index.js`
-- [ ] Message endpoints implemented and tested
-- [ ] Message board component integrated with API
-- [ ] Design system shared with all teams
+- [X] Complete design system (colors, fonts, CSS variables)
+- [X] All shared components built and documented
+- [X] Shared components exported from `/src/components/shared/index.js`
+- [X] Message endpoints implemented and tested
+- [X] Message board component integrated with API
+- [X] Design system shared with all teams
 
 ---
 

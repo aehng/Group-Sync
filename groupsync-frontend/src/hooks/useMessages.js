@@ -39,6 +39,7 @@ const USE_API = true;
 
   const gid = useMemo(() => String(groupId ?? ""), [groupId]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     let alive = true;
 
