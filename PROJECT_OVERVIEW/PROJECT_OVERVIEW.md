@@ -32,11 +32,11 @@ GroupSync is a web application for college students to manage group projects in 
 ### **Week 1 (Jan 13–19): Setup & API Contracts**
 
 **All Teams Together:**
-- [ ] Django project initialization (Team A leads)
+- [x] Django project initialization (Team A leads)
 - [ ] Database schema finalization and ERD
-- [ ] **API contract specification** (exact endpoint URLs, request/response schemas)
-- [ ] GitHub repo, branches, Render account
-- [ ] Git workflow agreement
+- [x] **API contract specification** (exact endpoint URLs, request/response schemas)
+- [X] GitHub repo, branches, Render account
+- [x] Git workflow agreement
 
 **Output:** Shared API spec document (critical for parallel work)
 
@@ -46,13 +46,13 @@ GroupSync is a web application for college students to manage group projects in 
 
 **🔴 Critical Week for Team E → Unblocks Everyone**
 
-| Team | Tasks | Deliverable |
-|------|-------|-------------|
-| **A** | User model, registration endpoint, login endpoint | Basic auth working (can test with curl) |
-| **B** | Group model, invite code generation | DB schema ready (no endpoints yet) |
-| **C** | Task model schema | DB schema ready (no endpoints yet) |
-| **D** | Meeting model schema | DB schema ready (no endpoints yet) |
-| **🟢 E** | **App.js with Router, Nav component, Dashboard page placeholder, GroupWorkspace page placeholder** | **Frontend shell ready for Teams B, C, D** |
+| Team | Tasks | Deliverable | Status |
+|------|-------|-------------|--------|
+| **A** | User model, registration endpoint, login endpoint | Basic auth working (can test with curl) | ✅ Done |
+| **B** | Group model, invite code generation | DB schema ready (no endpoints yet) | 🟡 Partial (model done; invite code pending) |
+| **C** | Task model schema | DB schema ready (no endpoints yet) | ✅ Done |
+| **D** | Meeting model schema | DB schema ready (no endpoints yet) | ❌ Not started |
+| **🟢 E** | **App.js with Router, Nav component, Dashboard page placeholder, GroupWorkspace page placeholder** | **Frontend shell ready for Teams B, C, D** | 🟡 Partial (router done; nav/dashboard placeholders pending) |
 
 **Why This Order:** Teams B, C, D need the React Router set up to create their own pages in Week 3. They can't build pages if `App.js` doesn't exist yet.
 
@@ -61,9 +61,9 @@ GroupSync is a web application for college students to manage group projects in 
 ### **Weeks 3–5 (Jan 27–Feb 16): Parallel Endpoints + Components**
 
 **Team A:**
-- [ ] User profile endpoints, token refresh
+- [x] User profile endpoints, token refresh
 - [ ] Permission decorators
-- [ ] React: Login/register/profile pages + Auth context
+- [x] React: Login/register/profile pages + Auth context
 
 **Team B:**
 - [ ] Group CRUD endpoints, join group endpoint
@@ -72,7 +72,7 @@ GroupSync is a web application for college students to manage group projects in 
 
 **Team C:**
 - [ ] Task CRUD endpoints, status filtering
-- [ ] Permission checks (only group members)
+- [x] Permission checks (only group members)
 - [ ] React: Kanban board, task creation modal, task editing
 
 **Team D:**
@@ -81,8 +81,8 @@ GroupSync is a web application for college students to manage group projects in 
 - [ ] React: Meeting list, create meeting modal, meeting details
 
 **Team E:**
-- [ ] Message model + endpoints with pagination
-- [ ] React: Message board component (with mock data initially)
+- [x] Message model + endpoints with pagination
+- [x] React: Message board component (with mock data initially)
 - [ ] Start shared component library (Button, Input, Card, Modal)
 
 **Key:** All teams use **mock data** for React until Week 4, enabling parallel testing
@@ -421,14 +421,14 @@ Teams B, C, D (Frontend Components) → Can start Week 3 *only if* Team E's Rout
 
 - [ ] Live app on Render
 - [ ] All CRUD features functional
-- [ ] User authentication working
+- [x] User authentication working
 - [ ] Message board (polling) functional
 - [ ] Responsive React UI
 - [ ] ~~API documentation (Swagger)~~ **OPTIONAL** (use browsable API instead if behind)
 - [ ] Unit tests for all apps
 - [ ] GitHub repository with clean history
 - [ ] Team presentation/demo
-- [ ] README with setup instructions
+- [x] README with setup instructions
 
 ---
 

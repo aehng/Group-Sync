@@ -34,6 +34,4 @@ urlpatterns = [
     path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),  # Include URLs from users app
-    path('api/', include('tasks.urls')),
-    path('api/', include('messaging.urls')),
 ]

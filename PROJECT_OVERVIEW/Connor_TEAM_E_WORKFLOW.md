@@ -151,13 +151,13 @@ class Message(models.Model):
    - [X] Document component props and usage
 
 3. **Message Board Frontend**
-   - [ ] Create `MessageBoard.js` component
-   - [ ] Fetch messages from backend API (with JWT)
-   - [ ] Display messages in chat-like format
-   - [ ] Auto-scroll to latest message
-   - [ ] Add text area and Send button
-   - [ ] Handle form submission (POST to `/api/groups/{id}/messages/`)
-   - [ ] Clear input after send
+   - [X] Create `MessageBoard.js` component
+   - [X] Fetch messages from backend API (with JWT)
+   - [X] Display messages in chat-like format
+   - [X] Auto-scroll to latest message
+   - [X] Add text area and Send button
+   - [X] Handle form submission (POST to `/api/groups/{id}/messages/`)
+   - [X] Clear input after send
 
 ### Your Tasks (Backend - Secondary)
 1. **Build Message Endpoints**
