@@ -39,7 +39,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     def mark_complete(self, request, pk=None):
         """Mark a task as completed"""
         task = self.get_object()
-        task.status = 'completed'
+        task.status = 'done'
         task.save()
         serializer = self.get_serializer(task)
         return Response(serializer.data)
@@ -75,7 +75,7 @@ class TaskListCreateView(APIView):
 
         serializer = TaskSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            task = serializer.save(group=group)
+            task = serializer.save(group=group, status='todo')
             return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

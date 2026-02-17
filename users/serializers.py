@@ -111,10 +111,20 @@ class LoginSerializer(serializers.Serializer):
         
         Check if user with given username exists and password is correct.
         """
-        username = data.get('username')
+        username = (data.get('username') or '').strip()
         password = data.get('password')
-        
-        user = authenticate(username=username, password=password)
+
+        user = None
+
+        if username and password:
+            matched_user = User.objects.filter(username__iexact=username).first()
+            auth_username = matched_user.username if matched_user else username
+            user = authenticate(username=auth_username, password=password)
+
+            if not user:
+                email_user = User.objects.filter(email__iexact=username).first()
+                if email_user:
+                    user = authenticate(username=email_user.username, password=password)
         
         if not user:
             raise serializers.ValidationError("Invalid username or password")

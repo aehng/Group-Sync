@@ -5,9 +5,9 @@ from groups.models import Group
 
 class Task(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('in_progress', 'In Progress'),
-        ('completed', 'Completed'),
+        ('todo', 'To Do'),
+        ('doing', 'Doing'),
+        ('done', 'Done'),
     ]
 
     PRIORITY_CHOICES = [
@@ -16,12 +16,12 @@ class Task(models.Model):
         ('high', 'High'),
     ]
 
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=200)
     description = models.TextField(max_length=2000, blank=True)
     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_tasks')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='tasks')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_tasks')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
     due_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
