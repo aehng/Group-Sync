@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       return userData;
     } catch (err) {
       setError(getApiErrorMessage(err, "Login failed"));
-      throw err;
+      throw err.response?.data || { general: "Login failed" };
     } finally {
       setLoading(false);
     }
@@ -96,8 +96,8 @@ const register = useCallback(async (username, email, password, password_confirm)
     setUser(userData);
     return userData;
   } catch (err) {
-    setError(getApiErrorMessage(err, "Registration failed"));
-    throw err;
+    setError(err.response?.data?.message || "Registration failed");
+    throw err.response?.data || { general: "Registration failed" };
   } finally {
     setLoading(false);
   }
@@ -108,12 +108,15 @@ const updateProfile = useCallback(async (username, email) => {
   setError(null);
   try {
     const response = await api.put("/api/users/me/", {username,email});
+    console.log("updateProfile: success", response.status, response.data);
     const userData = response.data.user ?? response.data;
     setUser(userData);
     return userData;
   } catch (err) {
-    setError(getApiErrorMessage(err, "Update failed"));
-    throw err;
+    console.log("updateProfile: caught error", err);
+    console.log("err.response?.data:", err.response?.data);
+    setError(err.response?.data?.message || "Update failed");
+    throw err.response?.data || { general: "Update failed" };
   } finally {
     setLoading(false);
   }
