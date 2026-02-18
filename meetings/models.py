@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Meeting(models.Model): 
     title = models.CharField(max_length=200) 
@@ -8,4 +11,4 @@ class Meeting(models.Model):
     end_time = models.TimeField() 
     location = models.CharField(max_length=255, blank=True) 
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey('auth.User', on_manager=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
