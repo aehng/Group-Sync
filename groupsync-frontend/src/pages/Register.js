@@ -11,6 +11,7 @@ export default function Register() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const { register, loading, error } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [formErrors, setFormErrors] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,12 +26,15 @@ export default function Register() {
       return;
     }
 
+    setFormErrors({});
+
     // Send to backend for final validation
     try {
       await register(username, email, password, passwordConfirm);
       navigate("/profile"); // Redirect to profile after successful registration
     } catch (err) {
       // Error is handled by AuthContext
+      setFormErrors(err.response?.data || { general: "Registration failed" });
     }
   };
 
@@ -49,6 +53,9 @@ export default function Register() {
             className="input"
             style={{ marginTop: "5px" }}
           />
+          {formErrors.username && (
+    <div style={{ color: "red", marginTop: 6 }}>{formErrors.username[0]}</div>
+  )}
         </div>
 
         <div style={{ marginBottom: "15px" }}>
@@ -62,6 +69,9 @@ export default function Register() {
             className="input"
             style={{ marginTop: "5px" }}
           />
+          {formErrors.email && (
+    <div style={{ color: "red", marginTop: 6 }}>{formErrors.email[0]}</div>
+  )}
         </div>
 
         <div style={{ marginBottom: "15px" }}>
@@ -75,6 +85,9 @@ export default function Register() {
             className="input"
             style={{ marginTop: "5px" }}
           />
+          {formErrors.password && (
+    <div style={{ color: "red", marginTop: 6 }}>{formErrors.password[0]}</div>
+  )}
         </div>
 
         <div style={{ marginBottom: "15px" }}>

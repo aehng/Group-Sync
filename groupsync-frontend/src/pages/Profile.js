@@ -12,20 +12,31 @@ export default function Profile() {
     username: user?.username || "",
     email: user?.email || "",
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (formErrors[name]) {
+      setFormErrors((prev) => {
+        const { [name]: _, ...rest } = prev;
+        return rest;
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-        await updateProfile(formData.username, formData.email);
+    setFormErrors({});
+    try {
+      console.log("Profile handleSubmit: calling updateProfile");
+      await updateProfile(formData.username, formData.email);
+      console.log("Profile handleSubmit: updateProfile succeeded");
+      setIsEditing(false);
     } catch (error) {
-        // Handle error if needed
+      console.log("Profile handleSubmit: caught error", error);
+      setFormErrors(error);
     }
-    setIsEditing(false);
   };
 
   const handleLogout = () => {
@@ -77,6 +88,12 @@ export default function Profile() {
               className="input"
               style={{ marginTop: "5px" }}
             />
+            {formErrors.username && (
+              <div style={{ color: "red", marginTop: 6 }}>
+                {console.log("Rendering username error:", formErrors.username)}
+                {formErrors.username[0]}
+              </div>
+            )}
           </div>
 
           <div style={{ marginBottom: "15px" }}>
@@ -90,6 +107,9 @@ export default function Profile() {
               className="input"
               style={{ marginTop: "5px" }}
             />
+            {formErrors.email && (
+              <div style={{ color: "red", marginTop: 6 }}>{formErrors.email[0]}</div>
+            )}
           </div>
 
           <button
