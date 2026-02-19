@@ -258,7 +258,9 @@ class MeetingDetailView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] List meetings endpoint working
+- [ ] List meetings endpoint workinggit init
+git remote add origin <repository-url>
+git pull origin develop
 - [ ] Get single meeting endpoint working
 - [ ] Create meeting endpoint working
 - [ ] Update meeting endpoint working
