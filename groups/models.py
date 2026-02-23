@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+import secrets
 
 User = get_user_model()
 
@@ -29,6 +30,12 @@ class Group(models.Model):
         related_name="owned_groups",
         help_text="The owner of the group"
     )
+    invite_code = models.CharField(
+        max_length=8,
+        unique=True,
+        default='',
+        help_text="Unique invite code for joining the group"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,6 +46,17 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        """Auto-generate invite code if not set."""
+        if not self.invite_code:
+            self.invite_code = self.generate_invite_code()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generate_invite_code():
+        """Generate a unique 8-character alphanumeric invite code."""
+        return secrets.token_hex(4).upper()
 
 
 class GroupMember(models.Model):
