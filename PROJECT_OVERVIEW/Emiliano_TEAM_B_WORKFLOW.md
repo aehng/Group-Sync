@@ -73,15 +73,15 @@
    - [X] Write migration
 
 3. **Invite Code Generation**
-   - [ ] Add `invite_code` field to Group (unique, random string)
-   - [ ] Generate 6-8 char alphanumeric code on group creation
-   - [ ] Example: `GROUP123ABC`
-   - [ ] Write helper function to generate codes
+   - [X] Add `invite_code` field to Group (unique, random string)
+   - [X] Generate 6-8 char alphanumeric code on group creation
+   - [X] Example: `GROUP123ABC`
+   - [X] Write helper function to generate codes
 
 4. **Initial Serializers**
-   - [ ] `GroupSerializer` for read/write
-   - [ ] `GroupMemberSerializer` for membership data
-   - [ ] `InviteCodeSerializer` for validating invites
+   - [X] `GroupSerializer` for read/write
+   - [X] `GroupMemberSerializer` for membership data
+   - [X] `InviteCodeSerializer` for validating invites
 
 ### Code Example
 
@@ -133,10 +133,10 @@ class GroupMember(models.Model):
 ```
 
 ### Deliverables by End of Week 3
-- [ ] Group model with migrations
-- [ ] GroupMember model with migrations
-- [ ] Invite code generation working
-- [ ] Serializers created and tested
+- [X] Group model with migrations
+- [X] GroupMember model with migrations
+- [X] Invite code generation working
+- [X] Serializers created and tested
 
 ---
 
@@ -148,41 +148,41 @@ class GroupMember(models.Model):
 
 ### Your Tasks
 1. **Group Creation Endpoint**
-   - [ ] `POST /api/groups/`
-   - [ ] Accept: `name` (required)
-   - [ ] Auto-set owner to authenticated user
-   - [ ] Auto-generate invite code
-   - [ ] Auto-create GroupMember (owner) for creator
-   - [ ] Return: Group data + invite code
+   - [X] `POST /api/groups/`
+   - [X] Accept: `name` (required)
+   - [X] Auto-set owner to authenticated user
+   - [X] Auto-generate invite code
+   - [X] Auto-create GroupMember (owner) for creator
+   - [X] Return: Group data + invite code
 
 2. **List Groups Endpoint**
-   - [ ] `GET /api/groups/`
-   - [ ] Return: All groups user belongs to (via GroupMember)
-   - [ ] Include member count and owner name
-   - [ ] Filter by user's memberships
+   - [X] `GET /api/groups/`
+   - [X] Return: All groups user belongs to (via GroupMember)
+   - [X] Include member count and owner name
+   - [X] Filter by user's memberships
 
 3. **Get Group Details Endpoint**
-   - [ ] `GET /api/groups/{id}/`
-   - [ ] Return: Group info + all members + owner info
-   - [ ] Accessible only to group members
+   - [X] `GET /api/groups/{id}/`
+   - [X] Return: Group info + all members + owner info
+   - [X] Accessible only to group members
 
 4. **Update Group Endpoint**
-   - [ ] `PUT /api/groups/{id}/`
-   - [ ] Accept: `name` (optional)
-   - [ ] Restricted: Owner only
-   - [ ] Return: Updated group data
+   - [X] `PUT /api/groups/{id}/`
+   - [X] Accept: `name` (optional)
+   - [X] Restricted: Owner only
+   - [X] Return: Updated group data
 
 5. **Delete Group Endpoint**
-   - [ ] `DELETE /api/groups/{id}/`
-   - [ ] Restricted: Owner only
-   - [ ] Delete cascades to all GroupMembers
+   - [X] `DELETE /api/groups/{id}/`
+   - [X] Restricted: Owner only
+   - [X] Delete cascades to all GroupMembers
 
 6. **Join Group by Invite Code Endpoint**
-   - [ ] `POST /api/groups/join/`
-   - [ ] Accept: `invite_code`
-   - [ ] Validate code exists
-   - [ ] Create GroupMember (role='member') for authenticated user
-   - [ ] Return: Group data
+   - [X] `POST /api/groups/join/`
+   - [X] Accept: `invite_code`
+   - [X] Validate code exists
+   - [X] Create GroupMember (role='member') for authenticated user
+   - [X] Return: Group data
 
 ### Code Example
 
@@ -234,13 +234,13 @@ class JoinGroupView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] Group creation endpoint working
-- [ ] List groups endpoint working
-- [ ] Get group details endpoint working
-- [ ] Update group endpoint (owner only)
-- [ ] Delete group endpoint (owner only)
-- [ ] Join group by invite code working
-- [ ] All endpoints tested with Postman/curl
+- [X] Group creation endpoint working
+- [X] List groups endpoint working
+- [X] Get group details endpoint working
+- [X] Update group endpoint (owner only)
+- [X] Delete group endpoint (owner only)
+- [X] Join group by invite code working
+- [X] All endpoints tested with Postman/curl
 
 ---
 
