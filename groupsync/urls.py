@@ -15,9 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path, include
 
+
+def api_root(_request):
+    return JsonResponse({
+        'message': 'GroupSync API is running.',
+        'endpoints': {
+            'users': '/api/users/',
+            'tasks': '/api/tasks/',
+            'messages': '/api/groups/<group_id>/messages/',
+            'admin': '/admin/',
+        },
+    })
+
 urlpatterns = [
+    path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),  # Include URLs from users app
 ]

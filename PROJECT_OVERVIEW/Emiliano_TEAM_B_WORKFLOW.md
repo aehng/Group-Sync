@@ -62,15 +62,15 @@
 
 ### Your Tasks
 1. **Group Model**
-   - [ ] Create Group model with fields: `id`, `name`, `owner` (FK to User), `created_at`, `updated_at`
-   - [ ] Add validators (group name not empty, max 100 chars)
-   - [ ] Write migration
+   - [X] Create Group model with fields: `id`, `name`, `owner` (FK to User), `created_at`, `updated_at`
+   - [X] Add validators (group name not empty, max 100 chars)
+   - [X] Write migration
 
 2. **GroupMember Model**
-   - [ ] Create GroupMember model: `id`, `group` (FK), `user` (FK), `role` (owner|member), `joined_at`
-   - [ ] Add constraint: prevent duplicate user+group combinations
-   - [ ] Make `role` choices: `owner`, `member`
-   - [ ] Write migration
+   - [X] Create GroupMember model: `id`, `group` (FK), `user` (FK), `role` (owner|member), `joined_at`
+   - [X] Add constraint: prevent duplicate user+group combinations
+   - [X] Make `role` choices: `owner`, `member`
+   - [X] Write migration
 
 3. **Invite Code Generation**
    - [ ] Add `invite_code` field to Group (unique, random string)

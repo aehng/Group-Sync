@@ -3,14 +3,17 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+from django.conf import settings
+
 def validate_future_date(value):
     if value < timezone.now():
         raise ValidationError("The meeting cannot be scheduled in the past!")
 
 class Group(models.Model):
     name = models.CharField(max_length=100)
-    
-    # FIX: Use settings.AUTH_USER_MODEL instead of User
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, 
         related_name="app_groups"
@@ -25,13 +28,13 @@ class Meeting(models.Model):
     description = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
     
-    start_time = models.DateTimeField(validators=[validate_future_date]) # Add the validator here
+    start_time = models.DateTimeField(validators=[validate_future_date])
     end_time = models.DateTimeField()
     
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    # FIX: Use settings.AUTH_USER_MODEL here too
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.title} ({self.group.name})"
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

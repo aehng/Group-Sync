@@ -173,6 +173,28 @@ class UserLoginTests(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_login_with_email(self):
+        """Test login using email in username field"""
+        data = {
+            'username': 'test@example.com',
+            'password': 'TestPass123!',
+        }
+        response = self.client.post(self.login_url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['user']['username'], 'testuser')
+
+    def test_login_username_case_insensitive(self):
+        """Test login with different username casing"""
+        data = {
+            'username': 'TestUser',
+            'password': 'TestPass123!',
+        }
+        response = self.client.post(self.login_url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['user']['username'], 'testuser')
+
 
 class UserProfileTests(TestCase):
     """Test user profile endpoints"""

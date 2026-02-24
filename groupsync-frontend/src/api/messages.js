@@ -1,9 +1,14 @@
 import { api } from "./client";
 
-export async function listGroupMessages(groupId, { limit = 30, before } = {}) {
-  const params = { limit };
-  if (before) params.before = before;
+// Fetch messages. If `cursorUrl` is provided and is a full URL (from `next`),
+// the function will fetch that URL directly; otherwise it will call the group messages endpoint.
+export async function listGroupMessages(groupId, { limit = 30, cursorUrl } = {}) {
+  if (cursorUrl && (cursorUrl.startsWith("http://") || cursorUrl.startsWith("https://"))) {
+    const res = await api.get(cursorUrl);
+    return res.data;
+  }
 
+  const params = { limit };
   const res = await api.get(`/api/groups/${groupId}/messages/`, { params });
   return res.data;
 }

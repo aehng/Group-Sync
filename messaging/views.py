@@ -1,19 +1,26 @@
+"""API views for messaging.
+
+This module exposes a `MessageViewSet` that lists and creates messages
+for a given group. Access is protected to group members only. Cursor
+pagination is used to reliably page through messages (newest-first).
+"""
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import CursorPagination
 from django.shortcuts import get_object_or_404
 from groups.models import Group
 from .models import Message
 from .serializers import MessageSerializer
 
 
-class MessagePagination(PageNumberPagination):
-    """Pagination for messages - returns last 50 messages per page"""
+class MessageCursorPagination(CursorPagination):
+    """Cursor pagination for messages so clients can paginate reliably."""
     page_size = 50
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+    ordering = "-created_at"
+    cursor_query_param = "cursor"
 
 
 class MessageViewSet(viewsets.ModelViewSet):
@@ -27,7 +34,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = MessagePagination
+    pagination_class = MessageCursorPagination
 
     def get_queryset(self):
         """
@@ -36,7 +43,8 @@ class MessageViewSet(viewsets.ModelViewSet):
         """
         group_id = self.kwargs.get('group_id')
         if group_id:
-            return Message.objects.filter(group_id=group_id).order_by('created_at')
+            # Return newest-first so clients can request the most recent page
+            return Message.objects.filter(group_id=group_id).order_by('-created_at')
         return Message.objects.none()
 
     def list(self, request, *args, **kwargs):
@@ -85,12 +93,12 @@ class MessageViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN
             )
         
-        # Add group_id and author_id to the request data
+        # Add group_id and sender_id to the request data
         data = request.data.copy()
-        data['group_id'] = group_id
-        data['author_id'] = request.user.id
-        
-        serializer = self.get_serializer(data=data)
+        data["group_id"] = group_id
+        data["sender_id"] = request.user.id
+
+        serializer = self.get_serializer(data=data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         

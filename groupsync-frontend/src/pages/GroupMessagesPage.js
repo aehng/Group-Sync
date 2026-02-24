@@ -1,37 +1,33 @@
 import { useParams } from "react-router-dom";
-import MessageList from "../components/MessageList";
-import MessageComposer from "../components/MessageComposer";
-import { useMessages } from "../hooks/useMessages";
+import MessageBoard from "../components/MessageBoard";
 
 export default function GroupMessagesPage() {
   const { groupId } = useParams();
-  const { messages, isLoading, error, sendMessage, loadOlder } = useMessages(groupId);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <header style={{ padding: "16px 20px", borderBottom: "1px solid #ddd" }}>
-        <div style={{ fontSize: 18, fontWeight: 700 }}>Group {groupId} — Messages</div>
-        <div style={{ fontSize: 12, color: "#666" }}>
-          MVP chat (mock now, API later)
+    <div style={{ 
+      display: "flex", 
+      flexDirection: "column", 
+      height: "100vh",
+      background: "#fff"
+    }}>
+      <header style={{ 
+        padding: "16px 20px", 
+        borderBottom: "1px solid #eee",
+        background: "#fff",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
+      }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: "#333" }}>
+          Group {groupId}
+        </div>
+        <div style={{ fontSize: 13, color: "#999", marginTop: 4 }}>
+          Group messaging
         </div>
       </header>
 
-      <main style={{ flex: 1, overflow: "auto", padding: 20 }}>
-        {error ? (
-          <div style={{ color: "crimson" }}>{String(error)}</div>
-        ) : (
-          <>
-            <button onClick={loadOlder} disabled={isLoading} style={{ marginBottom: 12 }}>
-              {isLoading ? "Loading..." : "Load older"}
-            </button>
-            <MessageList messages={messages} />
-          </>
-        )}
+      <main style={{ flex: 1, overflow: "hidden" }}>
+        <MessageBoard groupId={groupId} />
       </main>
-
-      <footer style={{ padding: 12, borderTop: "1px solid #ddd" }}>
-        <MessageComposer onSend={sendMessage} disabled={isLoading} />
-      </footer>
     </div>
   );
 }
