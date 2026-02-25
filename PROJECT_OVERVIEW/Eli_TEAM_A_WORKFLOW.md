@@ -195,7 +195,7 @@ class LoginSerializer(serializers.Serializer):
   - [X] Store/retrieve JWT tokens properly in localStorage
   - [X] Attach token to all API requests
 
-- [ ] **Connect React to Django Backend**
+- [X] **Connect React to Django Backend**
   - [X] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
   - [X] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
   - [X] Create API service layer (`api/client.js`) with axios interceptors
@@ -216,15 +216,15 @@ class LoginSerializer(serializers.Serializer):
   - [X] Clear localStorage
   - [X] Redirect to login page
 
-- [ ] **Frontend Error Handling**
+- [X] **Frontend Error Handling**
   - [X] Display form validation errors clearly
-  - [ ] Show error messages from backend (e.g., "Username already exists")
-  - [ ] Handle network errors (connection timeouts, server errors)
-  - [ ] Display error notifications in UI (not just console logs)
-  - [ ] Provide user-friendly error messages (avoid technical jargon)
+  - [X] Show error messages from backend (e.g., "Username already exists")
+  - [X] Handle network errors (connection timeouts, server errors)
+  - [X] Display error notifications in UI (not just console logs)
+  - [X] Provide user-friendly error messages (avoid technical jargon)
   - [X] Handle 401 (Unauthorized) errors — redirect to login
-  - [ ] Handle 404 (Not Found) errors — show "not found" message
-  - [ ] Handle 500 (Server Error) — show "something went wrong" message
+  - [X] Handle 404 (Not Found) errors — show "not found" message
+  - [X] Handle 500 (Server Error) — show "something went wrong" message
 
 - [ ] **Test All Auth Flows**
   - [ ] Test register → login → profile → logout flow
@@ -265,13 +265,104 @@ class UserProfileView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] User profile endpoint (`GET /api/users/me/`)
-- [ ] Profile update endpoint (`PUT /api/users/me/`)
-- [ ] Token refresh endpoint (`POST /api/users/refresh/`)
-- [ ] Permission decorators implemented
-- [ ] All endpoints protected with JWT auth
+- [x] User profile endpoint (`GET /api/users/me/`)
+- [x] Profile update endpoint (`PUT /api/users/me/`)
+- [x] Token refresh endpoint (`POST /api/users/refresh/`)
+- [x] Permission decorators implemented
+- [x] All endpoints protected with JWT auth
 
 ---
+
+
+
+---
+
+
+## __EMILIANO SUPPORT__
+
+
+## Weeks 6–7: Permissions & Integration (Feb 17–Mar 2)
+
+### Prerequisites
+- All CRUD endpoints working
+- Team A's auth fully integrated
+
+### Your Tasks
+1. **Permission Classes**
+   - [ ] Create `IsGroupOwner` permission (only owner can edit/delete)
+   - [ ] Create `IsGroupMember` permission (only members can access group details)
+   - [ ] Apply to all relevant endpoints
+
+2. **Get Group Members Endpoint**
+   - [ ] `GET /api/groups/{id}/members/`
+   - [ ] Return: List of all members with roles
+   - [ ] Include: username, email, role, joined_at
+
+3. **Update Member Role Endpoint** (Nice-to-Have)
+   - [ ] `PUT /api/groups/{id}/members/{user_id}/`
+   - [ ] Accept: `role` (owner|member)
+   - [ ] Restricted: Owner only
+   - [ ] Return: Updated member data
+   - [ ] (Can defer to week 8 if time is tight)
+
+4. **Unit Tests**
+   - [ ] Test group creation
+   - [ ] Test join group via invite code
+   - [ ] Test permission enforcement (non-owner can't delete)
+   - [ ] Test GroupMember creation
+   - [ ] Aim for 80%+ coverage
+
+5. **Integration with Team C & D**
+   - [ ] Verify Task/Meeting endpoints can reference Group correctly
+   - [ ] Help with any Group relationship questions
+   - [ ] Test their ability to filter tasks/meetings by group
+
+### Test Example
+
+```python
+# groups/tests.py
+from django.test import TestCase
+from rest_framework.test import APIClient
+from django.contrib.auth import get_user_model
+from .models import Group, GroupMember
+
+User = get_user_model()
+
+class GroupTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user1 = User.objects.create_user(username='user1', password='pass')
+        self.user2 = User.objects.create_user(username='user2', password='pass')
+        self.client.force_authenticate(user=self.user1)
+    
+    def test_create_group(self):
+        response = self.client.post('/api/groups/', {'name': 'Test Group'})
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('invite_code', response.data)
+    
+    def test_join_group(self):
+        group = Group.objects.create(name='Test', owner=self.user1)
+        self.client.force_authenticate(user=self.user2)
+        response = self.client.post('/api/groups/join/', {'invite_code': group.invite_code})
+        self.assertEqual(response.status_code, 201)
+```
+
+### Deliverables by End of Week 7
+- [ ] Permission classes implemented
+- [ ] List members endpoint working
+- [ ] All endpoints secured with proper permissions
+- [ ] Unit tests written and passing
+- [ ] Tested with Teams C & D
+
+---
+
+
+
+---
+
+
+
+
 
 ## Weeks 6–7: Auth Testing, Polish & Integration (Feb 17–Mar 2)
 

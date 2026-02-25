@@ -8,21 +8,78 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("access_token"));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  const getApiErrorMessage = (err, fallback) => {
-    const data = err?.response?.data;
-    if (typeof data === "string") return data;
-    if (data?.message) return data.message;
-    if (data?.detail) return data.detail;
-    if (Array.isArray(data?.non_field_errors) && data.non_field_errors.length > 0) {
-      return data.non_field_errors[0];
+  /**
+   * Extract a user-friendly error message from API response
+   */
+  const getApiErrorMessage = (err) => {
+    // Handle network errors (no response from server)
+    if (!err.response) {
+      if (err.code === "ECONNABORTED") {
+        return {
+          message: "Request timed out. Please check your connection and try again.",
+          fieldErrors: {}
+        };
+      }
+      return {
+        message: "Network error. Please check your internet connection.",
+        fieldErrors: {}
+      };
     }
+
+    const data = err.response?.data;
+    const status = err.response?.status;
+
+    // Handle different status codes
+    if (status === 401) {
+      return {
+        message: "Invalid username or password. Please try again.",
+        fieldErrors: {}
+      };
+    }
+    if (status === 404) {
+      return {
+        message: "User or resource not found.",
+        fieldErrors: {}
+      };
+    }
+    if (status === 500) {
+      return {
+        message: "Server error. Please try again later.",
+        fieldErrors: {}
+      };
+    }
+
+    // Extract field-specific errors (for validation errors)
+    const fieldErrors = {};
     if (data && typeof data === "object") {
-      const firstValue = Object.values(data)[0];
-      if (Array.isArray(firstValue) && firstValue.length > 0) return String(firstValue[0]);
-      if (typeof firstValue === "string") return firstValue;
+      // Handle Django REST Framework's format
+      for (const [key, value] of Object.entries(data)) {
+        // Skip non-field errors for now, handle separately
+        if (key === "non_field_errors" || key === "detail" || key === "message") {
+          continue;
+        }
+        fieldErrors[key] = value;
+      }
     }
-    return fallback;
+
+    // Extract general message
+    let message = null;
+    if (typeof data === "string") {
+      message = data;
+    } else if (data?.message) {
+      message = data.message;
+    } else if (data?.detail) {
+      message = data.detail;
+    } else if (Array.isArray(data?.non_field_errors) && data?.non_field_errors.length > 0) {
+      message = data.non_field_errors[0];
+    }
+
+    return {
+      message: message || "An error occurred. Please try again.",
+      fieldErrors
+    };
   };
 
 
@@ -50,6 +107,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (username, password) => {
     setLoading(true);
     setError(null);
+    setFieldErrors({});
     try {
       const response = await api.post("/api/users/login/", { username: username.trim(), password });
       const { access, refresh, user: userData } = response.data;
@@ -59,8 +117,10 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return userData;
     } catch (err) {
-      setError(getApiErrorMessage(err, "Login failed"));
-      throw err.response?.data || { general: "Login failed" };
+      const { message, fieldErrors: fErrors } = getApiErrorMessage(err);
+      setError(message);
+      setFieldErrors(fErrors);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -82,6 +142,7 @@ export const AuthProvider = ({ children }) => {
 const register = useCallback(async (username, email, password, password_confirm) => {
   setLoading(true);
   setError(null);
+  setFieldErrors({});
   try {
     const response = await api.post("/api/users/register/", {
       username: username.trim(),
@@ -96,27 +157,34 @@ const register = useCallback(async (username, email, password, password_confirm)
     setUser(userData);
     return userData;
   } catch (err) {
-    setError(err.response?.data?.message || "Registration failed");
-    throw err.response?.data || { general: "Registration failed" };
+    const { message, fieldErrors: fErrors } = getApiErrorMessage(err);
+    setError(message);
+    setFieldErrors(fErrors);
+    throw err;
   } finally {
     setLoading(false);
   }
 }, []);
 
+const clearErrors = useCallback(() => {
+  setError(null);
+  setFieldErrors({});
+}, []);
+
 const updateProfile = useCallback(async (username, email) => {
   setLoading(true);
   setError(null);
+  setFieldErrors({});
   try {
-    const response = await api.put("/api/users/me/", {username,email});
-    console.log("updateProfile: success", response.status, response.data);
+    const response = await api.put("/api/users/me/", {username, email});
     const userData = response.data.user ?? response.data;
     setUser(userData);
     return userData;
   } catch (err) {
-    console.log("updateProfile: caught error", err);
-    console.log("err.response?.data:", err.response?.data);
-    setError(err.response?.data?.message || "Update failed");
-    throw err.response?.data || { general: "Update failed" };
+    const { message, fieldErrors: fErrors } = getApiErrorMessage(err);
+    setError(message);
+    setFieldErrors(fErrors);
+    throw err;
   } finally {
     setLoading(false);
   }
@@ -128,10 +196,12 @@ const updateProfile = useCallback(async (username, email) => {
     token,
     loading,
     error,
+    fieldErrors,
     login,
     logout,
     register,
     updateProfile,
+    clearErrors,
     isAuthenticated: !!token,
   };
 
