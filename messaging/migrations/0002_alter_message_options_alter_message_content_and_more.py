@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('groups', '0003_group_invite_code_alter_group_owner'),
+        ('groups', '0003_add_group_invite_code'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('messaging', '0001_initial'),
     ]
