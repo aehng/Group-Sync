@@ -41,8 +41,8 @@
    - [x] Add to `INSTALLED_APPS` in `settings.py`
 
 5. **Plan Meeting structure**
-   - [ ] Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda
-   - [ ] Decide: is end_time required? (no for MVP)
+   - [x] Sketch fields: title, description, start_time, end_time (optional), location_or_link (Zoom/address), agenda
+   - [x] Decide: is end_time required? (no for MVP)
    - [ ] Decide: notification/reminder system? (defer to week 9)
    - [ ] Share design with teams
 
@@ -258,7 +258,9 @@ class MeetingDetailView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] List meetings endpoint working
+- [ ] List meetings endpoint workinggit init
+git remote add origin <repository-url>
+git pull origin develop
 - [ ] Get single meeting endpoint working
 - [ ] Create meeting endpoint working
 - [ ] Update meeting endpoint working
