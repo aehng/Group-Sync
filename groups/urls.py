@@ -1,19 +1,21 @@
 from django.urls import path
+
 from .views import (
-    GroupListCreateView,
+    GroupCreateView,
     GroupDetailView,
-    JoinGroupView,
-    GroupMembersView,
+    GroupJoinView,
+    GroupMembersListView,
+    GroupMemberRoleUpdateView,
 )
 
-app_name = 'groups'
-
 urlpatterns = [
-    # Group CRUD endpoints
-    path('', GroupListCreateView.as_view(), name='group-list-create'),
-    path('<int:pk>/', GroupDetailView.as_view(), name='group-detail'),
-    path('<int:pk>/members/', GroupMembersView.as_view(), name='group-members'),
-    
-    # Join group by invite code
-    path('join/', JoinGroupView.as_view(), name='join-group'),
+    path("", GroupCreateView.as_view(), name="group-create"),
+    path("join/", GroupJoinView.as_view(), name="group-join"),
+    path("<int:group_id>/", GroupDetailView.as_view(), name="group-detail"),
+    path("<int:group_id>/members/", GroupMembersListView.as_view(), name="group-members"),
+    path(
+        "<int:group_id>/members/<int:user_id>/",
+        GroupMemberRoleUpdateView.as_view(),
+        name="group-member-role",
+    ),
 ]
