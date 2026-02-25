@@ -17,12 +17,30 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+/**
+ * Enhanced error interceptor that provides better error context
+ */
+const enhanceError = (error) => {
+  // Add helpful properties to error object
+  if (!error.response) {
+    // Network error - no response from server
+    if (error.code === "ECONNABORTED") {
+      error.message = "Request timed out";
+    } else if (error.message === "Network Error") {
+      error.message = "Network error - cannot reach server";
+    } else if (!error.message) {
+      error.message = "Network error - please check your connection";
+    }
+  }
+  return error;
+};
 
 // ai helped with refresh token logic
 // Interceptor to handle token refresh on 401
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    error = enhanceError(error);
     const originalRequest = error.config;
     
     // If 401 error and we haven't tried refreshing yet
