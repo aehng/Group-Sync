@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -11,6 +13,10 @@ def validate_group_name(value):
         raise ValidationError("Group name cannot be empty.")
     if len(value) > 100:
         raise ValidationError("Group name cannot exceed 100 characters.")
+
+
+def generate_invite_code():
+    return uuid.uuid4().hex[:8]
 
 
 class Group(models.Model):
@@ -29,6 +35,13 @@ class Group(models.Model):
         related_name="owned_groups",
         help_text="The owner of the group"
     )
+    invite_code = models.CharField(
+        max_length=12,
+        unique=True,
+        editable=False,
+        default=generate_invite_code,
+        help_text="Invite code for joining the group"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -36,6 +49,13 @@ class Group(models.Model):
         ordering = ["-created_at"]
         verbose_name = "Group"
         verbose_name_plural = "Groups"
+
+    def save(self, *args, **kwargs):
+        if not self.invite_code:
+            self.invite_code = generate_invite_code()
+            while Group.objects.filter(invite_code=self.invite_code).exists():
+                self.invite_code = generate_invite_code()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
