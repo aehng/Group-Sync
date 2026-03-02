@@ -139,6 +139,20 @@ export const AuthProvider = ({ children }) => {
     setError(null);
   }, []);
 
+  // helper used by PrivateRoute (or any consumer) to ensure the current token is still
+  // valid. returns true when valid, false if it failed and user was logged out.
+  const validateToken = useCallback(async () => {
+    if (!token) return false;
+    try {
+      await api.get("/api/users/me/");
+      return true;
+    } catch (err) {
+      // anything wrong with the token or server, clear the auth state
+      logout();
+      return false;
+    }
+  }, [token, logout]);
+
 const register = useCallback(async (username, email, password, password_confirm) => {
   setLoading(true);
   setError(null);
@@ -202,6 +216,7 @@ const updateProfile = useCallback(async (username, email) => {
     register,
     updateProfile,
     clearErrors,
+    validateToken,
     isAuthenticated: !!token,
   };
 

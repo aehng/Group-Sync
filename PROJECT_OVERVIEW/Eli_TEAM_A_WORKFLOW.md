@@ -226,10 +226,10 @@ class LoginSerializer(serializers.Serializer):
   - [X] Handle 404 (Not Found) errors — show "not found" message
   - [X] Handle 500 (Server Error) — show "something went wrong" message
 
-- [ ] **Test All Auth Flows**
-  - [ ] Test register → login → profile → logout flow
-  - [ ] Test JWT token storage and retrieval
-  - [ ] Test protected routes redirect correctly
+- [X] **Test All Auth Flows**
+  - [X] Test register → login → profile → logout flow
+  - [X] Test JWT token storage and retrieval
+  - [X] Test protected routes redirect correctly
 
 ### Code Example
 
@@ -348,10 +348,10 @@ class GroupTestCase(TestCase):
 ```
 
 ### Deliverables by End of Week 7
-- [x] Permission classes implemented
-- [x] List members endpoint working
-- [x] All endpoints secured with proper permissions
-- [x] Unit tests written and passing
+- [X] Permission classes implemented
+- [X] List members endpoint working
+- [X] All endpoints secured with proper permissions
+- [X] Unit tests written and passing
 - [X] Tested with Teams C & D
 
 ---
@@ -372,26 +372,26 @@ class GroupTestCase(TestCase):
 - Team B, C, D have working endpoints
 
 ### Your Tasks
-- [ ] **Auth Backend Testing**
-  - [ ] Write unit tests for registration, login, profile endpoints
-  - [ ] Test JWT token generation and validation
-  - [ ] Test permission decorators
-  - [ ] Test error handling (duplicate username, invalid password, missing fields)
-  - [ ] Test 400/401/404 status codes returned correctly
-  - [ ] Aim for 80%+ code coverage
+- [X] **Auth Backend Testing**
+  - [X] Write unit tests for registration, login, profile endpoints
+  - [X] Test JWT token generation and validation
+  - [X] Test permission decorators
+  - [X] Test error handling (duplicate username, invalid password, missing fields)
+  - [X] Test 400/401/404 status codes returned correctly
+  - [X] Aim for 80%+ code coverage
 
-- [ ] **Auth Frontend Testing**
-  - [ ] Test complete auth flow (register → login → view profile → logout)
-  - [ ] Test error handling and validation messages displayed
-  - [ ] Test network error scenarios (connection timeout, server error)
-  - [ ] Test error messages are user-friendly and helpful
+- [X] **Auth Frontend Testing**
+  - [X] Test complete auth flow (register → login → view profile → logout)
+  - [X] Test error handling and validation messages displayed
+  - [X] Test network error scenarios (connection timeout, server error)
+  - [X] Test error messages are user-friendly and helpful
   - [ ] Test on multiple browsers
   - [ ] Test responsive design on mobile
 
 - [ ] **Polish Auth Pages**
-  - [ ] Add loading states to auth pages
-  - [ ] Add proper error notifications
-  - [ ] Improve form validation messages
+  - [X] Add loading states to auth pages
+  - [X] Add proper error notifications
+  - [X] Improve form validation messages
   - [ ] Ensure consistent styling with Connor's design system
   - [ ] Test accessibility
 
