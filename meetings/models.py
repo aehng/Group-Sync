@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 class Meeting(models.Model): 
@@ -8,4 +9,4 @@ class Meeting(models.Model):
     end_time = models.TimeField() 
     location = models.CharField(max_length=255, blank=True) 
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey('auth.User', on_manager=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
