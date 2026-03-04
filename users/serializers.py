@@ -139,8 +139,20 @@ class UserSerializer(serializers.ModelSerializer):
     Used to return user details in responses.
     Safe to include in API responses.
     """
+
+    def validate_username(self, value):
+        user = self.instance
+        if User.objects.filter(username=value).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError("Username already exists")
+        return value
+
+    def validate_email(self, value):
+        user = self.instance
+        if User.objects.filter(email=value).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError("Email already exists")
+        return value
+
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number']
         read_only_fields = ['id']
-        # Only safe fields—no password, is_staff, etc.

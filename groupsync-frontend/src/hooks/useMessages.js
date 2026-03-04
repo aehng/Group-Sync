@@ -39,6 +39,7 @@ const USE_API = true;
 
   const gid = useMemo(() => String(groupId ?? ""), [groupId]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     let alive = true;
 
@@ -67,7 +68,7 @@ const USE_API = true;
 
     load();
 
-    // Poll every 3 seconds for new messages
+    // Poll every 5 seconds for new messages (optimized from 3 seconds)
     let intervalId = null;
     if (USE_API) {
       intervalId = setInterval(() => {
@@ -82,7 +83,7 @@ const USE_API = true;
           .catch((e) => {
             if (alive) setError(e);
           });
-      }, 3000);
+      }, 5000);
     }
 
     return () => {
