@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: groupsync-backend
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn groupsync.wsgi:application"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: PYTHON_VERSION
+        value: 3.11.0
