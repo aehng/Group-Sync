@@ -385,36 +385,36 @@ class GroupTestCase(TestCase):
   - [X] Test error handling and validation messages displayed
   - [X] Test network error scenarios (connection timeout, server error)
   - [X] Test error messages are user-friendly and helpful
-  - [ ] Test on multiple browsers
-  - [ ] Test responsive design on mobile
+  - [X] Test on multiple browsers
+  - [X] Test responsive design on mobile
 
-- [ ] **Polish Auth Pages**
+- [X] **Polish Auth Pages**
   - [X] Add loading states to auth pages
   - [X] Add proper error notifications
   - [X] Improve form validation messages
-  - [ ] Ensure consistent styling with Connor's design system
-  - [ ] Test accessibility
+  - [X] Ensure consistent styling with Connor's design system
+  - [X] Test accessibility
 
 - [ ] **Integration Testing**
-  - [ ] Verify Team B, C, D can authenticate successfully
+  - [X] Verify Team B, C, D can authenticate successfully
   - [ ] Test token usage in downstream APIs
-  - [ ] Help teammates debug auth issues
+  - [X] Help teammates debug auth issues
 
-- [ ] **Documentation**
-  - [ ] Write docstrings for all auth endpoints
-  - [ ] Document API contract for others (request/response examples)
-  - [ ] Create setup guide for other frontend devs
-  - [ ] Document how to use AuthContext
+- [X] **Documentation**
+  - [X] Write docstrings for all auth endpoints
+  - [X] Document API contract for others (request/response examples)
+  - [X] Create setup guide for other frontend devs
+  - [X] Document how to use AuthContext
 
 ### Deliverables by End of Week 7
-- [ ] Auth backend fully tested with unit tests
-- [ ] Login/Register/Profile pages fully functional and polished
-- [ ] Auth context managing state properly
-- [ ] Protected routes working correctly
-- [ ] JWT token handling complete and secure
-- [ ] Integration testing with Team B, C, D complete
-- [ ] API documentation complete
-- [ ] All bugs fixed and code reviewed
+- [X] Auth backend fully tested with unit tests
+- [X] Login/Register/Profile pages fully functional and polished
+- [X] Auth context managing state properly
+- [X] Protected routes working correctly
+- [X] JWT token handling complete and secure
+- [X] Integration testing with Team B, C, D complete
+- [X] API documentation complete
+- [X] All bugs fixed and code reviewed
 
 ---
 
@@ -508,7 +508,6 @@ Django==4.2
 djangorestframework==3.14
 djangorestframework-simplejwt==5.2
 psycopg2-binary==2.9
-drf-spectacular==0.26
 ```
 
 ---
