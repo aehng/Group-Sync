@@ -11,3 +11,9 @@ services:
         value: False
       - key: PYTHON_VERSION
         value: 3.11.0
+
+  - type: web
+    name: groupsync-frontend
+    env: node
+    buildCommand: "cd groupsync-frontend && npm install && npm run build"
+    startCommand: "cd groupsync-frontend && npm run server"

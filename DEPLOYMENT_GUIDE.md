@@ -59,20 +59,30 @@ Ensure these files exist in your repository:
 
 ### Step 3: Configure Environment Variables
 
-In the Render dashboard, go to **Environment** tab and add:
+In the Render dashboard, go to **Environment** tab and add these variables:
 
 ```
-DJANGO_SECRET_KEY=<click "Generate" for auto-generated value>
+ALLOWED_HOSTS=team-project-aari.onrender.com
+CORS_ALLOWED_ORIGINS=https://team-project-aari.onrender.com,http://localhost:3000
+CSRF_TRUSTED_ORIGINS=https://team-project-aari.onrender.com
 DEBUG=False
+DJANGO_SECRET_KEY=<Render will auto-generate this>
 PYTHON_VERSION=3.11.0
 ```
 
-**Important:** After deployment, add these with your actual URLs:
+**Important Notes:**
+- **`ALLOWED_HOSTS`** must match your exact Render domain (replace `team-project-aari` with your app name)
+- **`DJANGO_SECRET_KEY`** - Click "Generate" button in Render for auto-generated secure key
+- **`DEBUG=False`** - Always False in production
+- **`CORS_ALLOWED_ORIGINS`** - Update `https://team-project-aari.onrender.com` with your actual backend URL
 
+Copy-paste template (replace `team-project-aari` with your actual app name):
 ```
-ALLOWED_HOSTS=your-app-name.onrender.com
-CORS_ALLOWED_ORIGINS=https://your-frontend-url.com,http://localhost:3000
-CSRF_TRUSTED_ORIGINS=https://your-app-name.onrender.com
+ALLOWED_HOSTS=team-project-aari.onrender.com
+CORS_ALLOWED_ORIGINS=https://team-project-aari.onrender.com,http://localhost:3000
+CSRF_TRUSTED_ORIGINS=https://team-project-aari.onrender.com
+DEBUG=False
+PYTHON_VERSION=3.11.0
 ```
 
 ### Step 4: Deploy
@@ -126,9 +136,9 @@ REACT_APP_API_URL=https://your-app-name.onrender.com
 Once frontend is deployed, update backend environment variables in Render:
 
 ```
-CORS_ALLOWED_ORIGINS=https://your-frontend.onrender.com
-CSRF_TRUSTED_ORIGINS=https://your-backend.onrender.com,https://your-frontend.onrender.com
-ALLOWED_HOSTS=your-backend.onrender.com
+ALLOWED_HOSTS=team-project-aari.onrender.com,your-frontend-url.onrender.com
+CORS_ALLOWED_ORIGINS=https://your-frontend-url.onrender.com
+CSRF_TRUSTED_ORIGINS=https://team-project-aari.onrender.com,https://your-frontend-url.onrender.com
 ```
 
 **Important:** After updating environment variables, Render will automatically redeploy.
@@ -164,6 +174,33 @@ If anything fails:
 ---
 
 ## Part 5: Common Issues & Solutions
+
+### Issue: 400 Bad Request on All Routes
+
+**Error:** All requests return HTTP 400 with no response body
+
+**Cause:** `ALLOWED_HOSTS` environment variable not set or incorrect
+
+**Solution:**
+1. Go to Render Dashboard → Your Service → **Settings** → **Environment**
+2. Make sure these variables are set correctly:
+   ```
+   ALLOWED_HOSTS=team-project-aari.onrender.com
+   CORS_ALLOWED_ORIGINS=https://team-project-aari.onrender.com,http://localhost:3000
+   CSRF_TRUSTED_ORIGINS=https://team-project-aari.onrender.com
+   DEBUG=False
+   DJANGO_SECRET_KEY=<your-secret-key>
+   PYTHON_VERSION=3.11.0
+   ```
+3. Replace `team-project-aari` with your actual Render app name
+4. Click **"Save"** (Render auto-redeploys)
+5. Wait 2-3 minutes and test: `https://team-project-aari.onrender.com/`
+
+**To verify in Render Shell:**
+```bash
+python -c "from django.conf import settings; print('ALLOWED_HOSTS:', settings.ALLOWED_HOSTS)"
+python manage.py check
+```
 
 ### Issue: Build Fails
 
