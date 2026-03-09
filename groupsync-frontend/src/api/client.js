@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 export const api = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: API_URL,
   timeout: 10000,
 });
 
@@ -52,7 +54,7 @@ api.interceptors.response.use(
         
         if (refreshToken) {
           // Call refresh endpoint to get new access token
-          const response = await axios.post("http://127.0.0.1:8000/api/users/token/refresh/", {
+          const response = await axios.post(`${API_URL}/api/users/token/refresh/`, {
             refresh: refreshToken
           });
           
