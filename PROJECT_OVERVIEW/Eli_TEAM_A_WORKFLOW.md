@@ -226,10 +226,10 @@ class LoginSerializer(serializers.Serializer):
   - [X] Handle 404 (Not Found) errors — show "not found" message
   - [X] Handle 500 (Server Error) — show "something went wrong" message
 
-- [ ] **Test All Auth Flows**
-  - [ ] Test register → login → profile → logout flow
-  - [ ] Test JWT token storage and retrieval
-  - [ ] Test protected routes redirect correctly
+- [X] **Test All Auth Flows**
+  - [X] Test register → login → profile → logout flow
+  - [X] Test JWT token storage and retrieval
+  - [X] Test protected routes redirect correctly
 
 ### Code Example
 
@@ -348,10 +348,10 @@ class GroupTestCase(TestCase):
 ```
 
 ### Deliverables by End of Week 7
-- [x] Permission classes implemented
-- [x] List members endpoint working
-- [x] All endpoints secured with proper permissions
-- [x] Unit tests written and passing
+- [X] Permission classes implemented
+- [X] List members endpoint working
+- [X] All endpoints secured with proper permissions
+- [X] Unit tests written and passing
 - [X] Tested with Teams C & D
 
 ---
@@ -372,49 +372,49 @@ class GroupTestCase(TestCase):
 - Team B, C, D have working endpoints
 
 ### Your Tasks
-- [ ] **Auth Backend Testing**
-  - [ ] Write unit tests for registration, login, profile endpoints
-  - [ ] Test JWT token generation and validation
-  - [ ] Test permission decorators
-  - [ ] Test error handling (duplicate username, invalid password, missing fields)
-  - [ ] Test 400/401/404 status codes returned correctly
-  - [ ] Aim for 80%+ code coverage
+- [X] **Auth Backend Testing**
+  - [X] Write unit tests for registration, login, profile endpoints
+  - [X] Test JWT token generation and validation
+  - [X] Test permission decorators
+  - [X] Test error handling (duplicate username, invalid password, missing fields)
+  - [X] Test 400/401/404 status codes returned correctly
+  - [X] Aim for 80%+ code coverage
 
-- [ ] **Auth Frontend Testing**
-  - [ ] Test complete auth flow (register → login → view profile → logout)
-  - [ ] Test error handling and validation messages displayed
-  - [ ] Test network error scenarios (connection timeout, server error)
-  - [ ] Test error messages are user-friendly and helpful
-  - [ ] Test on multiple browsers
-  - [ ] Test responsive design on mobile
+- [X] **Auth Frontend Testing**
+  - [X] Test complete auth flow (register → login → view profile → logout)
+  - [X] Test error handling and validation messages displayed
+  - [X] Test network error scenarios (connection timeout, server error)
+  - [X] Test error messages are user-friendly and helpful
+  - [X] Test on multiple browsers
+  - [X] Test responsive design on mobile
 
-- [ ] **Polish Auth Pages**
-  - [ ] Add loading states to auth pages
-  - [ ] Add proper error notifications
-  - [ ] Improve form validation messages
-  - [ ] Ensure consistent styling with Connor's design system
-  - [ ] Test accessibility
+- [X] **Polish Auth Pages**
+  - [X] Add loading states to auth pages
+  - [X] Add proper error notifications
+  - [X] Improve form validation messages
+  - [X] Ensure consistent styling with Connor's design system
+  - [X] Test accessibility
 
 - [ ] **Integration Testing**
-  - [ ] Verify Team B, C, D can authenticate successfully
+  - [X] Verify Team B, C, D can authenticate successfully
   - [ ] Test token usage in downstream APIs
-  - [ ] Help teammates debug auth issues
+  - [X] Help teammates debug auth issues
 
-- [ ] **Documentation**
-  - [ ] Write docstrings for all auth endpoints
-  - [ ] Document API contract for others (request/response examples)
-  - [ ] Create setup guide for other frontend devs
-  - [ ] Document how to use AuthContext
+- [X] **Documentation**
+  - [X] Write docstrings for all auth endpoints
+  - [X] Document API contract for others (request/response examples)
+  - [X] Create setup guide for other frontend devs
+  - [X] Document how to use AuthContext
 
 ### Deliverables by End of Week 7
-- [ ] Auth backend fully tested with unit tests
-- [ ] Login/Register/Profile pages fully functional and polished
-- [ ] Auth context managing state properly
-- [ ] Protected routes working correctly
-- [ ] JWT token handling complete and secure
-- [ ] Integration testing with Team B, C, D complete
-- [ ] API documentation complete
-- [ ] All bugs fixed and code reviewed
+- [X] Auth backend fully tested with unit tests
+- [X] Login/Register/Profile pages fully functional and polished
+- [X] Auth context managing state properly
+- [X] Protected routes working correctly
+- [X] JWT token handling complete and secure
+- [X] Integration testing with Team B, C, D complete
+- [X] API documentation complete
+- [X] All bugs fixed and code reviewed
 
 ---
 
@@ -458,10 +458,10 @@ class GroupTestCase(TestCase):
 - All features tested and documented
 
 ### Your Tasks
-- [ ] **Deployment Preparation**
-  - [ ] Update `requirements.txt` with all dependencies
-  - [ ] Set environment variables (Django SECRET_KEY, PostgreSQL URL, etc.)
-  - [ ] Test locally with production settings
+- [X] **Deployment Preparation**
+  - [X] Update `requirements.txt` with all dependencies
+  - [X] Set environment variables (Django SECRET_KEY, CORS settings, etc.)
+  - [X] Test locally with production settings
 
 - [ ] **Deploy to Render**
   - [ ] Push code to `main` branch
@@ -508,7 +508,6 @@ Django==4.2
 djangorestframework==3.14
 djangorestframework-simplejwt==5.2
 psycopg2-binary==2.9
-drf-spectacular==0.26
 ```
 
 ---

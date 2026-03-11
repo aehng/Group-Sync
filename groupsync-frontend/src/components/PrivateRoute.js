@@ -1,13 +1,28 @@
-// base created with ai
+﻿// base created with ai
 
-import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function PrivateRoute({ children }) {
-  const { isAuthenticated, loading } = useContext(AuthContext);
+  const { isAuthenticated, loading, validateToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [checking, setChecking] = useState(false);
 
-  if (loading) {
+  // verify the token with server each time this route is rendered
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    setChecking(true);
+    validateToken()
+      .then(valid => {
+        if (!valid) {
+          navigate("/login", { replace: true });
+        }
+      })
+      .finally(() => setChecking(false));
+  }, [isAuthenticated, validateToken, navigate]);
+
+  if (loading || checking) {
     return <div style={{ padding: "20px" }}>Loading...</div>;
   }
 

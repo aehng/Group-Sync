@@ -6,6 +6,7 @@ import { useMessages } from "../hooks/useMessages";
 export default function MessageBoard({ groupId }) {
   const { messages, isLoading, error, sendMessage, loadOlder } = useMessages(groupId);
   const endRef = useRef(null);
+  const [sendSuccess, setSendSuccess] = React.useState(false);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -13,6 +14,16 @@ export default function MessageBoard({ groupId }) {
       endRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]);
+
+  const handleSendMessage = async (content) => {
+    try {
+      await sendMessage(content);
+      setSendSuccess(true);
+      setTimeout(() => setSendSuccess(false), 3000);
+    } catch (err) {
+      console.error("Failed to send message:", err);
+    }
+  };
 
   // The component simply composes the lower-level pieces: it shows a
   // scrollable messages area and a composer. The `loadOlder` handler
@@ -67,7 +78,19 @@ export default function MessageBoard({ groupId }) {
             background: "#fff",
             boxShadow: "0 -2px 8px rgba(0,0,0,0.05)"
           }}>
-            <MessageComposer onSend={sendMessage} disabled={isLoading} />
+            {sendSuccess && (
+              <div style={{
+                padding: "12px 16px",
+                background: "#d4edda",
+                color: "#155724",
+                fontSize: "13px",
+                borderRadius: 4,
+                margin: "8px"
+              }}>
+                ✓ Message sent!
+              </div>
+            )}
+            <MessageComposer onSend={handleSendMessage} disabled={isLoading} />
           </div>
         </>
       )}

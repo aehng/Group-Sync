@@ -34,6 +34,7 @@ def api_root(_request):
 urlpatterns = [
     path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
+    path('api/', include('messaging.urls')),
     path('api/users/', include('users.urls')),  # Include URLs from users app
     path('api/groups/', include('groups.urls')),
 ]
