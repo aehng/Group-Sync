@@ -37,4 +37,6 @@ urlpatterns = [
     path('api/', include('messaging.urls')),
     path('api/users/', include('users.urls')),  # Include URLs from users app
     path('api/groups/', include('groups.urls')),
+    path('api/', include('tasks.urls')),
+    path('api/', include('meetings.urls')),
 ]
