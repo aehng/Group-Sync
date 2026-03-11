@@ -13,6 +13,17 @@ from .serializers import GroupMemberRoleSerializer, GroupMemberSerializer, Group
 class GroupCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        # Return all groups the authenticated user belongs to
+        groups = (
+            Group.objects.filter(members__user=request.user)
+            .select_related("owner")
+            .prefetch_related("members__user")
+            .distinct()
+        )
+        serializer = GroupSerializer(groups, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
         serializer = GroupSerializer(data=request.data)
         if not serializer.is_valid():
@@ -49,12 +60,38 @@ class GroupJoinView(APIView):
 
 
 class GroupDetailView(APIView):
-    permission_classes = [IsAuthenticated, IsGroupOwner]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, group_id):
+        # GET requires group membership
+        self.check_object_permissions(request, IsGroupMember(), group_id)
+        group = get_object_or_404(Group, id=group_id)
+        serializer = GroupSerializer(group)
+        return Response(serializer.data)
+
+    def put(self, request, group_id):
+        # PUT requires ownership
+        self.check_object_permissions(request, IsGroupOwner(), group_id)
+        group = get_object_or_404(Group, id=group_id)
+        serializer = GroupSerializer(group, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data)
 
     def delete(self, request, group_id):
+        # DELETE requires ownership
+        self.check_object_permissions(request, IsGroupOwner(), group_id)
         group = get_object_or_404(Group, id=group_id)
         group.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def check_object_permissions(self, request, permission, group_id):
+        """Helper to check permissions with group_id in kwargs."""
+        view = type('View', (), {'kwargs': {'group_id': group_id}})()
+        if not permission.has_permission(request, view):
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied(detail=permission.message)
 
 
 class GroupMembersListView(APIView):

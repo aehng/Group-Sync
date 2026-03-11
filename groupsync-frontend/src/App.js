@@ -4,6 +4,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import GroupMessagesPage from "./pages/GroupMessagesPage";
+import GroupList from "./pages/GroupList";
+import CreateGroup from "./pages/CreateGroup";
 import PrivateRoute from "./components/PrivateRoute";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
@@ -24,6 +26,8 @@ export default function App() {
           {/* Workspace and messaging routes */}
           <Route path="/groups/:groupId" element={<PrivateRoute><GroupWorkspace /></PrivateRoute>} />
           <Route path="/groups/:groupId/messages" element={<PrivateRoute><GroupMessagesPage /></PrivateRoute>} />
+          <Route path="/groups/create" element={<PrivateRoute><CreateGroup /></PrivateRoute>} />
+          <Route path="/groups" element={<PrivateRoute><GroupList /></PrivateRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<div style={{ padding: 24 }}>Not found</div>} />

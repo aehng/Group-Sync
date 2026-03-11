@@ -252,9 +252,9 @@ class JoinGroupView(APIView):
 
 ### Your Tasks
 1. **Permission Classes**
-   - [ ] Create `IsGroupOwner` permission (only owner can edit/delete)
-   - [ ] Create `IsGroupMember` permission (only members can access group details)
-   - [ ] Apply to all relevant endpoints
+   - [X] Create `IsGroupOwner` permission (only owner can edit/delete)
+   - [X] Create `IsGroupMember` permission (only members can access group details)
+   - [X] Apply to all relevant endpoints
 
 2. **Get Group Members Endpoint**
    - [ ] `GET /api/groups/{id}/members/`
