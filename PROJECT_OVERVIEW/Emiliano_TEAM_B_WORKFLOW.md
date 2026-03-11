@@ -257,9 +257,9 @@ class JoinGroupView(APIView):
    - [X] Apply to all relevant endpoints
 
 2. **Get Group Members Endpoint**
-   - [ ] `GET /api/groups/{id}/members/`
-   - [ ] Return: List of all members with roles
-   - [ ] Include: username, email, role, joined_at
+   - [X] `GET /api/groups/{id}/members/`
+   - [X] Return: List of all members with roles
+   - [X] Include: username, email, role, joined_at
 
 3. **Update Member Role Endpoint** (Nice-to-Have)
    - [ ] `PUT /api/groups/{id}/members/{user_id}/`
@@ -269,16 +269,16 @@ class JoinGroupView(APIView):
    - [ ] (Can defer to week 8 if time is tight)
 
 4. **Unit Tests**
-   - [ ] Test group creation
-   - [ ] Test join group via invite code
-   - [ ] Test permission enforcement (non-owner can't delete)
-   - [ ] Test GroupMember creation
-   - [ ] Aim for 80%+ coverage
+   - [X] Test group creation
+   - [X] Test join group via invite code
+   - [X] Test permission enforcement (non-owner can't delete)
+   - [X] Test GroupMember creation
+   - [X] Aim for 80%+ coverage
 
 5. **Integration with Team C & D**
-   - [ ] Verify Task/Meeting endpoints can reference Group correctly
-   - [ ] Help with any Group relationship questions
-   - [ ] Test their ability to filter tasks/meetings by group
+   - [X] Verify Task/Meeting endpoints can reference Group correctly
+   - [X] Help with any Group relationship questions
+   - [X] Test their ability to filter tasks/meetings by group
 
 ### Test Example
 
@@ -311,11 +311,11 @@ class GroupTestCase(TestCase):
 ```
 
 ### Deliverables by End of Week 7
-- [ ] Permission classes implemented
-- [ ] List members endpoint working
-- [ ] All endpoints secured with proper permissions
-- [ ] Unit tests written and passing
-- [ ] Tested with Teams C & D
+- [x] Permission classes implemented
+- [x] List members endpoint working
+- [x] All endpoints secured with proper permissions
+- [x] Unit tests written and passing
+- [x] Tested with Teams C & D
 
 ---
 
