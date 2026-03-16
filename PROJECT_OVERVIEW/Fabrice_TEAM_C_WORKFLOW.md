@@ -359,36 +359,36 @@ class TaskTestCase(TestCase):
 - React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-- [ ] **Task Board/List Page**
-  - [ ] Create `TaskBoard.js` component to display tasks by status
-  - [ ] Fetch tasks with `axios.get('/api/groups/{id}/tasks/')` with JWT token
-  - [ ] Display tasks in 3 columns: To-Do, Doing, Done (Kanban style)
-  - [ ] Allow filtering by status, assigned user, due date
-  - [ ] Add button to create new task
+- [x] **Task Board/List Page**
+  - [x] Create `TaskBoard.js` component to display tasks by status
+  - [x] Fetch tasks with `axios.get('/api/groups/{id}/tasks/')` with JWT token
+  - [x] Display tasks in 3 columns: To-Do, Doing, Done (Kanban style)
+  - [x] Allow filtering by status, assigned user, due date
+  - [x] Add button to create new task
 
-- [ ] **Create Task Form**
-  - [ ] Create `CreateTask.js` component with fields: title, description, due_date, assigned_to
-  - [ ] Handle form submission with `axios.post('/api/groups/{id}/tasks/')`
-  - [ ] Fetch group members for assigned_to dropdown
-  - [ ] Display validation errors
+- [x] **Create Task Form**
+  - [x] Create `CreateTask.js` component with fields: title, description, due_date, assigned_to
+  - [x] Handle form submission with `axios.post('/api/groups/{id}/tasks/')`
+  - [x] Fetch group members for assigned_to dropdown
+  - [x] Display validation errors
 
-- [ ] **Task Details/Edit Page**
-  - [ ] Create `TaskDetails.js` component to display full task info
-  - [ ] Fetch task data with `axios.get('/api/groups/{id}/tasks/{task_id}/')`
-  - [ ] Display title, description, status, due date, assigned to, created by
-  - [ ] Add edit mode to update task fields
-  - [ ] Handle update with `axios.put('/api/groups/{id}/tasks/{task_id}/')`
-  - [ ] Add delete button (creator/owner only)
+- [x] **Task Details/Edit Page**
+  - [x] Create `TaskDetails.js` component to display full task info
+  - [x] Fetch task data with `axios.get('/api/groups/{id}/tasks/{task_id}/')`
+  - [x] Display title, description, status, due date, assigned to, created by
+  - [x] Add edit mode to update task fields
+  - [x] Handle update with `axios.put('/api/groups/{id}/tasks/{task_id}/')`
+  - [x] Add delete button (creator/owner only)
 
-- [ ] **Status Update Component**
-  - [ ] Create quick status update buttons on task cards
-  - [ ] Handle status change with `axios.patch('/api/groups/{id}/tasks/{task_id}/status/')`
-  - [ ] Update UI optimistically (change before server confirms)
+- [x] **Status Update Component**
+  - [x] Create quick status update buttons on task cards
+  - [x] Handle status change with `axios.patch('/api/groups/{id}/tasks/{task_id}/status/')`
+  - [x] Update UI optimistically (change before server confirms)
 
-- [ ] **Task Card Component**
-  - [ ] Create reusable `TaskCard.js` component for displaying task summary
-  - [ ] Show title, due date, assigned user, status
-  - [ ] Add drag-and-drop functionality (optional, nice-to-have)
+- [x] **Task Card Component**
+  - [x] Create reusable `TaskCard.js` component for displaying task summary
+  - [x] Show title, due date, assigned user, status
+  - [x] Add drag-and-drop functionality (optional, nice-to-have)
 
 ### Code Example
 
@@ -471,12 +471,12 @@ export default TaskBoard;
 ```
 
 ### Deliverables by End of Week 9
-- [ ] Task board with Kanban columns working
-- [ ] Create task form functional
-- [ ] Task details/edit page complete
-- [ ] Status update buttons working
-- [ ] Filtering and sorting functional
-- [ ] Delete task functionality (with permission checks)
+- [x] Task board with Kanban columns working
+- [x] Create task form functional
+- [x] Task details/edit page complete
+- [x] Status update buttons working
+- [x] Filtering and sorting functional
+- [x] Delete task functionality (with permission checks)
 
 ---
 
@@ -487,7 +487,7 @@ export default TaskBoard;
 
 ### Your Tasks
 1. **Prepare for Deployment**
-   - [ ] Update `requirements.txt`
+  - [x] Update `requirements.txt`
    - [ ] Test with production database
 
 2. **Deploy with Team A**
@@ -498,7 +498,7 @@ export default TaskBoard;
 3. **Final Testing**
    - [ ] Verify all endpoints working on Render
    - [ ] Test with Team E's React
-   - [ ] Check error handling
+  - [x] Check error handling
 
 ### Deliverables by April 1
 - [ ] Tasks fully deployed

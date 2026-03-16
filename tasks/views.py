@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.utils.dateparse import parse_datetime
 from rest_framework import viewsets, permissions, filters, status
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Task
 from .Serializers import TaskSerializer
-from groups.models import Group
+from groups.models import Group, GroupMember
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -18,8 +20,10 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        # Users can see tasks from groups they belong to or created
-        return (Task.objects.filter(group__members=user) | Task.objects.filter(group__created_by=user)).distinct()
+        # Users can see tasks from groups they belong to or own.
+        return Task.objects.filter(
+            Q(group__members__user=user) | Q(group__owner=user)
+        ).select_related('group', 'assigned_to', 'created_by').distinct()
 
     @action(detail=False, methods=['get'])
     def my_tasks(self, request):
@@ -48,32 +52,89 @@ class TaskViewSet(viewsets.ModelViewSet):
 class TaskListCreateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, group_id):
-        group = get_object_or_404(Group, id=group_id)
-        is_member = group.members.filter(id=request.user.id).exists() or group.created_by_id == request.user.id
-        if not is_member:
-            return Response({'error': 'Not a member'}, status=status.HTTP_403_FORBIDDEN)
+    STATUS_ALIASES = {
+        'pending': 'todo',
+        'in_progress': 'doing',
+        'completed': 'done',
+    }
 
-        tasks = Task.objects.filter(group=group)
+    ALLOWED_ORDERING = {
+        'created_at',
+        '-created_at',
+        'due_date',
+        '-due_date',
+        'priority',
+        '-priority',
+        'status',
+        '-status',
+    }
 
+    @staticmethod
+    def _is_group_member(group, user):
+        return GroupMember.objects.filter(group=group, user=user).exists() or group.owner_id == user.id
+
+    def _apply_filters(self, request, tasks):
         status_filter = request.query_params.get('status')
         if status_filter:
+            status_filter = self.STATUS_ALIASES.get(status_filter, status_filter)
             tasks = tasks.filter(status=status_filter)
 
         assigned_to = request.query_params.get('assigned_to')
         if assigned_to:
             tasks = tasks.filter(assigned_to_id=assigned_to)
 
+        unassigned = request.query_params.get('unassigned')
+        if unassigned and unassigned.lower() in {'1', 'true', 'yes'}:
+            tasks = tasks.filter(assigned_to__isnull=True)
+
+        due_before = request.query_params.get('due_before')
+        if due_before:
+            due_before_dt = parse_datetime(due_before)
+            if not due_before_dt:
+                return None, Response(
+                    {'error': 'Invalid due_before. Use ISO 8601 datetime.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            tasks = tasks.filter(due_date__lte=due_before_dt)
+
+        due_after = request.query_params.get('due_after')
+        if due_after:
+            due_after_dt = parse_datetime(due_after)
+            if not due_after_dt:
+                return None, Response(
+                    {'error': 'Invalid due_after. Use ISO 8601 datetime.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            tasks = tasks.filter(due_date__gte=due_after_dt)
+
+        ordering = request.query_params.get('ordering', '-created_at')
+        if ordering not in self.ALLOWED_ORDERING:
+            return None, Response(
+                {'error': 'Invalid ordering field.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return tasks.order_by(ordering), None
+
+    def get(self, request, group_id):
+        group = get_object_or_404(Group, id=group_id)
+        if not self._is_group_member(group, request.user):
+            return Response({'error': 'Not a member'}, status=status.HTTP_403_FORBIDDEN)
+
+        tasks = Task.objects.filter(group=group).select_related('group', 'assigned_to', 'created_by')
+        tasks, error_response = self._apply_filters(request, tasks)
+        if error_response:
+            return error_response
+
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data)
 
     def post(self, request, group_id):
         group = get_object_or_404(Group, id=group_id)
-        is_member = group.members.filter(id=request.user.id).exists() or group.created_by_id == request.user.id
-        if not is_member:
+        if not self._is_group_member(group, request.user):
             return Response({'error': 'Not a member'}, status=status.HTTP_403_FORBIDDEN)
 
-        serializer = TaskSerializer(data=request.data, context={'request': request})
+        serializer = TaskSerializer(data=request.data, context={'request': request, 'group': group})
         if serializer.is_valid():
             task = serializer.save(group=group, status='todo')
             return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
@@ -83,10 +144,13 @@ class TaskListCreateView(APIView):
 class TaskDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @staticmethod
+    def _is_group_member(group, user):
+        return GroupMember.objects.filter(group=group, user=user).exists() or group.owner_id == user.id
+
     def _get_group_and_task(self, request, group_id, task_id):
         group = get_object_or_404(Group, id=group_id)
-        is_member = group.members.filter(id=request.user.id).exists() or group.created_by_id == request.user.id
-        if not is_member:
+        if not self._is_group_member(group, request.user):
             return None, None, Response({'error': 'Not a member'}, status=status.HTTP_403_FORBIDDEN)
 
         task = get_object_or_404(Task, id=task_id, group=group)
@@ -107,7 +171,7 @@ class TaskDetailView(APIView):
 
         is_creator = task.created_by_id == request.user.id
         is_assignee = task.assigned_to_id == request.user.id
-        is_owner = group.created_by_id == request.user.id
+        is_owner = group.owner_id == request.user.id
 
         if not (is_creator or is_assignee or is_owner):
             return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
@@ -124,7 +188,7 @@ class TaskDetailView(APIView):
             return error_response
 
         is_creator = task.created_by_id == request.user.id
-        is_owner = group.created_by_id == request.user.id
+        is_owner = group.owner_id == request.user.id
         if not (is_creator or is_owner):
             return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
@@ -135,17 +199,20 @@ class TaskDetailView(APIView):
 class TaskStatusUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @staticmethod
+    def _is_group_member(group, user):
+        return GroupMember.objects.filter(group=group, user=user).exists() or group.owner_id == user.id
+
     def patch(self, request, group_id, task_id):
         group = get_object_or_404(Group, id=group_id)
-        is_member = group.members.filter(id=request.user.id).exists() or group.created_by_id == request.user.id
-        if not is_member:
+        if not self._is_group_member(group, request.user):
             return Response({'error': 'Not a member'}, status=status.HTTP_403_FORBIDDEN)
 
         task = get_object_or_404(Task, id=task_id, group=group)
 
         is_creator = task.created_by_id == request.user.id
         is_assignee = task.assigned_to_id == request.user.id
-        is_owner = group.created_by_id == request.user.id
+        is_owner = group.owner_id == request.user.id
 
         if not (is_creator or is_assignee or is_owner):
             return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)

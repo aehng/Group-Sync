@@ -2,13 +2,21 @@ jest.mock("./client", () => ({
   api: {
     get: jest.fn(),
     post: jest.fn(),
+    put: jest.fn(),
     patch: jest.fn(),
     delete: jest.fn(),
   },
 }));
 
 import { api } from "./client";
-import { listGroupTasks, getTask, createTask, updateTaskStatus, deleteTask } from "./tasks";
+import {
+  listGroupTasks,
+  getTask,
+  createTask,
+  updateTask,
+  updateTaskStatus,
+  deleteTask,
+} from "./tasks";
 
 describe("tasks API", () => {
   beforeEach(() => jest.clearAllMocks());
@@ -18,6 +26,12 @@ describe("tasks API", () => {
     const data = await listGroupTasks(5);
     expect(api.get).toHaveBeenCalledWith(`/api/groups/5/tasks/`);
     expect(data).toEqual({ results: [{ id: 10, title: "Task" }] });
+  });
+
+  test("listGroupTasks supports query filters", async () => {
+    api.get.mockResolvedValue({ data: { results: [] } });
+    await listGroupTasks(5, { status: "todo", assigned_to: 3 });
+    expect(api.get).toHaveBeenCalledWith(`/api/groups/5/tasks/?status=todo&assigned_to=3`);
   });
 
   test("getTask calls task detail endpoint", async () => {
@@ -33,6 +47,14 @@ describe("tasks API", () => {
     const created = await createTask(5, payload);
     expect(api.post).toHaveBeenCalledWith(`/api/groups/5/tasks/`, payload);
     expect(created).toEqual({ id: 20, ...payload });
+  });
+
+  test("updateTask puts task payload", async () => {
+    const payload = { title: "Updated" };
+    api.put.mockResolvedValue({ data: { id: 21, ...payload } });
+    const data = await updateTask(5, 21, payload);
+    expect(api.put).toHaveBeenCalledWith(`/api/groups/5/tasks/21/`, payload);
+    expect(data).toEqual({ id: 21, ...payload });
   });
 
   test("updateTaskStatus patches status", async () => {
