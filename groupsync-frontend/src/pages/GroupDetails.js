@@ -122,23 +122,22 @@ export default function GroupDetails() {
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <h2 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>{group.name}</h2>
 
-            {isOwner && (
-              <button
-                onClick={handleCopyInviteCode}
-                style={{
-                  padding: "8px 12px",
-                  fontSize: 14,
-                  cursor: "pointer",
-                  borderRadius: 6,
-                  border: "1px solid #007bff",
-                  background: "#fff",
-                  color: "#007bff",
-                  fontWeight: 600,
-                }}
-              >
-                Copy invite code
-              </button>
-            )}
+            <button
+              onClick={handleCopyInviteCode}
+              style={{
+                padding: "8px 12px",
+                fontSize: 14,
+                cursor: "pointer",
+                borderRadius: 6,
+                border: "1px solid #007bff",
+                background: "#fff",
+                color: "#007bff",
+                fontWeight: 600,
+              }}
+            >
+              Copy invite code
+            </button>
+
             {copyStatus && <span style={{ color: "#1976d2", fontSize: 13 }}>{copyStatus}</span>}
           </div>
 
