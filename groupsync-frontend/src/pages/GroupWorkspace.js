@@ -182,6 +182,23 @@ export default function GroupWorkspace() {
 
         {tab === "tasks" && (
           <div style={{ padding: 20, color: "#666" }}>
+            <div style={{ marginBottom: 16 }}>
+              <Link
+                to={`/groups/${groupId}/tasks`}
+                style={{
+                  display: "inline-block",
+                  padding: "10px 16px",
+                  background: "#007bff",
+                  color: "#fff",
+                  textDecoration: "none",
+                  borderRadius: 6,
+                  fontWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                Open Task Board
+              </Link>
+            </div>
             {errors.tasks && (
               <Error title="Failed to load tasks" message={errors.tasks.message} />
             )}

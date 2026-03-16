@@ -12,6 +12,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import GroupWorkspace from "./pages/GroupWorkspace";
+import TaskBoard from "./pages/TaskBoard";
+import CreateTask from "./pages/CreateTask";
+import TaskDetails from "./pages/TaskDetails";
 
 export default function App() {
   return (
@@ -32,6 +35,9 @@ export default function App() {
           <Route path="/groups/:groupId/details" element={<PrivateRoute><GroupDetails /></PrivateRoute>} />
           <Route path="/groups/:groupId/messages" element={<PrivateRoute><GroupMessagesPage /></PrivateRoute>} />
           <Route path="/groups/:groupId" element={<PrivateRoute><GroupWorkspace /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks" element={<PrivateRoute><TaskBoard /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks/new" element={<PrivateRoute><CreateTask /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks/:taskId" element={<PrivateRoute><TaskDetails /></PrivateRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<div style={{ padding: 24 }}>Not found</div>} />
