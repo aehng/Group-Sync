@@ -100,7 +100,7 @@ export default function GroupList() {
                     onClick={(e) => {
                       // Prevent Link navigation so button can control behavior if needed
                       e.preventDefault();
-                      window.location.href = `/groups/${group.id}`;
+                      window.location.href = `/groups/${group.id}/details`;
                     }}
                   >
                     View

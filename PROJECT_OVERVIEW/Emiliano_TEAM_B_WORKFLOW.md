@@ -327,23 +327,23 @@ class GroupTestCase(TestCase):
 - React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-- [ ] **Group List/Dashboard Page**
-  - [ ] Create `GroupList.js` component to display all user's groups
-  - [ ] Fetch groups with `axios.get('/api/groups/')` with JWT token
-  - [ ] Display group name, owner, and member count
-  - [ ] Add button to navigate to group details
+- [x] **Group List/Dashboard Page**
+  - [x] Create `GroupList.js` component to display all user's groups
+  - [x] Fetch groups with `axios.get('/api/groups/')` with JWT token
+  - [x] Display group name, owner, and member count
+  - [x] Add button to navigate to group details
 
-- [ ] **Create Group Form**
-  - [ ] Create `CreateGroup.js` component with group name field
-  - [ ] Handle form submission with `axios.post('/api/groups/')`
-  - [ ] Redirect to group details on success
-  - [ ] Display validation errors
+- [x] **Create Group Form**
+  - [x] Create `CreateGroup.js` component with group name field
+  - [x] Handle form submission with `axios.post('/api/groups/')`
+  - [x] Redirect to group details on success
+  - [x] Display validation errors
 
-- [ ] **Join Group Form**
-  - [ ] Create `JoinGroup.js` component with invite code field
-  - [ ] Handle form submission with `axios.post('/api/groups/join/')`
-  - [ ] Redirect to group details on success
-  - [ ] Display error for invalid codes
+- [x] **Join Group Form**
+  - [x] Create `JoinGroup.js` component with invite code field
+  - [x] Handle form submission with `axios.post('/api/groups/join/')`
+  - [x] Redirect to group details on success
+  - [x] Display error for invalid codes
 
 - [ ] **Group Details Page**
   - [ ] Create `GroupDetails.js` component to display group info
