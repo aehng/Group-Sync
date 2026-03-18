@@ -12,7 +12,6 @@ export default function MeetingDetails() {
     const [meeting, setMeeting] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const fetchMeeting = async () => {
@@ -39,7 +38,7 @@ export default function MeetingDetails() {
             const data = await updateMeeting(groupId, meetingId, payload);
             setMeeting(data);
             setIsEditing(false);
-        } catch (err) { setErrors(err.response?.data || {}); }
+        } catch (err) { console.error(err); }
     };
 
     const handleDelete = async () => {

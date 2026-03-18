@@ -33,6 +33,9 @@ export function useMessages(groupId) {
   // `nextUrl` stores the cursor pagination `next` URL from the API. When
   // present `loadOlder()` will fetch that URL to retrieve older messages.
 
+  // Toggle API usage; set to `true` to call the Django backend.
+  const USE_API = true;
+
   const gid = useMemo(() => String(groupId ?? ""), [groupId]);
 
   useEffect(() => {
@@ -85,7 +88,7 @@ export function useMessages(groupId) {
       alive = false;
       if (intervalId) clearInterval(intervalId);
     };
-  }, [gid]);
+  }, [gid, USE_API]);
 
   async function sendMessage(content) {
     setError(null);

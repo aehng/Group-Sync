@@ -17,9 +17,6 @@ import AllGroupsCalendarPage from "./pages/AllGroupsCalendarPage";
 import TaskBoard from "./pages/TaskBoard";
 import CreateTask from "./pages/CreateTask";
 import TaskDetails from "./pages/TaskDetails";
-import MeetingList from "./components/MeetingList";
-import CreateMeeting from "./components/CreateMeeting";
-import MeetingDetails from "./components/MeetingDetails";
 
 
 
