@@ -363,37 +363,37 @@ class MeetingTestCase(TestCase):
 - React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-- [ ] **Meeting List Page**
-  - [ ] Create `MeetingList.js` component to display all meetings
-  - [ ] Fetch meetings with `axios.get('/api/groups/{id}/meetings/')` with JWT token
-  - [ ] Display meetings in list or calendar view
-  - [ ] Add filters for upcoming vs. past meetings
-  - [ ] Add button to create new meeting
+- [x] **Meeting List Page**
+  - [x] Create `MeetingList.js` component to display all meetings
+  - [x] Fetch meetings with `axios.get('/api/groups/{id}/meetings/')` with JWT token
+  - [x] Display meetings in list or calendar view
+  - [x] Add filters for upcoming vs. past meetings
+  - [x] Add button to create new meeting
 
-- [ ] **Create Meeting Form**
-  - [ ] Create `CreateMeeting.js` component with fields: title, description, start_time, end_time (optional), location_or_link, agenda
-  - [ ] Use datetime input for start_time and end_time
-  - [ ] Handle form submission with `axios.post('/api/groups/{id}/meetings/')`
-  - [ ] Display validation errors
+- [x] **Create Meeting Form**
+  - [x] Create `CreateMeeting.js` component with fields: title, description, start_time, end_time (optional), location_or_link, agenda
+  - [x] Use datetime input for start_time and end_time
+  - [x] Handle form submission with `axios.post('/api/groups/{id}/meetings/')`
+  - [x] Display validation errors
 
-- [ ] **Meeting Details/Edit Page**
-  - [ ] Create `MeetingDetails.js` component to display full meeting info
-  - [ ] Fetch meeting data with `axios.get('/api/groups/{id}/meetings/{meeting_id}/')`
-  - [ ] Display title, description, start/end time, location/Zoom link, agenda, creator
-  - [ ] Add edit mode to update meeting fields
-  - [ ] Handle update with `axios.put('/api/groups/{id}/meetings/{meeting_id}/')`
-  - [ ] Add delete button (creator/owner only)
+- [x] **Meeting Details/Edit Page**
+  - [x] Create `MeetingDetails.js` component to display full meeting info
+  - [x] Fetch meeting data with `axios.get('/api/groups/{id}/meetings/{meeting_id}/')`
+  - [x] Display title, description, start/end time, location/Zoom link, agenda, creator
+  - [x] Add edit mode to update meeting fields
+  - [x] Handle update with `axios.put('/api/groups/{id}/meetings/{meeting_id}/')`
+  - [x] Add delete button (creator/owner only)
 
-- [ ] **Calendar View Component (Optional)**
-  - [ ] Create `Calendar.js` component using a library like `react-calendar` or build simple month view
-  - [ ] Display meetings on their scheduled dates
-  - [ ] Click date to see all meetings on that day
-  - [ ] Highlight today and upcoming meetings
+- [x] **Calendar View Component (Optional)**
+  - [x] Create `Calendar.js` component using a library like `react-calendar` or build simple month view
+  - [x] Display meetings on their scheduled dates
+  - [x] Click date to see all meetings on that day
+  - [x] Highlight today and upcoming meetings
 
-- [ ] **Meeting Card Component**
-  - [ ] Create reusable `MeetingCard.js` component for displaying meeting summary
-  - [ ] Show title, start time, location, and creator
-  - [ ] Add "Join" button for Zoom links
+- [x] **Meeting Card Component**
+  - [x] Create reusable `MeetingCard.js` component for displaying meeting summary
+  - [x] Show title, start time, location, and creator
+  - [x] Add "Join" button for Zoom links
 
 ### Code Example
 
@@ -470,12 +470,12 @@ export default MeetingList;
 ```
 
 ### Deliverables by End of Week 9
-- [ ] Meeting list page with filtering
-- [ ] Create meeting form functional
-- [ ] Meeting details/edit page complete
-- [ ] Calendar view (optional)
-- [ ] Delete meeting functionality (with permission checks)
-- [ ] Join meeting links working
+- [x] Meeting list page with filtering
+- [x] Create meeting form functional
+- [x] Meeting details/edit page complete
+- [x] Calendar view (optional)
+- [x] Delete meeting functionality (with permission checks)
+- [x] Join meeting links working
 
 ---
 

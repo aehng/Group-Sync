@@ -8,6 +8,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import GroupWorkspace from "./pages/GroupWorkspace";
+import MeetingList from "./components/MeetingList";
+import CreateMeeting from "./components/CreateMeeting";
+import MeetingDetails from "./components/MeetingDetails";
 
 export default function App() {
   return (
@@ -24,6 +27,9 @@ export default function App() {
           {/* Workspace and messaging routes */}
           <Route path="/groups/:groupId" element={<PrivateRoute><GroupWorkspace /></PrivateRoute>} />
           <Route path="/groups/:groupId/messages" element={<PrivateRoute><GroupMessagesPage /></PrivateRoute>} />
+          <Route path="/groups/:groupId/meetings" element={<PrivateRoute><MeetingList /></PrivateRoute>} title="Group Meetings" />
+          <Route path="/groups/:groupId/meetings/new" element={<PrivateRoute><CreateMeeting /></PrivateRoute>} />
+          <Route path="/groups/:groupId/meetings/:meetingId" element={<PrivateRoute><MeetingDetails /></PrivateRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<div style={{ padding: 24 }}>Not found</div>} />
