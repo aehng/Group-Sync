@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getGroup, updateGroup, deleteGroup } from "../api/groups";
-import { listGroupMembers } from "../api/members";
+import MembersList from "../components/MembersList";
 import { Loading, Error } from "../components/shared";
 
 export default function GroupDetails() {
@@ -11,7 +11,6 @@ export default function GroupDetails() {
   const { user } = useAuth();
 
   const [group, setGroup] = useState(null);
-  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -29,15 +28,11 @@ export default function GroupDetails() {
       setError(null);
 
       try {
-        const [groupData, membersData] = await Promise.all([
-          getGroup(groupId),
-          listGroupMembers(groupId),
-        ]);
+        const groupData = await getGroup(groupId);
 
         if (!isMounted) return;
 
         setGroup(groupData);
-        setMembers(Array.isArray(membersData) ? membersData : []);
         setNameDraft(groupData.name || "");
       } catch (err) {
         if (!isMounted) return;
@@ -149,7 +144,7 @@ export default function GroupDetails() {
               <strong>Invite code:</strong> <span style={{ fontFamily: "monospace" }}>{group.invite_code}</span>
             </div>
             <div style={{ color: "#666", fontSize: 14 }}>
-              <strong>Members:</strong> {group.member_count ?? members.length}
+              <strong>Members:</strong> {group.member_count ?? "—"}
             </div>
           </div>
 
@@ -259,49 +254,7 @@ export default function GroupDetails() {
         </div>
 
         <div style={{ minWidth: 280, maxWidth: 340 }}>
-          <div style={{ padding: 16, border: "1px solid #ddd", borderRadius: 10, background: "#fff" }}>
-            <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>Members</div>
-            {members.length === 0 ? (
-              <p style={{ color: "#666", margin: 0 }}>No members found.</p>
-            ) : (
-              <div style={{ display: "grid", gap: 12 }}>
-                {members.map((member) => (
-                  <div
-                    key={member.id}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: 10,
-                      borderRadius: 8,
-                      background: "#f9f9f9",
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: "#333" }}>
-                        {member.user?.first_name || member.user?.username}
-                      </div>
-                      <div style={{ fontSize: 12, color: "#666" }}>
-                        @{member.user?.username}
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        padding: "4px 10px",
-                        borderRadius: 20,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: member.role === "owner" ? "#155724" : "#444",
-                        background: member.role === "owner" ? "#d4edda" : "#e9ecef",
-                      }}
-                    >
-                      {member.role}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <MembersList groupId={groupId} />
         </div>
       </div>
     </div>
