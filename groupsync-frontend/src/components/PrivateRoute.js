@@ -1,4 +1,4 @@
-﻿// base created with ai
+// base created with ai
 
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";

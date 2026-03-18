@@ -30,16 +30,11 @@ export function useMessages(groupId) {
   // `nextUrl` stores the cursor pagination `next` URL from the API. When
   // present `loadOlder()` will fetch that URL to retrieve older messages.
 
-// Toggle API usage; set to `true` to call the Django backend.
-// Toggle API usage; set to `true` to call the Django backend.
-// This flag is intentionally module-level so React hooks don't re-create
-// the effect when it's toggled. If you need it reactive, move it inside
-// the component and include it in effect dependencies.
-const USE_API = true;
+  // Toggle API usage; set to `true` to call the Django backend.
+  const USE_API = true;
 
   const gid = useMemo(() => String(groupId ?? ""), [groupId]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     let alive = true;
 
@@ -90,7 +85,7 @@ const USE_API = true;
       alive = false;
       if (intervalId) clearInterval(intervalId);
     };
-  }, [gid]);
+  }, [gid, USE_API]);
 
   async function sendMessage(content) {
     setError(null);
