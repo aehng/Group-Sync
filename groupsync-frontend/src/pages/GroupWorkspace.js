@@ -4,6 +4,7 @@ import { listGroupTasks } from "../api/tasks";
 import { listGroupMembers, removeGroupMember } from "../api/members";
 import { getGroup } from "../api/groups";
 import MessageBoard from "../components/MessageBoard";
+import MeetingList from "../components/MeetingList";
 import { useAuth } from "../context/AuthContext";
 import { Loading, Error } from "../components/shared";
 
@@ -150,6 +151,12 @@ export default function GroupWorkspace() {
           Tasks
         </button>
         <button 
+          onClick={() => setTab("meetings")}
+          style={tabStyle(tab === "meetings")}
+        >
+          Meetings
+        </button>
+        <button 
           onClick={() => setTab("members")}
           style={tabStyle(tab === "members")}
         >
@@ -238,6 +245,12 @@ export default function GroupWorkspace() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {tab === "meetings" && (
+          <div style={{ height: "100%", minHeight: 0, overflow: "auto" }}>
+            <MeetingList />
           </div>
         )}
 

@@ -1,7 +1,9 @@
 from rest_framework import generics, permissions, serializers
+from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-from .models import Meeting, Group
+from groups.models import GroupMember, Group
+from .models import Meeting
 from .serializers import MeetingSerializer
 
 class MeetingListCreateView(generics.ListCreateAPIView):
@@ -10,17 +12,14 @@ class MeetingListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']
-        # Use get_object_or_404 so the API returns a clean 404 if the group doesn't exist
         group = get_object_or_404(Group, id=group_id)
-        
-        # Requirement: Only group members can view
-        if self.request.user not in group.members.all():
-            return Meeting.objects.none()
+
+        if not GroupMember.objects.filter(group=group, user=self.request.user).exists():
+            raise PermissionDenied("You must be a member of this group.")
 
         # Requirement: Sorted by start_time
         queryset = Meeting.objects.filter(group_id=group_id).order_by('start_time')
         
-        # Requirement: Filter by upcoming/past
         upcoming = self.request.query_params.get('upcoming')
         past = self.request.query_params.get('past')
         
@@ -34,12 +33,10 @@ class MeetingListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         group_id = self.kwargs['group_id']
         group = get_object_or_404(Group, id=group_id)
-        
-        # Requirement: Only group members can create
-        if self.request.user not in group.members.all():
-            raise serializers.ValidationError("Only group members can create meetings.")
-        
-        # Requirement: Auto-set author/group
+
+        if not GroupMember.objects.filter(group=group, user=self.request.user).exists():
+            raise PermissionDenied("Only group members can create meetings.")
+
         serializer.save(author=self.request.user, group=group)
 
 class MeetingDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -50,8 +47,10 @@ class MeetingDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']
-        # Double check membership even for single meeting retrieval
-        return Meeting.objects.filter(group_id=group_id, group__members=self.request.user)
+        group = get_object_or_404(Group, id=group_id)
+        if not GroupMember.objects.filter(group=group, user=self.request.user).exists():
+            raise PermissionDenied("You must be a member of this group.")
+        return Meeting.objects.filter(group_id=group_id)
 
     def perform_update(self, serializer):
         # Requirement: Only creator can update

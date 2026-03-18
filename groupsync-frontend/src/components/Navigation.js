@@ -36,6 +36,9 @@ export default function Navigation() {
       <Link to="/messages" style={linkStyle(isActive("/messages"))}>
         Messages
       </Link>
+      <Link to="/calendar" style={linkStyle(isActive("/calendar"))}>
+        Calendar
+      </Link>
       <Link to="/profile" style={linkStyle(isActive("/profile"))}>
         Profile
       </Link>

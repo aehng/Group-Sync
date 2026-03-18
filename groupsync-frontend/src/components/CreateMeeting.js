@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { createMeeting } from '../api/meetings';
 
 export default function CreateMeeting() {
     const { groupId } = useParams();
-    const { authToken } = useAuth();
     const navigate = useNavigate();
 
     // Form State
@@ -30,10 +28,12 @@ export default function CreateMeeting() {
         setErrors({}); // Clear old errors
 
         try {
-            // TASK: Handle form submission with axios.post
-            await axios.post(`/api/groups/${groupId}/meetings/`, formData, {
-                headers: { Authorization: `Bearer ${authToken}` }
-            });
+            const payload = {
+                ...formData,
+                end_time: formData.end_time || null,
+            };
+
+            await createMeeting(groupId, payload);
             // Redirect back to the meeting list on success
             navigate(`/groups/${groupId}/meetings`);
         } catch (err) {

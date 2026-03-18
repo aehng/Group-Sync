@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getMeeting, updateMeeting, deleteMeeting } from '../api/meetings';
 
 export default function MeetingDetails() {
     const { groupId, meetingId } = useParams();
-    const { authToken, user } = useAuth(); // 'user' to check if they are the creator
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     const [meeting, setMeeting] = useState(null);
@@ -16,25 +16,27 @@ export default function MeetingDetails() {
     useEffect(() => {
         const fetchMeeting = async () => {
             try {
-                // TASK: Fetch meeting data with axios.get
-                const res = await axios.get(`/api/groups/${groupId}/meetings/${meetingId}/`, {
-                    headers: { Authorization: `Bearer ${authToken}` }
-                });
-                setMeeting(res.data);
-                setFormData(res.data); // Pre-fill edit form
-            } catch (err) { console.error(err); }
+                const data = await getMeeting(groupId, meetingId);
+                setMeeting(data);
+                setFormData(data);
+            } catch (err) {
+                console.error(err);
+            }
         };
-        if (authToken) fetchMeeting();
-    }, [groupId, meetingId, authToken]);
+
+        fetchMeeting();
+    }, [groupId, meetingId]);
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            // TASK: Handle update with axios.put
-            const res = await axios.put(`/api/groups/${groupId}/meetings/${meetingId}/`, formData, {
-                headers: { Authorization: `Bearer ${authToken}` }
-            });
-            setMeeting(res.data);
+            const payload = {
+                ...formData,
+                end_time: formData.end_time || null,
+            };
+
+            const data = await updateMeeting(groupId, meetingId, payload);
+            setMeeting(data);
             setIsEditing(false);
         } catch (err) { setErrors(err.response?.data || {}); }
     };
@@ -42,10 +44,7 @@ export default function MeetingDetails() {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this meeting?")) {
             try {
-                // TASK: Add delete button (creator/owner only)
-                await axios.delete(`/api/groups/${groupId}/meetings/${meetingId}/`, {
-                    headers: { Authorization: `Bearer ${authToken}` }
-                });
+                await deleteMeeting(groupId, meetingId);
                 navigate(`/groups/${groupId}/meetings`);
             } catch (err) { console.error(err); }
         }

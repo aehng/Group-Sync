@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { listGroupMeetings } from '../api/meetings';
 import MeetingCard from './MeetingCard';
 
 export default function MeetingList() {
     const { groupId } = useParams();
-    const { authToken } = useAuth();
     const [meetings, setMeetings] = useState([]);
-    const [filter, setFilter] = useState(''); // State for filters
+    const [filter, setFilter] = useState('all');
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const getMeetings = async () => {
             try {
-                // TASK: Fetch meetings with axios + JWT
-                const res = await axios.get(`/api/groups/${groupId}/meetings/${filter}`, {
-                    headers: { Authorization: `Bearer ${authToken}` }
-                });
-                setMeetings(res.data);
-            } catch (err) { console.error(err); }
+                setIsLoading(true);
+                setError('');
+
+                const params = filter === 'upcoming'
+                    ? { upcoming: true }
+                    : filter === 'past'
+                        ? { past: true }
+                        : {};
+
+                const data = await listGroupMeetings(groupId, params);
+                setMeetings(Array.isArray(data) ? data : []);
+            } catch (err) {
+                setError(err?.response?.data?.detail || err?.message || 'Failed to load meetings');
+            } finally {
+                setIsLoading(false);
+            }
         };
-        if (authToken) getMeetings();
-    }, [groupId, authToken, filter]);
+
+        getMeetings();
+    }, [groupId, filter]);
 
     return (
         <div style={{ padding: 24 }}>
@@ -39,13 +50,17 @@ export default function MeetingList() {
 
             {/* TASK: Add filters for upcoming vs. past meetings */}
             <div style={{ marginBottom: 20 }}>
-                <button onClick={() => setFilter('')} style={{ marginRight: 8 }}>All</button>
-                <button onClick={() => setFilter('?upcoming=true')} style={{ marginRight: 8 }}>Upcoming</button>
-                <button onClick={() => setFilter('?past=true')}>Past</button>
+                <button onClick={() => setFilter('all')} style={{ marginRight: 8 }}>All</button>
+                <button onClick={() => setFilter('upcoming')} style={{ marginRight: 8 }}>Upcoming</button>
+                <button onClick={() => setFilter('past')}>Past</button>
             </div>
 
             {/* TASK: Display meetings in list view */}
-            {meetings.length === 0 ? (
+            {isLoading ? (
+                <p>Loading meetings...</p>
+            ) : error ? (
+                <p style={{ color: '#b00020' }}>{error}</p>
+            ) : meetings.length === 0 ? (
                 <p>No meetings found for this filter.</p>
             ) : (
                 <div style={{ marginTop: '20px' }}>

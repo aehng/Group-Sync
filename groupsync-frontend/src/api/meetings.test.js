@@ -16,7 +16,7 @@ describe("meetings API", () => {
   test("listGroupMeetings calls endpoint and returns data", async () => {
     api.get.mockResolvedValue({ data: [{ id: 1, title: "Meet" }] });
     const data = await listGroupMeetings(7);
-    expect(api.get).toHaveBeenCalledWith(`/api/groups/7/meetings/`);
+    expect(api.get).toHaveBeenCalledWith(`/api/groups/7/meetings/`, { params: {} });
     expect(data).toEqual([{ id: 1, title: "Meet" }]);
   });
 

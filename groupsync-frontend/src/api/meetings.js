@@ -3,8 +3,10 @@ import { api } from "./client";
 /**
  * Fetch all meetings for a group
  */
-export async function listGroupMeetings(groupId) {
-  const res = await api.get(`/api/groups/${groupId}/meetings/`);
+export async function listGroupMeetings(groupId, filters = {}) {
+  const res = await api.get(`/api/groups/${groupId}/meetings/`, {
+    params: filters,
+  });
   return res.data;
 }
 
