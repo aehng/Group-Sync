@@ -1,5 +1,3 @@
-﻿// base created with ai
-
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -14,7 +12,7 @@ export default function PrivateRoute({ children }) {
     if (!isAuthenticated) return;
     setChecking(true);
     validateToken()
-      .then(valid => {
+      .then((valid) => {
         if (!valid) {
           navigate("/login", { replace: true });
         }
