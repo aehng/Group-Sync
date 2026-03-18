@@ -110,3 +110,4 @@ class GroupMember(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.group.name} ({self.role})"
+# test-change

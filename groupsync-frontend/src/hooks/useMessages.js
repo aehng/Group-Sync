@@ -119,6 +119,7 @@ const USE_API = true;
       // rollback on failure
       setMessages((prev) => prev.filter((m) => m.id !== tempId));
       setError(e);
+      throw e;
     }
   }
 

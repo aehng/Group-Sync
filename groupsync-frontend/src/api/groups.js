@@ -31,3 +31,19 @@ export async function joinGroup(inviteCode) {
   const res = await api.post("/api/groups/join/", { invite_code: inviteCode });
   return res.data;
 }
+
+/**
+ * Update a group (owner only)
+ */
+export async function updateGroup(groupId, data) {
+  const res = await api.put(`/api/groups/${groupId}/`, data);
+  return res.data;
+}
+
+/**
+ * Delete a group (owner only)
+ */
+export async function deleteGroup(groupId) {
+  const res = await api.delete(`/api/groups/${groupId}/`);
+  return res.data;
+}

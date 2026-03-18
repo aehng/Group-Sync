@@ -3,8 +3,19 @@ import { api } from "./client";
 /**
  * Fetch all tasks for a group
  */
-export async function listGroupTasks(groupId) {
-  const res = await api.get(`/api/groups/${groupId}/tasks/`);
+export async function listGroupTasks(groupId, filters = {}) {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      params.append(key, value);
+    }
+  });
+
+  const query = params.toString();
+  const url = query
+    ? `/api/groups/${groupId}/tasks/?${query}`
+    : `/api/groups/${groupId}/tasks/`;
+  const res = await api.get(url);
   return res.data;
 }
 
@@ -21,6 +32,14 @@ export async function getTask(groupId, taskId) {
  */
 export async function createTask(groupId, data) {
   const res = await api.post(`/api/groups/${groupId}/tasks/`, data);
+  return res.data;
+}
+
+/**
+ * Update a task by ID
+ */
+export async function updateTask(groupId, taskId, data) {
+  const res = await api.put(`/api/groups/${groupId}/tasks/${taskId}/`, data);
   return res.data;
 }
 

@@ -2,11 +2,13 @@ jest.mock("./client", () => ({
   api: {
     get: jest.fn(),
     post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
   },
 }));
 
 import { api } from "./client";
-import { listGroups, getGroup, createGroup, joinGroup } from "./groups";
+import { listGroups, getGroup, createGroup, joinGroup, updateGroup, deleteGroup } from "./groups";
 
 describe("groups API", () => {
   beforeEach(() => jest.clearAllMocks());
@@ -38,5 +40,19 @@ describe("groups API", () => {
     const res = await joinGroup("INV123");
     expect(api.post).toHaveBeenCalledWith("/api/groups/join/", { invite_code: "INV123" });
     expect(res).toEqual({ id: 4, role: "member" });
+  });
+
+  test("updateGroup puts to /api/groups/:id/ and returns updated group", async () => {
+    api.put.mockResolvedValue({ data: { id: 5, name: "Updated" } });
+    const res = await updateGroup(5, { name: "Updated" });
+    expect(api.put).toHaveBeenCalledWith("/api/groups/5/", { name: "Updated" });
+    expect(res).toEqual({ id: 5, name: "Updated" });
+  });
+
+  test("deleteGroup calls delete on /api/groups/:id/", async () => {
+    api.delete.mockResolvedValue({ data: {} });
+    const res = await deleteGroup(6);
+    expect(api.delete).toHaveBeenCalledWith("/api/groups/6/");
+    expect(res).toEqual({});
   });
 });

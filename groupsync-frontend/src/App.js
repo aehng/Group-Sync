@@ -4,10 +4,18 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import GroupMessagesPage from "./pages/GroupMessagesPage";
+import GroupList from "./pages/GroupList";
+import CreateGroup from "./pages/CreateGroup";
+import JoinGroup from "./pages/JoinGroup";
+import GroupDetails from "./pages/GroupDetails";
 import PrivateRoute from "./components/PrivateRoute";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import GroupWorkspace from "./pages/GroupWorkspace";
+import AllGroupsMessagesPage from "./pages/AllGroupsMessagesPage";
+import TaskBoard from "./pages/TaskBoard";
+import CreateTask from "./pages/CreateTask";
+import TaskDetails from "./pages/TaskDetails";
 
 export default function App() {
   return (
@@ -20,10 +28,18 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/messages" element={<PrivateRoute><AllGroupsMessagesPage /></PrivateRoute>} />
 
-          {/* Workspace and messaging routes */}
-          <Route path="/groups/:groupId" element={<PrivateRoute><GroupWorkspace /></PrivateRoute>} />
+          {/* Groups routes - specific paths must come BEFORE dynamic :groupId */}
+          <Route path="/groups" element={<PrivateRoute><GroupList /></PrivateRoute>} />
+          <Route path="/groups/create" element={<PrivateRoute><CreateGroup /></PrivateRoute>} />
+          <Route path="/groups/join" element={<PrivateRoute><JoinGroup /></PrivateRoute>} />
+          <Route path="/groups/:groupId/details" element={<PrivateRoute><GroupDetails /></PrivateRoute>} />
           <Route path="/groups/:groupId/messages" element={<PrivateRoute><GroupMessagesPage /></PrivateRoute>} />
+          <Route path="/groups/:groupId" element={<PrivateRoute><GroupWorkspace /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks" element={<PrivateRoute><TaskBoard /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks/new" element={<PrivateRoute><CreateTask /></PrivateRoute>} />
+          <Route path="/groups/:groupId/tasks/:taskId" element={<PrivateRoute><TaskDetails /></PrivateRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<div style={{ padding: 24 }}>Not found</div>} />

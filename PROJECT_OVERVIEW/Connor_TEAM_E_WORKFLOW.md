@@ -2,20 +2,15 @@
 
 ## Time Log
 
-<<<<<<< Updated upstream:PROJECT_OVERVIEW/Connor_TEAM_E_WORKFLOW.md
-| Date       | Hours Worked | Description of Work                  |
-|------------|--------------|--------------------------------------|
-| YYYY-MM-DD | X            | Brief description of tasks completed |
-=======
-| Date       | Hours Worked | Description of Work                    |
-|------------|--------------|----------------------------------------|
-| 2026-01-14 | 1            | Set up venv by following the readme.md |
-| 2026-01-16 | 1            | Set up frontend React and Django.      |
-| 2026-01-20 | 2            | Fixing venv and resolving git issues.  |
-| 2026-01-21 | 1            | Resolving more git issues.             | 
-| 2026-01-23 | 1            | Set up messaging.                      |
-| 2026-01-28 | 1            |                                        |
----
+| Date       | Hours Worked | Description of Work                                           |
+|------------|--------------|---------------------------------------------------------------|
+| 2026-01-14 | 1            | Set up venv by following the readme.md                        |
+| 2026-01-16 | 1            | Set up frontend React and Django.                             |
+| 2026-01-20 | 2            | Fixing venv and resolving git issues.                         |
+| 2026-01-21 | 1            | Resolving more git issues.                                    |
+| 2026-01-23 | 1            | Set up messaging.                                             |
+| 2026-01-28 | 1            | Messaging endpoints and basic integration.                    |
+| 2026-03-11 | 4            | Weeks 8-9: Added missing API endpoints, fixed backend setup. |
 
 **Feature:** Message board with polling (Backend + Frontend), UI/UX design, responsive styling, consistent layout, dashboard navigation  
 **Estimated Hours:** 30–35  
@@ -465,29 +460,29 @@ export default MessageBoard;
 
 ### Your Tasks
 1. **Integrate Real Data from Other Teams**
-   - [ ] Update Dashboard to fetch real groups: `GET /api/groups/`
-   - [ ] Update GroupWorkspace to display Tasks, Meetings, Members (via mock or basic API calls)
-   - [ ] Handle loading and error states for all data fetches
-   - [ ] Use `useEffect` to fetch on component mount
+   - [X] Update Dashboard to fetch real groups: `GET /api/groups/`
+   - [X] Update GroupWorkspace to display Tasks, Meetings, Members (via mock or basic API calls)
+   - [X] Handle loading and error states for all data fetches
+   - [X] Use `useEffect` to fetch on component mount
 
 2. **Polish Message Board**
-   - [ ] Optimize polling (can increase to 5 sec if needed)
-   - [ ] Add relative timestamps ("2 min ago")
-   - [ ] Add message author info clearly
-   - [ ] Test with high message volume
+   - [X] Optimize polling (can increase to 5 sec if needed)
+   - [X] Add relative timestamps ("2 min ago")
+   - [X] Add message author info clearly
+   - [X] Test with high message volume
 
 3. **UI/UX Improvements**
-   - [ ] Add loading spinners for API calls
-   - [ ] Add error messages for failed requests
-   - [ ] Add success notifications for sent messages
-   - [ ] Improve responsive design (test on mobile)
-   - [ ] Ensure consistent spacing and alignment
+   - [X] Add loading spinners for API calls
+   - [X] Add error messages for failed requests
+   - [X] Add success notifications for sent messages
+   - [X] Improve responsive design (test on mobile)
+   - [X] Ensure consistent spacing and alignment
 
 4. **Shared Component Review** (Coordinate with Teams A-D)
-   - [ ] Review components from other teams
-   - [ ] Apply consistent styling
-   - [ ] Help other teams use shared components
-   - [ ] Document component usage for team
+   - [X] Review components from other teams
+   - [X] Apply consistent styling
+   - [X] Help other teams use shared components
+   - [X] Document component usage for team
 
 ### Code Example (Shared Components)
 
@@ -535,12 +530,13 @@ function Card({ children, className = '' }) {
 ```
 
 ### Deliverables by End of Week 9
-- [ ] Real API integration complete (groups, tasks, meetings, members)
-- [ ] Message board polished and optimized
-- [ ] UI components styled consistently
-- [ ] Loading/error/success states throughout
-- [ ] Responsive design working on all devices
-- [ ] Shared components documented
+- [X] Real API integration complete (groups, tasks, meetings, members)
+- [X] Message board polished and optimized
+- [X] UI components styled consistently
+- [X] Loading/error/success states throughout
+- [X] Responsive design working on all devices
+- [X] Shared components documented
+- [X] Backend API routes added for all resources
 
 ---
 
