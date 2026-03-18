@@ -5,6 +5,7 @@ import { getGroup, updateGroup, deleteGroup } from "../api/groups";
 import MembersList from "../components/MembersList";
 import { Loading, Error } from "../components/shared";
 
+
 export default function GroupDetails() {
   const { groupId } = useParams();
   const navigate = useNavigate();
