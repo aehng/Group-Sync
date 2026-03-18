@@ -3,15 +3,15 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import ErrorNotification from "../components/ErrorNotification";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const { register, loading, error } = useContext(AuthContext);
+  const { register, loading, error, fieldErrors } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [formErrors, setFormErrors] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,15 +26,12 @@ export default function Register() {
       return;
     }
 
-    setFormErrors({});
-
     // Send to backend for final validation
     try {
       await register(username, email, password, passwordConfirm);
       navigate("/profile"); // Redirect to profile after successful registration
     } catch (err) {
       // Error is handled by AuthContext
-      setFormErrors(err.response?.data || { general: "Registration failed" });
     }
   };
 
@@ -198,18 +195,10 @@ export default function Register() {
             />
           </div>
 
-          {error && (
-            <div style={{
-              background: "#ffebee",
-              color: "#d32f2f",
-              padding: "12px",
-              borderRadius: "6px",
-              fontSize: "14px",
-              marginBottom: "16px"
-            }}>
-              {error}
-            </div>
-          )}
+          <ErrorNotification 
+            error={error ? { message: error } : null}
+            fieldErrors={fieldErrors}
+          />
 
           <button
             type="submit"

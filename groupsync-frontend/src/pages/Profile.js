@@ -3,31 +3,41 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import ErrorNotification from "../components/ErrorNotification";
 
 export default function Profile() {
-  const { user, logout, loading, updateProfile } = useContext(AuthContext);
+  const { user, logout, loading, updateProfile, error, fieldErrors, clearErrors } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user?.username || "",
     email: user?.email || "",
   });
-  const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (formErrors[name]) {
-      setFormErrors((prev) => {
-        const { [name]: _, ...rest } = prev;
-        return rest;
-      });
-    }
+  };
+
+  const handleEdit = () => {
+    setFormData({
+      username: user?.username || "",
+      email: user?.email || "",
+    });
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    clearErrors();
+    setFormData({
+      username: user?.username || "",
+      email: user?.email || "",
+    });
+    setIsEditing(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormErrors({});
     try {
       console.log("Profile handleSubmit: calling updateProfile");
       await updateProfile(formData.username, formData.email);
@@ -35,7 +45,7 @@ export default function Profile() {
       setIsEditing(false);
     } catch (error) {
       console.log("Profile handleSubmit: caught error", error);
-      setFormErrors(error);
+      // context sets error/fieldErrors; component renders below
     }
   };
 
@@ -131,9 +141,14 @@ export default function Profile() {
               </div>
             </div>
 
+            <ErrorNotification 
+              error={error ? { message: error } : null}
+              fieldErrors={fieldErrors}
+            />
+
             <div style={{ display: "flex", gap: "8px" }}>
               <button
-                onClick={() => setIsEditing(true)}
+                onClick={handleEdit}
                 style={buttonStyle("secondary")}
                 onMouseEnter={(e) => {
                   e.target.style.background = "#efefef";
@@ -229,6 +244,11 @@ export default function Profile() {
               />
             </div>
 
+            <ErrorNotification 
+                        error={error ? { message: error } : null}
+                        fieldErrors={fieldErrors}
+                      />
+
             <div style={{ display: "flex", gap: "8px" }}>
               <button
                 type="submit"
@@ -240,7 +260,7 @@ export default function Profile() {
               </button>
               <button
                 type="button"
-                onClick={() => setIsEditing(false)}
+                onClick={handleCancel}
                 style={buttonStyle("secondary")}
                 onMouseEnter={(e) => {
                   e.target.style.background = "#efefef";

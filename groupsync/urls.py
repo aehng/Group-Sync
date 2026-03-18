@@ -24,7 +24,8 @@ def api_root(_request):
         'message': 'GroupSync API is running.',
         'endpoints': {
             'users': '/api/users/',
-            'tasks': '/api/tasks/',
+            'groups': '/api/groups/',
+            'tasks': '/api/groups/<group_id>/tasks/',
             'messages': '/api/groups/<group_id>/messages/',
             'admin': '/admin/',
         },
@@ -33,5 +34,10 @@ def api_root(_request):
 urlpatterns = [
     path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
+    path('api/', include('messaging.urls')),
+    path('api/', include('tasks.urls')),
     path('api/users/', include('users.urls')),  # Include URLs from users app
+    path('api/groups/', include('groups.urls')),
+    path('api/', include('tasks.urls')),
+    path('api/', include('meetings.urls')),
 ]

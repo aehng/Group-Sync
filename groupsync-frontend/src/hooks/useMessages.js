@@ -68,7 +68,7 @@ const USE_API = true;
 
     load();
 
-    // Poll every 3 seconds for new messages
+    // Poll every 5 seconds for new messages (optimized from 3 seconds)
     let intervalId = null;
     if (USE_API) {
       intervalId = setInterval(() => {
@@ -83,7 +83,7 @@ const USE_API = true;
           .catch((e) => {
             if (alive) setError(e);
           });
-      }, 3000);
+      }, 5000);
     }
 
     return () => {
@@ -119,6 +119,7 @@ const USE_API = true;
       // rollback on failure
       setMessages((prev) => prev.filter((m) => m.id !== tempId));
       setError(e);
+      throw e;
     }
   }
 

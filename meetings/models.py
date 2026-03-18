@@ -1,12 +1,11 @@
+from django.conf import settings
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-from django.conf import settings
 
 def validate_future_date(value):
     if value < timezone.now():
@@ -36,5 +35,3 @@ class Meeting(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.group.name})"
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -61,7 +61,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         group = get_object_or_404(Group, id=group_id)
         
         # Check if user is a member of the group
-        if not group.members.filter(id=request.user.id).exists():
+        if not group.members.filter(user_id=request.user.id).exists():
             return Response(
                 {'detail': 'You are not a member of this group.'},
                 status=status.HTTP_403_FORBIDDEN
@@ -87,7 +87,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         group = get_object_or_404(Group, id=group_id)
         
         # Check if user is a member of the group
-        if not group.members.filter(id=request.user.id).exists():
+        if not group.members.filter(user_id=request.user.id).exists():
             return Response(
                 {'detail': 'You are not a member of this group.'},
                 status=status.HTTP_403_FORBIDDEN
@@ -120,7 +120,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         group = get_object_or_404(Group, id=group_id)
         
         # Check if user is a member of the group
-        if not group.members.filter(id=request.user.id).exists():
+        if not group.members.filter(user_id=request.user.id).exists():
             return Response(
                 {'detail': 'You are not a member of this group.'},
                 status=status.HTTP_403_FORBIDDEN

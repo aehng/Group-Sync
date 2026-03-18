@@ -195,7 +195,7 @@ class LoginSerializer(serializers.Serializer):
   - [X] Store/retrieve JWT tokens properly in localStorage
   - [X] Attach token to all API requests
 
-- [ ] **Connect React to Django Backend**
+- [X] **Connect React to Django Backend**
   - [X] Verify Django CORS settings allow `http://localhost:3000` in `settings.py`
   - [X] Ensure `CORS_ALLOW_CREDENTIALS = True` is set
   - [X] Create API service layer (`api/client.js`) with axios interceptors
@@ -216,20 +216,20 @@ class LoginSerializer(serializers.Serializer):
   - [X] Clear localStorage
   - [X] Redirect to login page
 
-- [ ] **Frontend Error Handling**
+- [X] **Frontend Error Handling**
   - [X] Display form validation errors clearly
-  - [ ] Show error messages from backend (e.g., "Username already exists")
-  - [ ] Handle network errors (connection timeouts, server errors)
-  - [ ] Display error notifications in UI (not just console logs)
-  - [ ] Provide user-friendly error messages (avoid technical jargon)
+  - [X] Show error messages from backend (e.g., "Username already exists")
+  - [X] Handle network errors (connection timeouts, server errors)
+  - [X] Display error notifications in UI (not just console logs)
+  - [X] Provide user-friendly error messages (avoid technical jargon)
   - [X] Handle 401 (Unauthorized) errors — redirect to login
-  - [ ] Handle 404 (Not Found) errors — show "not found" message
-  - [ ] Handle 500 (Server Error) — show "something went wrong" message
+  - [X] Handle 404 (Not Found) errors — show "not found" message
+  - [X] Handle 500 (Server Error) — show "something went wrong" message
 
-- [ ] **Test All Auth Flows**
-  - [ ] Test register → login → profile → logout flow
-  - [ ] Test JWT token storage and retrieval
-  - [ ] Test protected routes redirect correctly
+- [X] **Test All Auth Flows**
+  - [X] Test register → login → profile → logout flow
+  - [X] Test JWT token storage and retrieval
+  - [X] Test protected routes redirect correctly
 
 ### Code Example
 
@@ -265,13 +265,104 @@ class UserProfileView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] User profile endpoint (`GET /api/users/me/`)
-- [ ] Profile update endpoint (`PUT /api/users/me/`)
-- [ ] Token refresh endpoint (`POST /api/users/refresh/`)
-- [ ] Permission decorators implemented
-- [ ] All endpoints protected with JWT auth
+- [x] User profile endpoint (`GET /api/users/me/`)
+- [x] Profile update endpoint (`PUT /api/users/me/`)
+- [x] Token refresh endpoint (`POST /api/users/refresh/`)
+- [x] Permission decorators implemented
+- [x] All endpoints protected with JWT auth
 
 ---
+
+
+
+---
+
+
+## __EMILIANO SUPPORT__
+
+
+## Weeks 6–7: Permissions & Integration (Feb 17–Mar 2)
+
+### Prerequisites
+- All CRUD endpoints working
+- Team A's auth fully integrated
+
+### Your Tasks
+1. **Permission Classes**
+   - [X] Create `IsGroupOwner` permission (only owner can edit/delete)
+   - [X] Create `IsGroupMember` permission (only members can access group details)
+   - [X] Apply to all relevant endpoints
+
+2. **Get Group Members Endpoint**
+   - [X] `GET /api/groups/{id}/members/`
+   - [X] Return: List of all members with roles
+   - [X] Include: username, email, role, joined_at
+
+3. **Update Member Role Endpoint** (Nice-to-Have)
+   - [X] `PUT /api/groups/{id}/members/{user_id}/`
+   - [X] Accept: `role` (owner|member)
+   - [X] Restricted: Owner only
+   - [X] Return: Updated member data
+   - [X] (Can defer to week 8 if time is tight)
+
+4. **Unit Tests**
+   - [X] Test group creation
+   - [X] Test join group via invite code
+   - [X] Test permission enforcement (non-owner can't delete)
+   - [X] Test GroupMember creation
+   - [X] Aim for 80%+ coverage
+
+5. **Integration with Team C & D**
+   - [X] Verify Task/Meeting endpoints can reference Group correctly
+   - [X] Help with any Group relationship questions
+   - [X] Test their ability to filter tasks/meetings by group
+
+### Test Example
+
+```python
+# groups/tests.py
+from django.test import TestCase
+from rest_framework.test import APIClient
+from django.contrib.auth import get_user_model
+from .models import Group, GroupMember
+
+User = get_user_model()
+
+class GroupTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user1 = User.objects.create_user(username='user1', password='pass')
+        self.user2 = User.objects.create_user(username='user2', password='pass')
+        self.client.force_authenticate(user=self.user1)
+    
+    def test_create_group(self):
+        response = self.client.post('/api/groups/', {'name': 'Test Group'})
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('invite_code', response.data)
+    
+    def test_join_group(self):
+        group = Group.objects.create(name='Test', owner=self.user1)
+        self.client.force_authenticate(user=self.user2)
+        response = self.client.post('/api/groups/join/', {'invite_code': group.invite_code})
+        self.assertEqual(response.status_code, 201)
+```
+
+### Deliverables by End of Week 7
+- [X] Permission classes implemented
+- [X] List members endpoint working
+- [X] All endpoints secured with proper permissions
+- [X] Unit tests written and passing
+- [X] Tested with Teams C & D
+
+---
+
+
+
+---
+
+
+
+
 
 ## Weeks 6–7: Auth Testing, Polish & Integration (Feb 17–Mar 2)
 
@@ -281,49 +372,49 @@ class UserProfileView(APIView):
 - Team B, C, D have working endpoints
 
 ### Your Tasks
-- [ ] **Auth Backend Testing**
-  - [ ] Write unit tests for registration, login, profile endpoints
-  - [ ] Test JWT token generation and validation
-  - [ ] Test permission decorators
-  - [ ] Test error handling (duplicate username, invalid password, missing fields)
-  - [ ] Test 400/401/404 status codes returned correctly
-  - [ ] Aim for 80%+ code coverage
+- [X] **Auth Backend Testing**
+  - [X] Write unit tests for registration, login, profile endpoints
+  - [X] Test JWT token generation and validation
+  - [X] Test permission decorators
+  - [X] Test error handling (duplicate username, invalid password, missing fields)
+  - [X] Test 400/401/404 status codes returned correctly
+  - [X] Aim for 80%+ code coverage
 
-- [ ] **Auth Frontend Testing**
-  - [ ] Test complete auth flow (register → login → view profile → logout)
-  - [ ] Test error handling and validation messages displayed
-  - [ ] Test network error scenarios (connection timeout, server error)
-  - [ ] Test error messages are user-friendly and helpful
-  - [ ] Test on multiple browsers
-  - [ ] Test responsive design on mobile
+- [X] **Auth Frontend Testing**
+  - [X] Test complete auth flow (register → login → view profile → logout)
+  - [X] Test error handling and validation messages displayed
+  - [X] Test network error scenarios (connection timeout, server error)
+  - [X] Test error messages are user-friendly and helpful
+  - [X] Test on multiple browsers
+  - [X] Test responsive design on mobile
 
-- [ ] **Polish Auth Pages**
-  - [ ] Add loading states to auth pages
-  - [ ] Add proper error notifications
-  - [ ] Improve form validation messages
-  - [ ] Ensure consistent styling with Connor's design system
-  - [ ] Test accessibility
+- [X] **Polish Auth Pages**
+  - [X] Add loading states to auth pages
+  - [X] Add proper error notifications
+  - [X] Improve form validation messages
+  - [X] Ensure consistent styling with Connor's design system
+  - [X] Test accessibility
 
 - [ ] **Integration Testing**
-  - [ ] Verify Team B, C, D can authenticate successfully
+  - [X] Verify Team B, C, D can authenticate successfully
   - [ ] Test token usage in downstream APIs
-  - [ ] Help teammates debug auth issues
+  - [X] Help teammates debug auth issues
 
-- [ ] **Documentation**
-  - [ ] Write docstrings for all auth endpoints
-  - [ ] Document API contract for others (request/response examples)
-  - [ ] Create setup guide for other frontend devs
-  - [ ] Document how to use AuthContext
+- [X] **Documentation**
+  - [X] Write docstrings for all auth endpoints
+  - [X] Document API contract for others (request/response examples)
+  - [X] Create setup guide for other frontend devs
+  - [X] Document how to use AuthContext
 
 ### Deliverables by End of Week 7
-- [ ] Auth backend fully tested with unit tests
-- [ ] Login/Register/Profile pages fully functional and polished
-- [ ] Auth context managing state properly
-- [ ] Protected routes working correctly
-- [ ] JWT token handling complete and secure
-- [ ] Integration testing with Team B, C, D complete
-- [ ] API documentation complete
-- [ ] All bugs fixed and code reviewed
+- [X] Auth backend fully tested with unit tests
+- [X] Login/Register/Profile pages fully functional and polished
+- [X] Auth context managing state properly
+- [X] Protected routes working correctly
+- [X] JWT token handling complete and secure
+- [X] Integration testing with Team B, C, D complete
+- [X] API documentation complete
+- [X] All bugs fixed and code reviewed
 
 ---
 
@@ -367,10 +458,10 @@ class UserProfileView(APIView):
 - All features tested and documented
 
 ### Your Tasks
-- [ ] **Deployment Preparation**
-  - [ ] Update `requirements.txt` with all dependencies
-  - [ ] Set environment variables (Django SECRET_KEY, PostgreSQL URL, etc.)
-  - [ ] Test locally with production settings
+- [X] **Deployment Preparation**
+  - [X] Update `requirements.txt` with all dependencies
+  - [X] Set environment variables (Django SECRET_KEY, CORS settings, etc.)
+  - [X] Test locally with production settings
 
 - [ ] **Deploy to Render**
   - [ ] Push code to `main` branch
@@ -417,7 +508,6 @@ Django==4.2
 djangorestframework==3.14
 djangorestframework-simplejwt==5.2
 psycopg2-binary==2.9
-drf-spectacular==0.26
 ```
 
 ---

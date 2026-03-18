@@ -3,11 +3,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import ErrorNotification from "../components/ErrorNotification";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading, error } = useContext(AuthContext);
+  const { login, loading, error, fieldErrors } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -114,18 +115,10 @@ export default function Login() {
             />
           </div>
 
-          {error && (
-            <div style={{
-              background: "#ffebee",
-              color: "#d32f2f",
-              padding: "12px",
-              borderRadius: "6px",
-              fontSize: "14px",
-              marginBottom: "16px"
-            }}>
-              {error}
-            </div>
-          )}
+          <ErrorNotification 
+            error={error ? { message: error } : null}
+            fieldErrors={fieldErrors}
+          />
 
           <button
             type="submit"

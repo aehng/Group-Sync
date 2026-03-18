@@ -73,15 +73,15 @@
    - [X] Write migration
 
 3. **Invite Code Generation**
-   - [ ] Add `invite_code` field to Group (unique, random string)
-   - [ ] Generate 6-8 char alphanumeric code on group creation
-   - [ ] Example: `GROUP123ABC`
-   - [ ] Write helper function to generate codes
+   - [X] Add `invite_code` field to Group (unique, random string)
+   - [X] Generate 6-8 char alphanumeric code on group creation
+   - [X] Example: `GROUP123ABC`
+   - [X] Write helper function to generate codes
 
 4. **Initial Serializers**
-   - [ ] `GroupSerializer` for read/write
-   - [ ] `GroupMemberSerializer` for membership data
-   - [ ] `InviteCodeSerializer` for validating invites
+   - [X] `GroupSerializer` for read/write
+   - [X] `GroupMemberSerializer` for membership data
+   - [X] `InviteCodeSerializer` for validating invites
 
 ### Code Example
 
@@ -133,10 +133,10 @@ class GroupMember(models.Model):
 ```
 
 ### Deliverables by End of Week 3
-- [ ] Group model with migrations
-- [ ] GroupMember model with migrations
-- [ ] Invite code generation working
-- [ ] Serializers created and tested
+- [X] Group model with migrations
+- [X] GroupMember model with migrations
+- [X] Invite code generation working
+- [X] Serializers created and tested
 
 ---
 
@@ -148,41 +148,41 @@ class GroupMember(models.Model):
 
 ### Your Tasks
 1. **Group Creation Endpoint**
-   - [ ] `POST /api/groups/`
-   - [ ] Accept: `name` (required)
-   - [ ] Auto-set owner to authenticated user
-   - [ ] Auto-generate invite code
-   - [ ] Auto-create GroupMember (owner) for creator
-   - [ ] Return: Group data + invite code
+   - [X] `POST /api/groups/`
+   - [X] Accept: `name` (required)
+   - [X] Auto-set owner to authenticated user
+   - [X] Auto-generate invite code
+   - [X] Auto-create GroupMember (owner) for creator
+   - [X] Return: Group data + invite code
 
 2. **List Groups Endpoint**
-   - [ ] `GET /api/groups/`
-   - [ ] Return: All groups user belongs to (via GroupMember)
-   - [ ] Include member count and owner name
-   - [ ] Filter by user's memberships
+   - [X] `GET /api/groups/`
+   - [X] Return: All groups user belongs to (via GroupMember)
+   - [X] Include member count and owner name
+   - [X] Filter by user's memberships
 
 3. **Get Group Details Endpoint**
-   - [ ] `GET /api/groups/{id}/`
-   - [ ] Return: Group info + all members + owner info
-   - [ ] Accessible only to group members
+   - [X] `GET /api/groups/{id}/`
+   - [X] Return: Group info + all members + owner info
+   - [X] Accessible only to group members
 
 4. **Update Group Endpoint**
-   - [ ] `PUT /api/groups/{id}/`
-   - [ ] Accept: `name` (optional)
-   - [ ] Restricted: Owner only
-   - [ ] Return: Updated group data
+   - [X] `PUT /api/groups/{id}/`
+   - [X] Accept: `name` (optional)
+   - [X] Restricted: Owner only
+   - [X] Return: Updated group data
 
 5. **Delete Group Endpoint**
-   - [ ] `DELETE /api/groups/{id}/`
-   - [ ] Restricted: Owner only
-   - [ ] Delete cascades to all GroupMembers
+   - [X] `DELETE /api/groups/{id}/`
+   - [X] Restricted: Owner only
+   - [X] Delete cascades to all GroupMembers
 
 6. **Join Group by Invite Code Endpoint**
-   - [ ] `POST /api/groups/join/`
-   - [ ] Accept: `invite_code`
-   - [ ] Validate code exists
-   - [ ] Create GroupMember (role='member') for authenticated user
-   - [ ] Return: Group data
+   - [X] `POST /api/groups/join/`
+   - [X] Accept: `invite_code`
+   - [X] Validate code exists
+   - [X] Create GroupMember (role='member') for authenticated user
+   - [X] Return: Group data
 
 ### Code Example
 
@@ -234,13 +234,13 @@ class JoinGroupView(APIView):
 ```
 
 ### Deliverables by End of Week 5
-- [ ] Group creation endpoint working
-- [ ] List groups endpoint working
-- [ ] Get group details endpoint working
-- [ ] Update group endpoint (owner only)
-- [ ] Delete group endpoint (owner only)
-- [ ] Join group by invite code working
-- [ ] All endpoints tested with Postman/curl
+- [X] Group creation endpoint working
+- [X] List groups endpoint working
+- [X] Get group details endpoint working
+- [X] Update group endpoint (owner only)
+- [X] Delete group endpoint (owner only)
+- [X] Join group by invite code working
+- [X] All endpoints tested with Postman/curl
 
 ---
 
@@ -252,14 +252,14 @@ class JoinGroupView(APIView):
 
 ### Your Tasks
 1. **Permission Classes**
-   - [ ] Create `IsGroupOwner` permission (only owner can edit/delete)
-   - [ ] Create `IsGroupMember` permission (only members can access group details)
-   - [ ] Apply to all relevant endpoints
+   - [X] Create `IsGroupOwner` permission (only owner can edit/delete)
+   - [X] Create `IsGroupMember` permission (only members can access group details)
+   - [X] Apply to all relevant endpoints
 
 2. **Get Group Members Endpoint**
-   - [ ] `GET /api/groups/{id}/members/`
-   - [ ] Return: List of all members with roles
-   - [ ] Include: username, email, role, joined_at
+   - [X] `GET /api/groups/{id}/members/`
+   - [X] Return: List of all members with roles
+   - [X] Include: username, email, role, joined_at
 
 3. **Update Member Role Endpoint** (Nice-to-Have)
    - [ ] `PUT /api/groups/{id}/members/{user_id}/`
@@ -269,16 +269,16 @@ class JoinGroupView(APIView):
    - [ ] (Can defer to week 8 if time is tight)
 
 4. **Unit Tests**
-   - [ ] Test group creation
-   - [ ] Test join group via invite code
-   - [ ] Test permission enforcement (non-owner can't delete)
-   - [ ] Test GroupMember creation
-   - [ ] Aim for 80%+ coverage
+   - [X] Test group creation
+   - [X] Test join group via invite code
+   - [X] Test permission enforcement (non-owner can't delete)
+   - [X] Test GroupMember creation
+   - [X] Aim for 80%+ coverage
 
 5. **Integration with Team C & D**
-   - [ ] Verify Task/Meeting endpoints can reference Group correctly
-   - [ ] Help with any Group relationship questions
-   - [ ] Test their ability to filter tasks/meetings by group
+   - [X] Verify Task/Meeting endpoints can reference Group correctly
+   - [X] Help with any Group relationship questions
+   - [X] Test their ability to filter tasks/meetings by group
 
 ### Test Example
 
@@ -311,11 +311,11 @@ class GroupTestCase(TestCase):
 ```
 
 ### Deliverables by End of Week 7
-- [ ] Permission classes implemented
-- [ ] List members endpoint working
-- [ ] All endpoints secured with proper permissions
-- [ ] Unit tests written and passing
-- [ ] Tested with Teams C & D
+- [x] Permission classes implemented
+- [x] List members endpoint working
+- [x] All endpoints secured with proper permissions
+- [x] Unit tests written and passing
+- [x] Tested with Teams C & D
 
 ---
 
@@ -327,23 +327,23 @@ class GroupTestCase(TestCase):
 - React project set up (coordinate with Team E for shared components)
 
 ### Your Tasks
-- [ ] **Group List/Dashboard Page**
-  - [ ] Create `GroupList.js` component to display all user's groups
-  - [ ] Fetch groups with `axios.get('/api/groups/')` with JWT token
-  - [ ] Display group name, owner, and member count
-  - [ ] Add button to navigate to group details
+- [x] **Group List/Dashboard Page**
+  - [x] Create `GroupList.js` component to display all user's groups
+  - [x] Fetch groups with `axios.get('/api/groups/')` with JWT token
+  - [x] Display group name, owner, and member count
+  - [x] Add button to navigate to group details
 
-- [ ] **Create Group Form**
-  - [ ] Create `CreateGroup.js` component with group name field
-  - [ ] Handle form submission with `axios.post('/api/groups/')`
-  - [ ] Redirect to group details on success
-  - [ ] Display validation errors
+- [x] **Create Group Form**
+  - [x] Create `CreateGroup.js` component with group name field
+  - [x] Handle form submission with `axios.post('/api/groups/')`
+  - [x] Redirect to group details on success
+  - [x] Display validation errors
 
-- [ ] **Join Group Form**
-  - [ ] Create `JoinGroup.js` component with invite code field
-  - [ ] Handle form submission with `axios.post('/api/groups/join/')`
-  - [ ] Redirect to group details on success
-  - [ ] Display error for invalid codes
+- [x] **Join Group Form**
+  - [x] Create `JoinGroup.js` component with invite code field
+  - [x] Handle form submission with `axios.post('/api/groups/join/')`
+  - [x] Redirect to group details on success
+  - [x] Display error for invalid codes
 
 - [ ] **Group Details Page**
   - [ ] Create `GroupDetails.js` component to display group info

@@ -1,6 +1,9 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+import secrets
 
 User = get_user_model()
 
@@ -11,6 +14,10 @@ def validate_group_name(value):
         raise ValidationError("Group name cannot be empty.")
     if len(value) > 100:
         raise ValidationError("Group name cannot exceed 100 characters.")
+
+
+def generate_invite_code():
+    return uuid.uuid4().hex[:8]
 
 
 class Group(models.Model):
@@ -29,6 +36,12 @@ class Group(models.Model):
         related_name="owned_groups",
         help_text="The owner of the group"
     )
+    invite_code = models.CharField(
+        max_length=8,
+        unique=True,
+        default='',
+        help_text="Unique invite code for joining the group"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -37,8 +50,26 @@ class Group(models.Model):
         verbose_name = "Group"
         verbose_name_plural = "Groups"
 
+    def save(self, *args, **kwargs):
+        if not self.invite_code:
+            self.invite_code = generate_invite_code()
+            while Group.objects.filter(invite_code=self.invite_code).exists():
+                self.invite_code = generate_invite_code()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        """Auto-generate invite code if not set."""
+        if not self.invite_code:
+            self.invite_code = self.generate_invite_code()
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def generate_invite_code():
+        """Generate a unique 8-character alphanumeric invite code."""
+        return secrets.token_hex(4).upper()
 
 
 class GroupMember(models.Model):
@@ -79,3 +110,4 @@ class GroupMember(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.group.name} ({self.role})"
+# test-change

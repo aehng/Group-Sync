@@ -30,6 +30,12 @@ export default function Navigation() {
       <Link to="/" style={linkStyle(isActive("/"))}>
         Dashboard
       </Link>
+      <Link to="/groups" style={linkStyle(isActive("/groups"))}>
+        Groups
+      </Link>
+      <Link to="/messages" style={linkStyle(isActive("/messages"))}>
+        Messages
+      </Link>
       <Link to="/profile" style={linkStyle(isActive("/profile"))}>
         Profile
       </Link>
