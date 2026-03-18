@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { listGroupMembers } from "../api/members";
+import { listGroupMembers, removeGroupMember } from "../api/members";
 import { Loading, Error } from "./shared";
 
-export default function MembersList({ groupId }) {
+export default function MembersList({ groupId, canRemove = false, ownerUserId = null, onMemberRemoved }) {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [removingUserId, setRemovingUserId] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -74,17 +75,59 @@ export default function MembersList({ groupId }) {
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div
-                    style={{
-                      padding: "4px 10px",
-                      borderRadius: 20,
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: isOwner ? "#155724" : "#444",
-                      background: isOwner ? "#d4edda" : "#e9ecef",
-                    }}
-                  >
-                    {member.role}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
+                    <div
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: 20,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: isOwner ? "#155724" : "#444",
+                        background: isOwner ? "#d4edda" : "#e9ecef",
+                      }}
+                    >
+                      {member.role}
+                    </div>
+
+                    {canRemove && member.user?.id !== ownerUserId && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if (!window.confirm(`Remove ${member.user?.username || "this member"} from the group?`)) {
+                            return;
+                          }
+
+                          setRemovingUserId(member.user?.id || null);
+                          setError(null);
+
+                          try {
+                            await removeGroupMember(groupId, member.user.id);
+                            setMembers((prev) => prev.filter((m) => m.user?.id !== member.user.id));
+                            if (typeof onMemberRemoved === "function") {
+                              onMemberRemoved(member.user.id);
+                            }
+                          } catch (err) {
+                            setError(err);
+                          } finally {
+                            setRemovingUserId(null);
+                          }
+                        }}
+                        disabled={removingUserId === member.user?.id}
+                        style={{
+                          padding: "4px 10px",
+                          borderRadius: 6,
+                          border: "1px solid #dc3545",
+                          background: "#fff",
+                          color: "#dc3545",
+                          fontSize: 12,
+                          fontWeight: 600,
+                          cursor: removingUserId === member.user?.id ? "not-allowed" : "pointer",
+                          opacity: removingUserId === member.user?.id ? 0.7 : 1,
+                        }}
+                      >
+                        {removingUserId === member.user?.id ? "Removing..." : "Remove"}
+                      </button>
+                    )}
                   </div>
                   <div style={{ fontSize: 11, color: "#666", marginTop: 6 }}>
                     Joined {member.joined_at ? new Date(member.joined_at).toLocaleDateString() : "—"}

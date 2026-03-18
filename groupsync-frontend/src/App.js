@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import GroupWorkspace from "./pages/GroupWorkspace";
+import AllGroupsMessagesPage from "./pages/AllGroupsMessagesPage";
 import TaskBoard from "./pages/TaskBoard";
 import CreateTask from "./pages/CreateTask";
 import TaskDetails from "./pages/TaskDetails";
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/messages" element={<PrivateRoute><AllGroupsMessagesPage /></PrivateRoute>} />
 
           {/* Groups routes - specific paths must come BEFORE dynamic :groupId */}
           <Route path="/groups" element={<PrivateRoute><GroupList /></PrivateRoute>} />

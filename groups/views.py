@@ -54,7 +54,7 @@ class GroupJoinView(APIView):
             defaults={"role": "member"},
         )
 
-        payload = GroupMemberSerializer(member).data
+        payload = GroupSerializer(group).data
         status_code = status.HTTP_201_CREATED if created else status.HTTP_200_OK
         return Response(payload, status=status_code)
 
@@ -134,3 +134,16 @@ class GroupMemberRoleUpdateView(APIView):
             serializer.save()
 
         return Response(GroupMemberSerializer(member).data)
+
+    def delete(self, request, group_id, user_id):
+        group = get_object_or_404(Group, id=group_id)
+        member = get_object_or_404(GroupMember, group=group, user_id=user_id)
+
+        if member.user_id == group.owner_id:
+            return Response(
+                {"detail": "You cannot remove the group owner."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        member.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

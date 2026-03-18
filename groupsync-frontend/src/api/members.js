@@ -17,3 +17,11 @@ export async function updateMemberRole(groupId, userId, role) {
   });
   return res.data;
 }
+
+/**
+ * Remove a member from a group (owner only)
+ */
+export async function removeGroupMember(groupId, userId) {
+  const res = await api.delete(`/api/groups/${groupId}/members/${userId}/`);
+  return res.data;
+}

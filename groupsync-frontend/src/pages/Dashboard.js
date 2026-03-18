@@ -14,7 +14,8 @@ export default function Dashboard() {
       setError(null);
       try {
         const data = await listGroups();
-        setGroups(data.results || []);
+        const normalizedGroups = Array.isArray(data) ? data : (data?.results || []);
+        setGroups(normalizedGroups);
       } catch (err) {
         setError(err);
       } finally {
@@ -38,13 +39,44 @@ export default function Dashboard() {
 
   return (
     <div style={{ padding: 20, maxWidth: 800 }}>
-      <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: "#333", marginBottom: 8 }}>
-          Dashboard
-        </h2>
-        <p style={{ color: "#666", fontSize: 14 }}>
-          Select a group to view messages and collaborate with your team.
-        </p>
+      <div style={{ marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: "#333", marginBottom: 8 }}>
+            Dashboard
+          </h2>
+          <p style={{ color: "#666", fontSize: 14 }}>
+            Select a group to view messages and collaborate with your team.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: 8 }}>
+          <Link
+            to="/groups/create"
+            style={{
+              padding: "8px 12px",
+              background: "#007bff",
+              color: "#fff",
+              borderRadius: 6,
+              textDecoration: "none",
+              fontWeight: 600
+            }}
+          >
+            Create Group
+          </Link>
+          <Link
+            to="/groups/join"
+            style={{
+              padding: "8px 12px",
+              background: "#6c757d",
+              color: "#fff",
+              borderRadius: 6,
+              textDecoration: "none",
+              fontWeight: 600
+            }}
+          >
+            Join Group
+          </Link>
+        </div>
       </div>
 
       {error && (
@@ -61,6 +93,34 @@ export default function Dashboard() {
         }}>
           <p style={{ marginBottom: 16 }}>You haven't joined any groups yet.</p>
           <p style={{ fontSize: 14 }}>Create a group or ask for an invite code to get started.</p>
+          <div style={{ marginTop: 16, display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
+            <Link
+              to="/groups/create"
+              style={{
+                padding: "8px 12px",
+                background: "#007bff",
+                color: "#fff",
+                borderRadius: 6,
+                textDecoration: "none",
+                fontWeight: 600
+              }}
+            >
+              Create Group
+            </Link>
+            <Link
+              to="/groups/join"
+              style={{
+                padding: "8px 12px",
+                background: "#6c757d",
+                color: "#fff",
+                borderRadius: 6,
+                textDecoration: "none",
+                fontWeight: 600
+              }}
+            >
+              Join Group
+            </Link>
+          </div>
         </div>
       ) : (
         <div style={{ display: "grid", gap: 12 }}>

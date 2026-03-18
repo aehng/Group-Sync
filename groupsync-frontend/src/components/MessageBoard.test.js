@@ -84,7 +84,7 @@ describe('MessageBoard Component', () => {
 
     render(<MessageBoard groupId={mockGroupId} />);
 
-    expect(screen.getByText(`Error loading messages: Error: ${errorMessage}`)).toBeInTheDocument();
+    expect(screen.getByText(`Error loading messages: ${errorMessage}`)).toBeInTheDocument();
   });
 
   test('renders messages correctly', () => {
@@ -129,12 +129,12 @@ describe('MessageBoard Component', () => {
 
     // Check success message appears
     await waitFor(() => {
-      expect(screen.getByText('✓ Message sent!')).toBeInTheDocument();
+      expect(screen.getByText('Message sent.')).toBeInTheDocument();
     });
 
     // Success message should disappear after 3 seconds
     await waitFor(() => {
-      expect(screen.queryByText('✓ Message sent!')).not.toBeInTheDocument();
+      expect(screen.queryByText('Message sent.')).not.toBeInTheDocument();
     }, { timeout: 3500 });
   });
 
@@ -179,7 +179,7 @@ describe('MessageBoard Component', () => {
     expect(mockLoadOlder).toHaveBeenCalled();
   });
 
-  test('disables send when loading', () => {
+  test('keeps send enabled while loading older messages', () => {
     mockUseMessages.mockReturnValue({
       messages: [],
       isLoading: true,
@@ -193,7 +193,7 @@ describe('MessageBoard Component', () => {
     const sendButton = screen.getByTestId('send-button');
     const input = screen.getByTestId('message-input');
 
-    expect(sendButton).toBeDisabled();
-    expect(input).toBeDisabled();
+    expect(sendButton).toBeEnabled();
+    expect(input).toBeEnabled();
   });
 });

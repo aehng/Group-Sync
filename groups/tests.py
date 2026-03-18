@@ -41,6 +41,7 @@ class GroupMembershipTests(TestCase):
 		)
 
 		self.assertEqual(join_response.status_code, 201)
+		self.assertEqual(join_response.data["id"], group_id)
 		self.assertTrue(
 			GroupMember.objects.filter(group_id=group_id, user=self.member, role="member").exists()
 		)
@@ -122,3 +123,32 @@ class GroupMembershipTests(TestCase):
 		# group gone and members removed
 		self.assertFalse(Group.objects.filter(id=group_id).exists())
 		self.assertFalse(GroupMember.objects.filter(group_id=group_id).exists())
+
+	def test_owner_can_remove_member(self):
+		self.client.force_authenticate(user=self.owner)
+		response = self.client.post("/api/groups/", {"name": "Team"}, format="json")
+		group_id = response.data["id"]
+		invite_code = response.data["invite_code"]
+
+		self.client.force_authenticate(user=self.member)
+		self.client.post("/api/groups/join/", {"invite_code": invite_code}, format="json")
+
+		self.client.force_authenticate(user=self.owner)
+		remove_response = self.client.delete(f"/api/groups/{group_id}/members/{self.member.id}/")
+
+		self.assertEqual(remove_response.status_code, 204)
+		self.assertFalse(
+			GroupMember.objects.filter(group_id=group_id, user=self.member).exists()
+		)
+
+	def test_owner_cannot_remove_owner_membership(self):
+		self.client.force_authenticate(user=self.owner)
+		response = self.client.post("/api/groups/", {"name": "Team"}, format="json")
+		group_id = response.data["id"]
+
+		remove_response = self.client.delete(f"/api/groups/{group_id}/members/{self.owner.id}/")
+
+		self.assertEqual(remove_response.status_code, 400)
+		self.assertTrue(
+			GroupMember.objects.filter(group_id=group_id, user=self.owner, role="owner").exists()
+		)

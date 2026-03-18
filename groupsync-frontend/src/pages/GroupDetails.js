@@ -255,7 +255,21 @@ export default function GroupDetails() {
         </div>
 
         <div style={{ minWidth: 280, maxWidth: 340 }}>
-          <MembersList groupId={groupId} />
+          <MembersList
+            groupId={groupId}
+            canRemove={isOwner}
+            ownerUserId={group?.owner?.id || null}
+            onMemberRemoved={() => {
+              setGroup((prev) => {
+                if (!prev) return prev;
+                const currentCount = Number(prev.member_count ?? 0);
+                return {
+                  ...prev,
+                  member_count: Math.max(0, currentCount - 1),
+                };
+              });
+            }}
+          />
         </div>
       </div>
     </div>
