@@ -267,9 +267,8 @@ class UserLogoutTests(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
         data = {'refresh': self.refresh_token}
         response = self.client.post(self.logout_url, data, format='json')
-        
-        # Token blacklist may not be enabled, so accept both 200 and 205
-        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_205_RESET_CONTENT, status.HTTP_400_BAD_REQUEST])
+
+        self.assertEqual(response.status_code, status.HTTP_205_RESET_CONTENT)
 
     def test_logout_missing_refresh_token(self):
         """Test logout without refresh token"""

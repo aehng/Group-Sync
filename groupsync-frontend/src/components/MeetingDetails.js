@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { getMeeting, updateMeeting, deleteMeeting } from '../api/meetings';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { getMeeting, updateMeeting, deleteMeeting } from "../api/meetings";
+import { Button, Card, Input, Loading, Error } from "./shared";
 
 export default function MeetingDetails() {
     const { groupId, meetingId } = useParams();
@@ -50,38 +51,124 @@ export default function MeetingDetails() {
         }
     };
 
-    if (!meeting) return <p>Loading...</p>;
+    if (!meeting) return <Loading label="Loading meeting..." />;
+
+    const meetingTime = `${new Date(meeting.start_time).toLocaleString()}${meeting.end_time ? ` - ${new Date(meeting.end_time).toLocaleString()}` : ""}`;
+
+    const formatErrors = (errorsObj) => {
+        if (!errorsObj) return null;
+        if (typeof errorsObj === "string") return errorsObj;
+        if (errorsObj.detail) return errorsObj.detail;
+
+        const messages = Object.values(errorsObj)
+            .flatMap((val) => (Array.isArray(val) ? val : [val]))
+            .filter(Boolean);
+
+        return messages.join(" ");
+    };
+
+    const errorMessage = formatErrors(errors);
+    const fieldError = (field) => {
+        const fieldValue = errors?.[field];
+        if (!fieldValue) return null;
+        return Array.isArray(fieldValue) ? fieldValue[0] : fieldValue;
+    };
 
     return (
-        <div style={{ maxWidth: '600px', margin: '20px auto', padding: '20px', border: '1px solid #ddd' }}>
+        <div style={{ maxWidth: 720, margin: "20px auto", padding: 20 }}>
             {isEditing ? (
-                <form onSubmit={handleUpdate}>
-                    <h3>Edit Meeting</h3>
-                    <input type="text" name="title" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} style={{width: '100%', marginBottom: '10px'}} />
-                    <textarea name="description" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} style={{width: '100%', marginBottom: '10px'}} />
-                    <input type="datetime-local" name="start_time" value={formData.start_time?.slice(0,16)} onChange={(e) => setFormData({...formData, start_time: e.target.value})} style={{width: '100%', marginBottom: '10px'}} />
-                    <button type="submit" style={{backgroundColor: 'green', color: 'white'}}>Save Changes</button>
-                    <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-                </form>
-            ) : (
-                <div>
-                    {/* TASK: Display full meeting info */}
-                    <h2>{meeting.title}</h2>
-                    <p><strong>Description:</strong> {meeting.description}</p>
-                    <p><strong>Time:</strong> {new Date(meeting.start_time).toLocaleString()} - {meeting.end_time ? new Date(meeting.end_time).toLocaleString() : 'N/A'}</p>
-                    <p><strong>Location/Link:</strong> {meeting.location_or_link || 'No location provided'}</p>
-                    <p><strong>Agenda:</strong> {meeting.agenda || 'No agenda set'}</p>
-                    <p><strong>Created by:</strong> {meeting.creator_name || 'Group Member'}</p>
-
-                    {/* Permissions Check: Only show Edit/Delete if user is creator */}
-                    {user?.id === meeting.creator && (
-                        <div style={{ marginTop: '20px' }}>
-                            <button onClick={() => setIsEditing(true)} style={{ marginRight: '10px' }}>Edit Meeting</button>
-                            <button onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white' }}>Delete Meeting</button>
+                <Card title="Edit Meeting" compact>
+                    {errorMessage && <Error title="Could not save meeting" message={errorMessage} />}
+                    <form onSubmit={handleUpdate}>
+                        <Input
+                            label="Title"
+                            name="title"
+                            value={formData.title || ""}
+                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                            required
+                            errorText={fieldError("title")}
+                        />
+                        <div className="field">
+                            <label className="label" htmlFor="description">
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                className="input"
+                                value={formData.description || ""}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                rows={4}
+                            />
                         </div>
+                        <Input
+                            label="Start Time"
+                            name="start_time"
+                            type="datetime-local"
+                            value={formData.start_time?.slice(0, 16) || ""}
+                            onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
+                            required
+                            errorText={fieldError("start_time")}
+                        />
+                        <Input
+                            label="End Time (optional)"
+                            name="end_time"
+                            type="datetime-local"
+                            value={formData.end_time?.slice(0, 16) || ""}
+                            onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
+                        />
+                        <Input
+                            label="Location or Link"
+                            name="location_or_link"
+                            value={formData.location_or_link || ""}
+                            onChange={(e) => setFormData({ ...formData, location_or_link: e.target.value })}
+                        />
+                        <div className="card-actions">
+                            <Button type="submit" variant="primary">
+                                Save Changes
+                            </Button>
+                            <Button type="button" variant="secondary" onClick={() => setIsEditing(false)}>
+                                Cancel
+                            </Button>
+                        </div>
+                    </form>
+                </Card>
+            ) : (
+                <Card title={meeting.title} subtitle={meetingTime}>
+                    {meeting.description && (
+                        <p>
+                            <strong>Description:</strong> {meeting.description}
+                        </p>
                     )}
-                    <button onClick={() => navigate(-1)} style={{ marginTop: '10px', display: 'block' }}>Back to List</button>
-                </div>
+                    <p>
+                        <strong>Location/Link:</strong> {meeting.location_or_link || "No location provided"}
+                    </p>
+                    <p>
+                        <strong>Agenda:</strong> {meeting.agenda || "No agenda set"}
+                    </p>
+                    <p>
+                        <strong>Created by:</strong> {meeting.creator_name || "Group Member"}
+                    </p>
+
+                    <div className="card-actions" style={{ marginTop: 12 }}>
+                        {user?.id === meeting.creator && (
+                            <>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Edit Meeting
+                                </Button>
+                                <Button variant="danger" onClick={handleDelete}>
+                                    Delete Meeting
+                                </Button>
+                            </>
+                        )}
+                        <Button variant="secondary" onClick={() => navigate(-1)}>
+                            Back to List
+                        </Button>
+                    </div>
+                </Card>
             )}
         </div>
     );

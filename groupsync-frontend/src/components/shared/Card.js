@@ -5,9 +5,17 @@ export default function Card({
   subtitle,
   compact = false,
   children,
+  className = "",
+  onClick,
+  style,
+  ...props
 }) {
+  const classes = ["card", compact && "card-compact", className]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <section className={`card ${compact ? "card-compact" : ""}`}>
+    <section className={classes} onClick={onClick} style={style} {...props}>
       {(title || subtitle) && (
         <header className="card-header">
           {title && <h3 className="card-title">{title}</h3>}

@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css'; // Essential styling
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Card, Button, Loading, Error } from './shared';
 
 export default function CalendarView() {
     const { groupId } = useParams();
@@ -12,15 +13,25 @@ export default function CalendarView() {
     
     const [meetings, setMeetings] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchMeetings = async () => {
+            setIsLoading(true);
+            setError("");
+
             try {
                 const res = await axios.get(`/api/groups/${groupId}/meetings/`, {
                     headers: { Authorization: `Bearer ${authToken}` }
                 });
                 setMeetings(res.data);
-            } catch (err) { console.error("Error loading calendar", err); }
+            } catch (err) {
+                console.error("Error loading calendar", err);
+                setError(err?.response?.data?.detail || err?.message || "Failed to load meetings");
+            } finally {
+                setIsLoading(false);
+            }
         };
         if (authToken) fetchMeetings();
     }, [groupId, authToken]);
@@ -44,42 +55,41 @@ export default function CalendarView() {
     const dayMeetings = getMeetingsForDate(selectedDate);
 
     return (
-        <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Group Calendar</h2>
-                <button onClick={() => navigate(`/groups/${groupId}/meetings`)}>Back to List View</button>
+        <div className="container">
+            <div className="flex-between" style={{ marginBottom: 16 }}>
+                <h2 style={{ margin: 0 }}>Group Calendar</h2>
+                <Button variant="secondary" onClick={() => navigate(`/groups/${groupId}/meetings`)}>
+                    Back to meeting list
+                </Button>
             </div>
-            
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '20px' }}>
-                <div>
-                    <Calendar 
-                        onChange={setSelectedDate} 
-                        value={selectedDate}
-                        tileClassName={tileClassName}
-                    />
-                </div>
+                <Card className="card" compact>
+                    {isLoading ? (
+                        <Loading label="Loading calendar..." />
+                    ) : error ? (
+                        <Error title="Calendar" message={error} />
+                    ) : (
+                        <Calendar 
+                            onChange={setSelectedDate} 
+                            value={selectedDate}
+                            tileClassName={tileClassName}
+                        />
+                    )}
+                </Card>
 
                 <div>
                     <h3>Meetings for {selectedDate.toLocaleDateString()}</h3>
                     {dayMeetings.length > 0 ? (
-                        dayMeetings.map(m => (
-                            <div 
-                                key={m.id} 
+                        dayMeetings.map((m) => (
+                            <Card
+                                key={m.id}
+                                className="card-clickable"
                                 onClick={() => navigate(`/groups/${groupId}/meetings/${m.id}`)}
-                                style={{ 
-                                    padding: '15px', 
-                                    border: '1px solid #eee', 
-                                    borderRadius: '8px',
-                                    marginBottom: '10px',
-                                    cursor: 'pointer',
-                                    backgroundColor: '#f9f9f9'
-                                }}
-                            >
-                                <strong>{m.title}</strong>
-                                <p style={{ margin: 0, fontSize: '14px', color: '#666' }}>
-                                    {new Date(m.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </p>
-                            </div>
+                                compact
+                                title={m.title}
+                                subtitle={new Date(m.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            />
                         ))
                     ) : (
                         <p style={{ color: '#999' }}>No meetings scheduled for this day.</p>

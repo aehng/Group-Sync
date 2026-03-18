@@ -219,6 +219,125 @@
   overflow-wrap: anywhere;
 }
 
+/* ================================
+   Cards
+   ================================ */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  width: 100%;
+}
+
+.card-compact {
+  padding: 12px;
+}
+
+.card-header {
+  margin-bottom: 12px;
+}
+
+.card-title {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.card-subtitle {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.card-body {
+  min-height: 1px;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================
+   Form fields
+   ================================ */
+
+.field {
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.helper {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.helper-error {
+  color: var(--color-error);
+}
+
+.helper-success {
+  color: var(--color-success);
+}
+
+.input-error {
+  border-color: rgba(255, 44, 44, 0.6);
+}
+
+.input-success {
+  border-color: rgba(92, 184, 92, 0.6);
+}
+
+/* ================================
+   Badges
+   ================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge--meeting {
+  background: rgba(32, 129, 195, 0.15);
+  color: var(--color-primary);
+}
+
+.badge--task {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning);
+}
+
 .message-form {
   margin-top: 14px;
   display: grid;

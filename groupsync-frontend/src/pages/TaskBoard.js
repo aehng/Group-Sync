@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { listGroupMembers } from "../api/members";
 import { listGroupTasks, updateTaskStatus } from "../api/tasks";
 import TaskCard from "../components/TaskCard";
-import { Error, Loading } from "../components/shared";
+import { Button, Error, Loading } from "../components/shared";
 
 const STATUSES = ["todo", "doing", "done"];
 
@@ -14,7 +14,7 @@ const STATUS_TITLES = {
   done: "Done",
 };
 
-export default function TaskBoard() {
+export default function TaskBoard({ embedded = false }) {
   const { groupId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
@@ -96,41 +96,49 @@ export default function TaskBoard() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const resetFilters = () => {
+    setFilters({
+      status: "",
+      assigned_to: "",
+      due_before: "",
+      ordering: "-created_at",
+    });
+  };
+
   if (isLoading) {
     return <Loading label="Loading task board..." />;
   }
 
   return (
-    <div style={{ padding: 20, display: "grid", gap: 16 }}>
+    <div style={{ padding: embedded ? 16 : 20, display: "grid", gap: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <h2 style={{ margin: 0, color: "#333" }}>Task Board</h2>
         <div style={{ display: "flex", gap: 8 }}>
-          <Link
-            to={`/groups/${groupId}`}
-            style={{ textDecoration: "none", color: "#0056b3", fontWeight: 600, padding: "8px 12px" }}
-          >
-            Back to Workspace
-          </Link>
-          <Link
-            to={`/groups/${groupId}/tasks/new`}
-            style={{ textDecoration: "none", color: "#fff", background: "#007bff", borderRadius: 8, padding: "8px 12px", fontWeight: 700 }}
-          >
-            Create Task
+          {!embedded && (
+            <Link
+              to={`/groups/${groupId}`}
+              style={{ textDecoration: "none", color: "#0056b3", fontWeight: 600, padding: "8px 12px" }}
+            >
+              Back to Workspace
+            </Link>
+          )}
+          <Link to={`/groups/${groupId}/tasks/new`} style={{ textDecoration: "none" }}>
+            <Button variant="primary">Create Task</Button>
           </Link>
         </div>
       </div>
 
       {error && <Error title="Task board error" message={error.message} />}
 
-      <div style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
-        <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+      <div className="card" style={{ display: "grid", gap: 8, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+        <select className="input" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
           <option value="">All Statuses</option>
           <option value="todo">To-Do</option>
           <option value="doing">Doing</option>
           <option value="done">Done</option>
         </select>
 
-        <select value={filters.assigned_to} onChange={(e) => handleFilterChange("assigned_to", e.target.value)}>
+        <select className="input" value={filters.assigned_to} onChange={(e) => handleFilterChange("assigned_to", e.target.value)}>
           <option value="">All Assignees</option>
           {members.map((member) => (
             <option key={member.user.id} value={member.user.id}>
@@ -140,25 +148,22 @@ export default function TaskBoard() {
         </select>
 
         <input
+          className="input"
           type="datetime-local"
           value={filters.due_before}
           onChange={(e) => handleFilterChange("due_before", e.target.value)}
         />
 
-        <select value={filters.ordering} onChange={(e) => handleFilterChange("ordering", e.target.value)}>
+        <select className="input" value={filters.ordering} onChange={(e) => handleFilterChange("ordering", e.target.value)}>
           <option value="-created_at">Newest</option>
           <option value="created_at">Oldest</option>
           <option value="due_date">Due Date Asc</option>
           <option value="-due_date">Due Date Desc</option>
         </select>
 
-        <button
-          type="button"
-          onClick={loadData}
-          style={{ border: "1px solid #ddd", borderRadius: 8, background: "#fff", cursor: "pointer" }}
-        >
-          Apply Filters
-        </button>
+        <Button type="button" variant="secondary" onClick={resetFilters}>
+          Reset Filters
+        </Button>
       </div>
 
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

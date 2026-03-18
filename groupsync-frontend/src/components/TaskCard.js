@@ -1,16 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "./shared";
 
 const STATUS_LABELS = {
   todo: "To-Do",
   doing: "Doing",
   done: "Done",
-};
-
-const STATUS_COLORS = {
-  todo: { bg: "#fff3cd", text: "#856404" },
-  doing: { bg: "#d1ecf1", text: "#0c5460" },
-  done: { bg: "#d4edda", text: "#155724" },
 };
 
 function formatDueDate(value) {
@@ -27,43 +22,28 @@ export default function TaskCard({
   onStatusChange,
   onDragStart,
 }) {
-  const colors = STATUS_COLORS[task.status] || STATUS_COLORS.todo;
+  const badgeClass = task.status === "todo" ? "badge--task" : "badge--meeting";
 
   return (
     <div
       draggable
       onDragStart={() => onDragStart?.(task)}
-      style={{
-        padding: 14,
-        background: "#fff",
-        borderRadius: 10,
-        border: "1px solid #ddd",
-        display: "grid",
-        gap: 10,
-      }}
+      className="card"
+      style={{ display: "grid", gap: 10 }}
     >
       <div>
-        <div style={{ fontWeight: 700, color: "#333", marginBottom: 4 }}>{task.title}</div>
+        <div style={{ fontWeight: 700, color: "var(--color-text)", marginBottom: 4 }}>{task.title}</div>
         {task.description && (
-          <div style={{ color: "#666", fontSize: 13, lineHeight: 1.4 }}>{task.description}</div>
+          <div style={{ color: "var(--color-muted)", fontSize: 13, lineHeight: 1.4 }}>{task.description}</div>
         )}
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-        <span
-          style={{
-            background: colors.bg,
-            color: colors.text,
-            fontSize: 12,
-            fontWeight: 700,
-            borderRadius: 999,
-            padding: "4px 10px",
-          }}
-        >
+        <span className={`badge ${badgeClass}`}>
           {STATUS_LABELS[task.status] || task.status}
         </span>
-        <span style={{ color: "#666", fontSize: 12 }}>Due: {formatDueDate(task.due_date)}</span>
-        <span style={{ color: "#666", fontSize: 12 }}>
+        <span style={{ color: "var(--color-muted)", fontSize: 12 }}>Due: {formatDueDate(task.due_date)}</span>
+        <span style={{ color: "var(--color-muted)", fontSize: 12 }}>
           Assigned: {task.assigned_to_username || "Unassigned"}
         </span>
       </div>
@@ -75,11 +55,11 @@ export default function TaskCard({
             textDecoration: "none",
             fontSize: 12,
             fontWeight: 700,
-            color: "#0056b3",
+            color: "var(--color-primary)",
             padding: "6px 10px",
-            border: "1px solid #cfe2ff",
+            border: "1px solid var(--color-border)",
             borderRadius: 8,
-            background: "#f2f7ff",
+            background: "var(--color-bg)",
           }}
         >
           View Details
@@ -87,30 +67,30 @@ export default function TaskCard({
 
         {canUpdateStatus && (
           <>
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => onStatusChange?.(task, "todo")}
               disabled={task.status === "todo"}
-              style={{ border: "1px solid #ddd", borderRadius: 8, padding: "6px 10px", cursor: "pointer" }}
             >
               To-Do
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => onStatusChange?.(task, "doing")}
               disabled={task.status === "doing"}
-              style={{ border: "1px solid #ddd", borderRadius: 8, padding: "6px 10px", cursor: "pointer" }}
             >
               Doing
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => onStatusChange?.(task, "done")}
               disabled={task.status === "done"}
-              style={{ border: "1px solid #ddd", borderRadius: 8, padding: "6px 10px", cursor: "pointer" }}
             >
               Done
-            </button>
+            </Button>
           </>
         )}
       </div>

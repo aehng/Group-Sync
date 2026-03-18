@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { listGroupMeetings } from '../api/meetings';
-import MeetingCard from './MeetingCard';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { listGroupMeetings } from "../api/meetings";
+import MeetingCard from "./MeetingCard";
+import { Button, Error, Loading } from "./shared";
 
 export default function MeetingList() {
     const { groupId } = useParams();
@@ -36,35 +37,53 @@ export default function MeetingList() {
     }, [groupId, filter]);
 
     return (
-        <div style={{ padding: 24 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Group Meetings</h2>
-                {/* TASK: Add button to create new meeting */}
-                <button 
+        <div className="container">
+            <div className="flex-between" style={{ marginBottom: 16 }}>
+                <h2 style={{ margin: 0 }}>Group Meetings</h2>
+                <Button
+                    variant="primary"
                     onClick={() => navigate(`/groups/${groupId}/meetings/new`)}
-                    style={{ padding: '8px 16px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    + Create New Meeting
-                </button>
+                    + Create Meeting
+                </Button>
             </div>
 
-            {/* TASK: Add filters for upcoming vs. past meetings */}
-            <div style={{ marginBottom: 20 }}>
-                <button onClick={() => setFilter('all')} style={{ marginRight: 8 }}>All</button>
-                <button onClick={() => setFilter('upcoming')} style={{ marginRight: 8 }}>Upcoming</button>
-                <button onClick={() => setFilter('past')}>Past</button>
+            <div className="card-actions" style={{ marginBottom: 18, flexWrap: 'wrap' }}>
+                <Button
+                    variant={filter === 'all' ? 'primary' : 'secondary'}
+                    onClick={() => setFilter('all')}
+                >
+                    All
+                </Button>
+                <Button
+                    variant={filter === 'upcoming' ? 'primary' : 'secondary'}
+                    onClick={() => setFilter('upcoming')}
+                >
+                    Upcoming
+                </Button>
+                <Button
+                    variant={filter === 'past' ? 'primary' : 'secondary'}
+                    onClick={() => setFilter('past')}
+                >
+                    Past
+                </Button>
             </div>
 
-            {/* TASK: Display meetings in list view */}
             {isLoading ? (
-                <p>Loading meetings...</p>
+                <Loading label="Loading meetings..." />
             ) : error ? (
-                <p style={{ color: '#b00020' }}>{error}</p>
+                <Error title="Unable to load meetings" message={error} />
             ) : meetings.length === 0 ? (
-                <p>No meetings found for this filter.</p>
+                <div className="card">
+                    <p style={{ margin: 0, color: 'var(--color-muted)' }}>
+                        No meetings found for this filter.
+                    </p>
+                </div>
             ) : (
-                <div style={{ marginTop: '20px' }}>
-                    {meetings.map(m => (<MeetingCard key={m.id} meeting={m} groupId={groupId} />))}
+                <div style={{ display: 'grid', gap: 12 }}>
+                    {meetings.map((m) => (
+                        <MeetingCard key={m.id} meeting={m} groupId={groupId} />
+                    ))}
                 </div>
             )}
         </div>

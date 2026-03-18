@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { createMeeting } from '../api/meetings';
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { createMeeting } from "../api/meetings";
+import { Button, Card, Input, Error } from "./shared";
 
 export default function CreateMeeting() {
     const { groupId } = useParams();
@@ -46,50 +47,106 @@ export default function CreateMeeting() {
         }
     };
 
+    const formatErrors = (errorsObj) => {
+        if (!errorsObj) return null;
+        if (typeof errorsObj === "string") return errorsObj;
+        if (errorsObj.detail) return errorsObj.detail;
+
+        const messages = Object.values(errorsObj)
+            .flatMap((val) => (Array.isArray(val) ? val : [val]))
+            .filter(Boolean);
+
+        return messages.join(" ");
+    };
+
+    const fieldError = (field) => {
+        const fieldValue = errors?.[field];
+        if (!fieldValue) return null;
+        return Array.isArray(fieldValue) ? fieldValue[0] : fieldValue;
+    };
+
+    const errorMessage = formatErrors(errors);
+
     return (
-        <div style={{ maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-            <h2>Create New Meeting</h2>
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Title:</label><br />
-                    <input type="text" name="title" value={formData.title} onChange={handleChange} required style={{ width: '100%' }} />
-                    {errors.title && <p style={{ color: 'red', fontSize: '12px' }}>{errors.title}</p>}
-                </div>
+        <div style={{ maxWidth: 720, margin: "20px auto", padding: 20 }}>
+            <Card title="Create New Meeting" compact>
+                {errorMessage && (
+                    <Error title="Unable to create meeting" message={errorMessage} />
+                )}
 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Description:</label><br />
-                    <textarea name="description" value={formData.description} onChange={handleChange} style={{ width: '100%' }} />
-                </div>
+                <form onSubmit={handleSubmit}>
+                    <Input
+                        label="Title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        required
+                        errorText={fieldError("title")}
+                    />
 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Start Time:</label><br />
-                    {/* TASK: Use datetime-local input */}
-                    <input type="datetime-local" name="start_time" value={formData.start_time} onChange={handleChange} required style={{ width: '100%' }} />
-                    {errors.start_time && <p style={{ color: 'red', fontSize: '12px' }}>{errors.start_time}</p>}
-                </div>
+                    <div className="field">
+                        <label className="label" htmlFor="description">
+                            Description
+                        </label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            className="input"
+                            value={formData.description}
+                            onChange={handleChange}
+                            rows={4}
+                        />
+                    </div>
 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>End Time (Optional):</label><br />
-                    <input type="datetime-local" name="end_time" value={formData.end_time} onChange={handleChange} style={{ width: '100%' }} />
-                </div>
+                    <Input
+                        label="Start Time"
+                        name="start_time"
+                        type="datetime-local"
+                        value={formData.start_time}
+                        onChange={handleChange}
+                        required
+                        errorText={fieldError("start_time")}
+                    />
 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Location or Link:</label><br />
-                    <input type="text" name="location_or_link" value={formData.location_or_link} onChange={handleChange} style={{ width: '100%' }} />
-                </div>
+                    <Input
+                        label="End Time (optional)"
+                        name="end_time"
+                        type="datetime-local"
+                        value={formData.end_time}
+                        onChange={handleChange}
+                    />
 
-                <div style={{ marginBottom: '15px' }}>
-                    <label>Agenda:</label><br />
-                    <textarea name="agenda" value={formData.agenda} onChange={handleChange} style={{ width: '100%' }} />
-                </div>
+                    <Input
+                        label="Location or Link"
+                        name="location_or_link"
+                        value={formData.location_or_link}
+                        onChange={handleChange}
+                    />
 
-                <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                    Save Meeting
-                </button>
-                <button type="button" onClick={() => navigate(-1)} style={{ marginLeft: '10px', background: 'none', border: '1px solid #ccc', padding: '10px' }}>
-                    Cancel
-                </button>
-            </form>
+                    <div className="field">
+                        <label className="label" htmlFor="agenda">
+                            Agenda
+                        </label>
+                        <textarea
+                            id="agenda"
+                            name="agenda"
+                            className="input"
+                            value={formData.agenda}
+                            onChange={handleChange}
+                            rows={4}
+                        />
+                    </div>
+
+                    <div className="card-actions">
+                        <Button type="submit" variant="primary">
+                            Save Meeting
+                        </Button>
+                        <Button type="button" variant="secondary" onClick={() => navigate(-1)}>
+                            Cancel
+                        </Button>
+                    </div>
+                </form>
+            </Card>
         </div>
     );
 }

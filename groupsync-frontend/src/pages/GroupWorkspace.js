@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { listGroupTasks } from "../api/tasks";
 import { listGroupMembers, removeGroupMember } from "../api/members";
 import { getGroup } from "../api/groups";
 import MessageBoard from "../components/MessageBoard";
 import MeetingList from "../components/MeetingList";
+import TaskBoard from "./TaskBoard";
 import { useAuth } from "../context/AuthContext";
 import { Loading, Error } from "../components/shared";
 
@@ -13,17 +13,14 @@ export default function GroupWorkspace() {
   const { user } = useAuth();
   const [tab, setTab] = useState("messages");
   const [group, setGroup] = useState(null);
-  const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
   const [removingMemberId, setRemovingMemberId] = useState(null);
   const [isLoading, setIsLoading] = useState({
     group: true,
-    tasks: false,
     members: false,
   });
   const [errors, setErrors] = useState({
     group: null,
-    tasks: null,
     members: null,
   });
 
@@ -46,26 +43,6 @@ export default function GroupWorkspace() {
   }, [groupId]);
 
   const isOwner = Boolean(user?.id && group?.owner?.id && user.id === group.owner.id);
-
-  // Fetch tasks when tab changes to "tasks"
-  useEffect(() => {
-    if (tab !== "tasks") return;
-
-    const fetchTasks = async () => {
-      setIsLoading((prev) => ({ ...prev, tasks: true }));
-      setErrors((prev) => ({ ...prev, tasks: null }));
-      try {
-        const data = await listGroupTasks(groupId);
-        setTasks(data.results || data || []);
-      } catch (err) {
-        setErrors((prev) => ({ ...prev, tasks: err }));
-      } finally {
-        setIsLoading((prev) => ({ ...prev, tasks: false }));
-      }
-    };
-
-    fetchTasks();
-  }, [tab, groupId]);
 
   // Fetch members when tab changes to "members"
   useEffect(() => {
@@ -178,73 +155,8 @@ export default function GroupWorkspace() {
         )}
 
         {tab === "tasks" && (
-          <div style={{ padding: 20, color: "#666" }}>
-            <div style={{ marginBottom: 16 }}>
-              <Link
-                to={`/groups/${groupId}/tasks`}
-                style={{
-                  display: "inline-block",
-                  padding: "10px 16px",
-                  background: "#007bff",
-                  color: "#fff",
-                  textDecoration: "none",
-                  borderRadius: 6,
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                Open Task Board
-              </Link>
-            </div>
-            {errors.tasks && (
-              <Error title="Failed to load tasks" message={errors.tasks.message} />
-            )}
-            {isLoading.tasks ? (
-              <Loading label="Loading tasks..." />
-            ) : tasks.length === 0 ? (
-              <p style={{ color: "#666" }}>No tasks yet.</p>
-            ) : (
-              <div style={{ display: "grid", gap: 12 }}>
-                {tasks.map((task) => (
-                  <div
-                    key={task.id}
-                    style={{
-                      padding: 16,
-                      background: "#fff",
-                      borderRadius: 8,
-                      border: "1px solid #ddd"
-                    }}
-                  >
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "#333", marginBottom: 6 }}>
-                      {task.title || task.name}
-                    </div>
-                    {(task.description || task.detail) && (
-                      <p style={{ fontSize: 14, color: "#666", marginBottom: 8 }}>
-                        {task.description || task.detail}
-                      </p>
-                    )}
-                    {task.status && (
-                      <div style={{
-                        display: "inline-block",
-                        padding: "4px 8px",
-                        background: task.status === "completed" ? "#d4edda" : "#fff3cd",
-                        color: task.status === "completed" ? "#155724" : "#856404",
-                        borderRadius: 4,
-                        fontSize: 12,
-                        fontWeight: 500
-                      }}>
-                        {task.status}
-                      </div>
-                    )}
-                    {task.assigned_to && (
-                      <p style={{ fontSize: 12, color: "#999", marginTop: 8, marginBottom: 0 }}>
-                        Assigned to: {task.assigned_to.first_name || task.assigned_to.username}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+          <div style={{ height: "100%", minHeight: 0, overflow: "auto" }}>
+            <TaskBoard embedded />
           </div>
         )}
 

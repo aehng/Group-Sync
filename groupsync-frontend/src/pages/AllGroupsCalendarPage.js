@@ -121,7 +121,7 @@ export default function AllGroupsCalendarPage() {
   }, []);
 
   return (
-    <div style={{ padding: 20, maxWidth: 980, margin: "0 auto" }}>
+    <div className="container">
       <div style={{ marginBottom: 16 }}>
         <h2 style={{ margin: 0, fontSize: 24, color: "#333" }}>Calendar</h2>
         <p style={{ margin: "6px 0 0", color: "#666" }}>
@@ -133,42 +133,20 @@ export default function AllGroupsCalendarPage() {
       {error && <div style={{ color: "#b00020", marginBottom: 12 }}>{error}</div>}
 
       {!isLoading && !error && timeline.length === 0 && (
-        <div
-          style={{
-            background: "#fff",
-            border: "1px dashed #ccc",
-            borderRadius: 8,
-            padding: 20,
-            color: "#666",
-          }}
-        >
+        <div className="card" style={{ border: "1px dashed #ccc" }}>
           No upcoming meetings or task deadlines found.
         </div>
       )}
 
       <div style={{ display: "grid", gap: 10 }}>
         {timeline.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              background: "#fff",
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              padding: 12,
-            }}
-          >
+          <div key={item.id} className="card card-clickable">
             <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    borderRadius: 999,
-                    padding: "3px 8px",
-                    color: item.type === "meeting" ? "#0b5394" : "#7f6000",
-                    background: item.type === "meeting" ? "#ddeeff" : "#fff3cd",
-                    textTransform: "uppercase",
-                  }}
+                  className={
+                    item.type === "meeting" ? "badge badge--meeting" : "badge badge--task"
+                  }
                 >
                   {item.type}
                 </span>
