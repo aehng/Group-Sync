@@ -2,12 +2,14 @@ import React, { useRef, useEffect } from "react";
 import MessageList from "./MessageList";
 import MessageComposer from "./MessageComposer";
 import { useMessages } from "../hooks/useMessages";
+import "./MessageBoard.css";
 
 export default function MessageBoard({ groupId }) {
   const { messages, isLoading, error, sendMessage, loadOlder } = useMessages(groupId);
   const endRef = useRef(null);
   const [sendSuccess, setSendSuccess] = React.useState(false);
   const [sendError, setSendError] = React.useState("");
+  const messageLogId = React.useId();
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -33,16 +35,24 @@ export default function MessageBoard({ groupId }) {
   // will use cursor pagination via the hook to append older messages.
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f5f5f5", overflow: "hidden" }}>
+    <div
+      className="message-board-root"
+      style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f5f5f5", overflow: "hidden" }}
+    >
       {error && (
-        <div style={{ 
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="message-notice message-notice-error"
+          style={{ 
           color: "#d32f2f", 
           padding: 16, 
           background: "#ffebee",
           borderRadius: 8,
           margin: "12px 12px 0",
           fontSize: 14
-        }}>
+        }}
+        >
           Error loading messages: {String(error?.message || error)}
         </div>
       )}
@@ -57,9 +67,12 @@ export default function MessageBoard({ groupId }) {
           flexDirection: "column",
           gap: 12,
         }}>
-          <button 
+          <button
+            type="button"
             onClick={loadOlder} 
             disabled={isLoading}
+            aria-controls={messageLogId}
+            aria-label="Load older messages"
             style={{
               marginBottom: 12,
               padding: "8px 12px",
@@ -75,7 +88,16 @@ export default function MessageBoard({ groupId }) {
             {isLoading ? "Loading older messages..." : "Load older messages"}
           </button>
 
-          <MessageList messages={messages} />
+          <div
+            id={messageLogId}
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions text"
+            aria-label="Group messages"
+            tabIndex={0}
+          >
+            <MessageList messages={messages} />
+          </div>
           <div ref={endRef} />
         </div>
 
@@ -86,26 +108,36 @@ export default function MessageBoard({ groupId }) {
           flexShrink: 0,
         }}>
           {sendSuccess && (
-            <div style={{
+            <div
+              role="status"
+              aria-live="polite"
+              className="message-notice message-notice-success"
+              style={{
               padding: "12px 16px",
               background: "#d4edda",
               color: "#155724",
               fontSize: "13px",
               borderRadius: 4,
               margin: "8px"
-            }}>
+            }}
+            >
               Message sent.
             </div>
           )}
           {sendError && (
-            <div style={{
+            <div
+              role="alert"
+              aria-live="assertive"
+              className="message-notice message-notice-error"
+              style={{
               padding: "12px 16px",
               background: "#ffebee",
               color: "#b00020",
               fontSize: "13px",
               borderRadius: 4,
               margin: "8px"
-            }}>
+            }}
+            >
               {sendError}
             </div>
           )}

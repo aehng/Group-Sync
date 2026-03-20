@@ -18,6 +18,7 @@ export default function MessageComposer({ onSend, disabled }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Type a message…"
+        aria-label="Message input"
         disabled={disabled}
         style={{
           flex: 1,
@@ -26,11 +27,14 @@ export default function MessageComposer({ onSend, disabled }) {
           border: "1px solid #ccc",
           fontSize: "14px",
           fontFamily: "inherit",
+          transition: "border-color 0.2s, box-shadow 0.2s",
         }}
       />
       <button
         type="submit"
         disabled={disabled}
+        aria-label="Send message"
+        className="message-send-btn"
         style={{
           padding: "10px 18px",
           borderRadius: 10,
@@ -40,10 +44,20 @@ export default function MessageComposer({ onSend, disabled }) {
           fontSize: "14px",
           fontWeight: "600",
           cursor: disabled ? "not-allowed" : "pointer",
-          transition: "background 0.2s",
+          transition: "background 0.2s, transform 0.15s",
         }}
-        onMouseEnter={(e) => !disabled && (e.target.style.background = "#0056b3")}
-        onMouseLeave={(e) => !disabled && (e.target.style.background = "#007bff")}
+        onMouseEnter={(e) => {
+          if (!disabled) {
+            e.target.style.background = "#0056b3";
+            e.target.style.transform = "translateY(-1px)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!disabled) {
+            e.target.style.background = "#007bff";
+            e.target.style.transform = "translateY(0)";
+          }
+        }}
       >
         Send
       </button>

@@ -1,70 +1,173 @@
-# Getting Started with Create React App
+# GroupSync Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React frontend for GroupSync, including messaging, groups dashboard, meetings, and tasks integration views.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:      
+- React + React Router
+- Axios for API calls
+- date-fns for date/time formatting
+- Jest + React Testing Library for tests
 
-### `npm start`
+## Setup Instructions
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Install dependencies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm install
+```
 
-### `npm test`
+### 2. Start backend (from Team-Project root)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+python manage.py runserver
+```
 
-### `npm run build`
+### 3. Start frontend (from groupsync-frontend)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Frontend runs at http://localhost:3000 and backend API at http://localhost:8000.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Scripts
 
-### `npm run eject`
+- `npm start`: Run dev server
+- `npm test`: Run tests
+- `npm run build`: Create production build
+- `npm run server`: Serve build using Express
+- `npm run dev`: Build then serve production build locally
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Design System
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The UI uses shared color and component patterns for consistency across auth, messaging, and workspace pages.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Color intent
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Primary actions: blue tones (`#007bff`, `#0056b3` hover)
+- Success feedback: green tones (`#d4edda`, `#155724`)
+- Error feedback: red tones (`#ffebee`, `#b00020`)
+- Neutral surfaces: light grays (`#f5f5f5`, `#f9f9f9`, `#ddd` borders)
 
-## Learn More
+### Typography and spacing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Base font size is 14px–16px for readability
+- Message metadata uses 11px–12px
+- Repeated spacing units: 8px, 10px, 12px, 16px, 20px
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Interaction patterns
 
-### Code Splitting
+- Keyboard focus rings are visible on interactive controls
+- Loading/error/success feedback is rendered inline in context
+- Message board includes subtle entrance and hover transitions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Shared Component Usage Guide
 
-### Analyzing the Bundle Size
+Shared components live in `src/components/shared` and are re-exported from `src/components/shared/index.js`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### `Button`
 
-### Making a Progressive Web App
+```jsx
+import { Button } from "../components/shared";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<Button variant="primary" size="md" onClick={handleClick}>Save</Button>
+```
 
-### Advanced Configuration
+Props:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- `variant`: `primary | secondary | danger | ghost`
+- `size`: `sm | md | lg`
+- `block`: boolean full-width mode
+- `type`: button type (`button`, `submit`)
+- `disabled`: disables button and sets `aria-disabled`
 
-### Deployment
+### `Input`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```jsx
+import { Input } from "../components/shared";
 
-### `npm run build` fails to minify
+<Input
+	label="Message"
+	name="message"
+	value={value}
+	onChange={onChange}
+	required
+	validationState="error"
+	errorText="Message is required"
+/>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Props:
+
+- `label`, `name`, `value`, `onChange`, `placeholder`, `type`
+- `required`, `disabled`
+- `validationState`: `default | error | success`
+- `helperText`, `errorText`, `successText`
+
+### `Card`
+
+```jsx
+import { Card } from "../components/shared";
+
+<Card title="Team Updates" subtitle="Latest activity">...</Card>
+```
+
+Props:
+
+- `title`, `subtitle`
+- `compact`
+- `className`, `style`
+- `onClick`
+
+## Messaging Components
+
+- `MessageBoard`: orchestrates message loading, status notices, composer, and list container.
+- `MessageList`: memoized rendering of message entries.
+- `MessageBubble`: individual message card with relative + absolute timestamps.
+- `MessageComposer`: controlled input + send action.
+
+## Custom Hooks and Utilities
+
+### `useMessages(groupId)`
+
+Path: `src/hooks/useMessages.js`
+
+Responsibilities:
+
+- Initial fetch of group messages (`listGroupMessages`)
+- Polling for updates (every 5 seconds)
+- Optimistic send + rollback on failure
+- Cursor pagination for older messages (`loadOlder`)
+
+Return shape:
+
+- `messages`
+- `isLoading`
+- `error`
+- `sendMessage(content)`
+- `loadOlder()`
+
+Internal utility:
+
+- `nowIso()`: helper for generating ISO timestamps for optimistic messages and mock data.
+
+## Testing
+
+Run all tests:
+
+```bash
+npm test -- --watchAll=false
+```
+
+Run focused messaging tests:
+
+```bash
+npm test -- --watchAll=false src/components/MessageBoard.test.js src/hooks/useMessages.test.js
+```
+
+## Deployment Notes
+
+- Build artifact: `npm run build`
+- Local production check: `npm run server`
+- Ensure backend CORS allows your deployed frontend domain before production release.

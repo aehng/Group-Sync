@@ -1,6 +1,15 @@
+import React, { useMemo } from "react";
 import MessageBubble from "./MessageBubble";
 
-export default function MessageList({ messages }) {
+function MessageList({ messages }) {
+  const renderedMessages = useMemo(
+    () =>
+      (messages || []).map((m) => (
+        <MessageBubble key={m.id} message={m} />
+      )),
+    [messages]
+  );
+
   if (!messages || messages.length === 0) {
     return (
       <div style={{ 
@@ -16,9 +25,9 @@ export default function MessageList({ messages }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {messages.map((m) => (
-        <MessageBubble key={m.id} message={m} />
-      ))}
+      {renderedMessages}
     </div>
   );
 }
+
+export default React.memo(MessageList);
