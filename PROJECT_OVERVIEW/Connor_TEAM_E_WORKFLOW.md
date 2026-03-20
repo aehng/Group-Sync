@@ -411,7 +411,7 @@ function Card({ children, className = '' }) {
   - [X] End-to-end testing (register → login → create group → send messages)
   - [X] Test all CRUD operations
    - [ ] Test on multiple browsers (Chrome, Firefox, Safari)
-   - [ ] Test responsive design on mobile/tablet
+   - [X] Test responsive design on mobile/tablet
   - [X] Fix any bugs found 
 
 2. **Performance & Optimization**
